@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ly"
+    android:layout_width="650dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:elevation="24dp"
+    android:transitionName="@string/transition_date_dialog_helzio">
+
+    <LinearLayout
+        android:id="@+id/fondo"
+        android:layout_width="650dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:background="#fff"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/toolbar_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:background="?colorAccent"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/color_reveal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/tv_titulo_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/atv_tituto_evento"
+                android:layout_alignStart="@+id/atv_tituto_evento"
+                android:text="@string/label_titulo_del_evento"
+                android:textColor="#fff"
+                android:textSize="@dimen/diez_sp" />
+
+            <TextView
+                android:id="@+id/tv_guardar_evento"
+                android:layout_width="100dp"
+                android:layout_height="56dp"
+                android:layout_alignParentEnd="true"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:text="@string/guardar"
+                android:textColor="#fff"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.AppCompatAutoCompleteTextView
+                android:id="@+id/atv_tituto_evento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="72dp"
+                android:layout_marginStart="72dp"
+                android:background="#00000000"
+                android:hint="@string/titulo_evento"
+                android:imeOptions="actionDone"
+                android:inputType="textCapSentences|textAutoCorrect"
+                android:maxLines="1"
+                android:padding="0dp"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
+                android:textCursorDrawable="@drawable/cursor_blanco"
+                android:textSize="20sp" />
+
+
+            <ImageView
+                android:id="@+id/iv_cerrar_dialog"
+                android:layout_width="60dp"
+                android:layout_height="56dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cerrar"
+                android:onClick="cerrar"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_cancel"
+                android:tint="#fff" />
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="18dp"
+                            android:contentDescription="@string/auditorio"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_edif" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="Edificio:"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <Spinner
+                            android:id="@+id/sp_auditorios"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="64dp"
+                            android:layout_marginTop="10dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/selectAula"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="18dp"
+                            android:clickable="false"
+                            android:contentDescription="@string/auditorio"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_auditorio" />
+
+                        <TextView
+                            android:id="@+id/tv_label_aula"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:clickable="false"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="Aula:"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp">
+
+                            <TextView
+                                android:id="@+id/tv_aula"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:clickable="true"
+                                android:gravity="center_vertical"
+                                android:maxLines="1"
+                                android:onClick="seleccionarAula"
+                                android:paddingTop="10dp"
+                                android:text="Selecciona el aula del evento"
+                                android:textColor="#121212"
+                                android:textSize="16sp" />
+                        </HorizontalScrollView>
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginTop="14dp"
+                            android:contentDescription="@string/tipo_de_actividad"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_actividad" />
+
+                        <TextView
+                            android:id="@+id/tv_tipo_evento_label"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="@string/label_tipo_de_evento"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/atv_tipo_evento"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:hint="@string/label_tipo_de_evento2"
+                            android:imeOptions="actionDone"
+                            android:maxLines="1"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="72dp"
+                            android:paddingTop="10dp"
+                            android:singleLine="true"
+                            android:textColor="#121212"
+                            android:textColorHint="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginTop="14dp"
+                            android:contentDescription="@string/tipo_de_actividad"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_clas" />
+
+                        <TextView
+                            android:id="@+id/tv_clase"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="Clase:"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <Switch
+                            android:id="@+id/switch_clase"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:hint="@string/label_tipo_de_evento2"
+                            android:maxLines="1"
+                            android:onClick="switchClase"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="72dp"
+                            android:paddingTop="10dp"
+                            android:text="Clase"
+                            android:textColor="#121212"
+                            android:textColorHint="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#bebebe" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="8dp"
+                    android:background="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="18dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_add_black"
+                        android:tint="#000" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="12dp"
+                        android:background="#00000000"
+                        android:maxLines="1"
+                        android:paddingEnd="56dp"
+                        android:paddingStart="72dp"
+                        android:text="Fecha del evento:"
+                        android:textColor="#121212"
+                        android:textSize="@dimen/diez_sp" />
+
+                    <TextView
+                        android:id="@+id/tv_repeticion"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="center_vertical"
+                        android:hint="Agregar fecha"
+                        android:maxLines="1"
+                        android:paddingEnd="72dp"
+                        android:paddingStart="72dp"
+                        android:paddingTop="10dp"
+                        android:textColor="#121212"
+                        android:textColorHint="#121212"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_fechas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:paddingEnd="16dp"
+                    app:paddingStart="72dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#bebebe" />
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="18dp"
+                        android:contentDescription="@string/auditorio"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_edif" />
+
+                    <TextView
+                        android:id="@+id/tv_nombre_dependencia"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="12dp"
+                        android:background="#00000000"
+                        android:maxLines="1"
+                        android:paddingEnd="56dp"
+                        android:paddingStart="72dp"
+                        android:text="Dependencia:"
+                        android:textColor="#121212"
+                        android:textSize="@dimen/diez_sp" />
+
+                    <AutoCompleteTextView
+                        android:id="@+id/atv_nombre_dependencia"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:hint="Dependencia"
+                        android:imeOptions="actionDone"
+                        android:maxLines="1"
+                        android:paddingEnd="72dp"
+                        android:paddingStart="72dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:textColor="#121212"
+                        android:textColorHint="#121212"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="5"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="18dp"
+                            android:contentDescription="@string/auditorio"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_persona" />
+
+                        <TextView
+                            android:id="@+id/tv_nom_sol_label"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="Nombre del solicitante:"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/atv_nombre_sol"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="Nombre del solicitante"
+                            android:imeOptions="actionDone"
+                            android:maxLines="1"
+                            android:paddingEnd="72dp"
+                            android:paddingStart="72dp"
+                            android:paddingTop="10dp"
+                            android:singleLine="true"
+                            android:textColor="#121212"
+                            android:textColorHint="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="5"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="18dp"
+                            android:contentDescription="@string/auditorio"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_id" />
+
+                        <TextView
+                            android:id="@+id/tv_ext_sol_label"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="Ext. del solicitante:"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <EditText
+                            android:id="@+id/et_ext_sol"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="Extensión del solicitante"
+                            android:imeOptions="actionDone"
+                            android:inputType="phone"
+                            android:maxLines="1"
+                            android:paddingEnd="72dp"
+                            android:paddingStart="72dp"
+                            android:paddingTop="10dp"
+                            android:singleLine="true"
+                            android:textColor="#121212"
+                            android:textColorHint="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="5"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="18dp"
+                            android:contentDescription="@string/auditorio"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_resp" />
+
+                        <TextView
+                            android:id="@+id/tv_nom_resp_label"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="Nombre del responsable:"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <AutoCompleteTextView
+                            android:id="@+id/atv_nombre_resp"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="Nombre del responsable del evento"
+                            android:imeOptions="actionDone"
+                            android:maxLines="1"
+                            android:paddingEnd="72dp"
+                            android:paddingStart="72dp"
+                            android:paddingTop="10dp"
+                            android:singleLine="true"
+                            android:textColor="#121212"
+                            android:textColorHint="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="5"
+                        android:background="?android:attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="18dp"
+                            android:contentDescription="@string/auditorio"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_tel" />
+
+                        <TextView
+                            android:id="@+id/tv_no_cel_label"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="No. cel. del responsable:"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <EditText
+                            android:id="@+id/et_cel_resp"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="No. de celular del responsable"
+                            android:imeOptions="actionDone"
+                            android:inputType="phone"
+                            android:maxLines="1"
+                            android:paddingEnd="72dp"
+                            android:paddingStart="72dp"
+                            android:paddingTop="10dp"
+                            android:singleLine="true"
+                            android:textColor="#121212"
+                            android:textColorHint="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#bebebe" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="18dp"
+                            android:contentDescription="@string/auditorio"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_nota" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="@string/label_nota"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <EditText
+                            android:id="@+id/et_nota"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:hint="@string/label_nota_cta"
+                            android:imeOptions="actionDone"
+                            android:maxLines="1"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="72dp"
+                            android:paddingTop="10dp"
+                            android:singleLine="true"
+                            android:textColor="#121212"
+                            android:textColorHint="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="18dp"
+                            android:contentDescription="@string/auditorio"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_nota" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="@string/label_nota"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <EditText
+                            android:id="@+id/et_nota_csg"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:hint="Nota para CSG"
+                            android:imeOptions="actionDone"
+                            android:maxLines="1"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="72dp"
+                            android:paddingTop="10dp"
+                            android:singleLine="true"
+                            android:textColor="#121212"
+                            android:textColorHint="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="18dp"
+                        android:contentDescription="@string/auditorio"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_lock" />
+
+                    <TextView
+                        android:id="@+id/tv_contraseña_label"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="12dp"
+                        android:background="#00000000"
+                        android:maxLines="1"
+                        android:paddingEnd="56dp"
+                        android:paddingStart="72dp"
+                        android:text="@string/label_contrasena"
+                        android:textColor="#121212"
+                        android:textSize="@dimen/diez_sp" />
+
+                    <EditText
+                        android:id="@+id/et_contraseña"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:gravity="center_vertical"
+                        android:hint="@string/label_contrasena2"
+                        android:imeOptions="actionDone"
+                        android:inputType="numberPassword"
+                        android:maxLines="1"
+                        android:paddingEnd="72dp"
+                        android:paddingStart="72dp"
+                        android:paddingTop="10dp"
+                        android:singleLine="true"
+                        android:textColor="#121212"
+                        android:textColorHint="#121212"
+                        android:textSize="16sp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/conteConflictos"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_alignBottom="@id/fondo"
+        android:layout_centerHorizontal="true"
+        android:outlineProvider="bounds"
+        android:paddingTop="24dp"
+        android:visibility="invisible">
+
+        <View
+            android:id="@+id/marca_error"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignTop="@+id/rv_conflictos"
+            android:background="#ff0000"
+            android:elevation="32dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_conflictos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="#fff"
+            android:clipToPadding="false"
+            android:elevation="32dp"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:paddingTop="10dp"
+            android:scrollbars="vertical"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/snackposs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/conteConflictos"
+        android:layout_alignBottom="@id/fondo"
+        android:layout_alignEnd="@id/fondo"
+        android:layout_alignStart="@id/fondo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8.5dp" />
+</RelativeLayout>

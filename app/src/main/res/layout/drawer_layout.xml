@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.NavigationView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nv"
+    android:layout_width="320dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="#fff"
+    app:headerLayout="@layout/drawer_header_layout">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="188dp"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/switch_ed_a"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="18dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_edif"
+                android:tint="@color/color1" />
+
+            <Switch
+                android:id="@+id/switcha"
+                android:textColor="@color/colorPrimario"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="14dp"
+                android:background="#00000000"
+                android:checked="true"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="8dp"
+                android:text="Edificio A"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/switch_ed_b"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="18dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_edif"
+                android:tint="@color/color2" />
+
+            <Switch
+                android:id="@+id/switchb"
+                android:textColor="@color/colorPrimario"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="14dp"
+                android:background="#00000000"
+                android:checked="true"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="8dp"
+                android:text="Edificio B"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/switch_ed_c"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="18dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_edif"
+                android:tint="@color/color3" />
+
+            <Switch
+                android:id="@+id/switchc"
+                android:textColor="@color/colorPrimario"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="14dp"
+                android:background="#00000000"
+                android:checked="true"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="8dp"
+                android:text="Edificio C"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/switch_ed_d"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="18dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_edif"
+                android:tint="@color/color4" />
+
+            <Switch
+                android:id="@+id/switchd"
+                android:textColor="@color/colorPrimario"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="14dp"
+                android:background="#00000000"
+                android:checked="true"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="8dp"
+                android:text="Edificio D"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/switch_ed_f"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="18dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_edif"
+                android:tint="@color/color5" />
+
+            <Switch
+                android:id="@+id/switchf"
+                android:textColor="@color/colorPrimario"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="14dp"
+                android:background="#00000000"
+                android:checked="true"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="8dp"
+                android:text="Edificio F"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:layout_marginTop="8dp"
+            android:background="#51000000"
+            android:layout_width="match_parent"
+            android:layout_height="1dp" />
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/switch_clases"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="18dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_clas"
+                android:tint="#000000" />
+
+
+            <Switch
+                android:id="@+id/switchclases"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="14dp"
+                android:background="#00000000"
+                android:buttonTint="@color/color5"
+                android:checked="true"
+                android:clickable="false"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="8dp"
+                android:text="Ver clases"
+                android:textColor="@color/colorPrimario"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:id="@+id/switch_eventos"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="?android:selectableItemBackground"
+            android:clickable="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="18dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_auditorio"
+                android:tint="#000000" />
+
+
+            <Switch
+                android:id="@+id/switcheventos"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="14dp"
+                android:background="#00000000"
+                android:buttonTint="@color/color5"
+                android:checked="true"
+                android:clickable="false"
+                android:gravity="center_vertical"
+                android:paddingEnd="16dp"
+                android:paddingStart="8dp"
+                android:text="Ver eventos"
+                android:textColor="@color/colorPrimario"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</android.support.design.widget.NavigationView>

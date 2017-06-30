@@ -1,0 +1,735 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ly"
+    android:layout_width="500dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:elevation="24dp"
+    android:transitionName="@string/transition_date_dialog_helzio">
+
+    <LinearLayout
+        android:id="@+id/fondo"
+        android:layout_width="650dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:background="#fff"
+        android:clickable="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/toolbar_dialog"
+            android:layout_width="match_parent"
+            android:layout_height="128dp"
+            android:background="@color/color1"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/color_reveal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/tv_titulo_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/atv_tituto_evento"
+                android:layout_alignStart="@+id/atv_tituto_evento"
+                android:text="Edificio:"
+                android:textColor="#fff"
+                android:textSize="@dimen/diez_sp" />
+
+            <TextView
+                android:id="@+id/tv_guardar_evento"
+                android:layout_width="100dp"
+                android:layout_height="56dp"
+                android:layout_alignParentEnd="true"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:text="ACEPTAR"
+                android:textColor="#fff"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/atv_tituto_evento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="24dp"
+                android:layout_marginEnd="72dp"
+                android:layout_marginStart="72dp"
+                android:background="#00000000"
+                android:maxLines="1"
+                android:padding="0dp"
+                android:text="Edificio A"
+                android:textColor="#fff"
+                android:textColorHint="#fff"
+                android:textSize="20sp" />
+
+
+            <ImageView
+                android:id="@+id/iv_cerrar_dialog"
+                android:layout_width="60dp"
+                android:layout_height="56dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cerrar"
+                android:onClick="cerrar"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_cancel"
+                android:tint="#fff" />
+
+        </RelativeLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="14dp"
+                        android:contentDescription="@string/tipo_de_actividad"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_clas" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="72dp"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:text="Aulas"
+                        android:textColor="#121212"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="15dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 1"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 2"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 3"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 4"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 7"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_alignBaseline="@+id/textView"
+                            android:layout_alignBottom="@+id/textView"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 8"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 9"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 10"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 11"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 12"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 13"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 14"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba15"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 15"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 16"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#bebebe" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="14dp"
+                        android:contentDescription="@string/tipo_de_actividad"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_centro_computo" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="72dp"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:text="Centros de computo"
+                        android:textColor="#121212"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 5"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fba6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBA 6"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#bebebe" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="14dp"
+                        android:contentDescription="@string/tipo_de_actividad"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_usos" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="72dp"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:text="Aulas de usos multiples"
+                        android:textColor="#121212"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="?selectableItemBackground"
+                    android:clickable="true"
+                    android:onClick="togle">
+
+                    <CheckBox
+                        android:id="@+id/fba17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="14dp"
+                        android:clickable="false" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="72dp"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:text="Dr. Fernando Pozos Ponce"
+                        android:textColor="#121212"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</RelativeLayout>
