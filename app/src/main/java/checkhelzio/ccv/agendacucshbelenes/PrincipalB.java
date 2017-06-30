@@ -130,6 +130,7 @@ public class PrincipalB extends AppCompatActivity {
     private final String auditorio3 = "Edificio C";
     private final String auditorio4 = "Edificio D";
     private final String auditorio5 = "Edificio F";
+    private final String auditorio6 = "Áreas deportivas";
     private boolean filtroclases = true;
     private boolean filtroeventos= true;
 
@@ -1273,7 +1274,7 @@ public class PrincipalB extends AppCompatActivity {
                 final RelativeLayout conte_buscar = (RelativeLayout) findViewById(R.id.conte_buscar);
                 conte_buscar.setVisibility(View.VISIBLE);
 
-                String conceptos = titulos + auditorio1 + "¦" + auditorio2 + "¦" + auditorio3 + "¦" + auditorio4 + "¦" + auditorio5 + "¦" +
+                String conceptos = titulos + auditorio1 + "¦" + auditorio2 + "¦" + auditorio3 + "¦" + auditorio4 + "¦" + auditorio5 + "¦" + auditorio6 + "¦" +
                         tiposDeEvento + nombresDependencias + nombresSolicitante + nombresResponsable;
                 ArrayAdapter<String> nombresAdapter = new ArrayAdapter<>(PrincipalB.this, android.R.layout.simple_list_item_1, conceptos.split("¦"));
                 autoCompleteTextView.setAdapter(nombresAdapter);
@@ -1384,6 +1385,13 @@ public class PrincipalB extends AppCompatActivity {
                 break;
             case auditorio5:
                 s = "5";
+                for (Eventos ev : lista_eventos) {
+                    if (ev.getAuditorio().equals(s))
+                        lista_pequeña_eventos.add(ev);
+                }
+                break;
+            case auditorio6:
+                s = "6";
                 for (Eventos ev : lista_eventos) {
                     if (ev.getAuditorio().equals(s))
                         lista_pequeña_eventos.add(ev);

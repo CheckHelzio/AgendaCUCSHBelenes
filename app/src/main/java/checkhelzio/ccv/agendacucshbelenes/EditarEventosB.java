@@ -143,6 +143,7 @@ public class EditarEventosB extends AppCompatActivity {
     private final String auditorio3 = "Edificio C";
     private final String auditorio4 = "Edificio D";
     private final String auditorio5 = "Edificio F1";
+    private final String auditorio6 = "Áreas deportivas";
     private String AD;
     private String st_quien;
     private String st_eventos_guardados;
@@ -262,7 +263,7 @@ public class EditarEventosB extends AppCompatActivity {
         //atv_titulo_evento.setSelection(atv_titulo_evento.length());
 
         // CONFIGURAR SPINER PARA SELECCIONAR EL EDIFICIO
-        String[] items = new String[]{auditorio1, auditorio2, auditorio3, auditorio4, auditorio5};
+        String[] items = new String[]{auditorio1, auditorio2, auditorio3, auditorio4, auditorio5, auditorio6};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         sp_auditorios.setAdapter(adapter);
         sp_auditorios.setSelection(Integer.parseInt(evento_a_editar.getAuditorio()) - 1);

@@ -28,6 +28,7 @@ public class EventosAdaptadorBusqueda extends RecyclerView.Adapter<EventosAdapta
     private final String auditorio3 = "Edificio C";
     private final String auditorio4 = "Edificio D";
     private final String auditorio5 = "Edificio F";
+    private final String auditorio6 = "Áreas deportivas";
     private final int ELIMINAR_EVENTO = 4;
     private Context mContext;
 
@@ -206,6 +207,9 @@ public class EventosAdaptadorBusqueda extends RecyclerView.Adapter<EventosAdapta
                 break;
             case "5":
                 st = auditorio5;
+                break;
+            case "6":
+                st = auditorio6;
                 break;
         }
         return st;

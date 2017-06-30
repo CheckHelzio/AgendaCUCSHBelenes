@@ -19,12 +19,6 @@ public class FechasAdaptador extends RecyclerView.Adapter<FechasAdaptador.Fechas
 
     private List<Fecha> listaFechas;
 
-    private final String auditorio1 = "Auditorio Salvador Allende";
-    private final String auditorio2 = "Auditorio Silvano Barba";
-    private final String auditorio3 = "Auditorio Carlos Ramírez";
-    private final String auditorio4 = "Auditorio Adalberto Navarro";
-    private final String auditorio5 = "Sala de Juicios Orales Mariano Otero";
-    private final int ELIMINAR_EVENTO = 4;
     private Context mContext;
     protected ArrayAdapter<String> adapterHoras;
     private String[] horas = new String[]{

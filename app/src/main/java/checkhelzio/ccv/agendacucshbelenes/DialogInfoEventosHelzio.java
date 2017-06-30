@@ -99,6 +99,7 @@ public class DialogInfoEventosHelzio extends AppCompatActivity {
     private final String auditorio3 = "Edificio C";
     private final String auditorio4 = "Edificio D";
     private final String auditorio5 = "Edificio F";
+    private final String auditorio6 = "Áreas deportivas";
     private Boolean pin_correcto_eliminar = false;
     private String st_quien = "";
     private String alerta = "";
@@ -344,6 +345,9 @@ public class DialogInfoEventosHelzio extends AppCompatActivity {
                 break;
             case "5":
                 st = auditorio5;
+                break;
+            case "6":
+                st = auditorio6;
                 break;
         }
         return st;
