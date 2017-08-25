@@ -48,8 +48,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static checkhelzio.ccv.agendacucshbelenes.PrincipalB.HELZIO_DATE_DIALOG;
-
 public class DialogInfoEventosHelzio extends AppCompatActivity {
 
     private static final int EDITAR_EVENTO = 313;
@@ -188,7 +186,7 @@ public class DialogInfoEventosHelzio extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (pin_correcto_eliminar) {
-                    if (Eliminar(evento.getFecha(), evento.getHoraInicial(), evento.getHoraFinal())) {
+                    if (Eliminar(evento.getFecha(), evento.getHoraFinal())) {
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DialogInfoEventosHelzio.this);
                         alertDialogBuilder.setMessage("\n" + (alerta.equals("") ? "¿Deseas eliminar este evento?" : alerta));
                         alertDialogBuilder.setPositiveButton("ACEPTAR",
@@ -207,7 +205,7 @@ public class DialogInfoEventosHelzio extends AppCompatActivity {
                         PrincipalB.esperar = true;
                     } else {
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DialogInfoEventosHelzio.this);
-                        alertDialogBuilder.setMessage("\n" + (alerta.equals("") ? "Este evento ya ha finalizado, no se puede eliminar" : alerta));
+                        alertDialogBuilder.setMessage("\n" + (alerta.equals("") ? "Este evento finalizó hace más de 36 horas, no se puede eliminar" : alerta));
                         alertDialogBuilder.setPositiveButton("ACEPTAR", null);
 
                         alertDialogBuilder.create().show();
@@ -247,7 +245,7 @@ public class DialogInfoEventosHelzio extends AppCompatActivity {
         return statusEvento;
     }
 
-    private boolean Eliminar(String fecha, String hora_inicial, String hora_final) {
+    private boolean Eliminar(String fecha, String hora_final) {
         Boolean eliminar = false;
         //CALENDARIO CON LA FECHA DE HOY
         Calendar c = Calendar.getInstance();
@@ -258,22 +256,12 @@ public class DialogInfoEventosHelzio extends AppCompatActivity {
         e.set(Calendar.DAY_OF_YEAR, Integer.parseInt(fecha));
         horasaCalendario(e, hora_final);
 
-        //SI LA FECHA FINAL Y HORA FINAL DEL EVENTO EN ANTERIOR A LA FECHA DE HOY EL EVENTO NO SE PUEDE ELIMINAR PORQUE YA TERMINO
-        if (e.getTimeInMillis() < c.getTimeInMillis()) {
-            eliminar = false;
-        } else if (e.getTimeInMillis() > c.getTimeInMillis()) {
-            //LA HORA FINAL ES MAYOR, HAY QUE CHECAR LA INICIAL PARA SABER SI EL EVENTO ESTA AHORITA O NO
-            horasaCalendario(e, hora_inicial);
+        int plazoEliminarEditar = 36;
+        int unDiaEnMilisegundos = 1000 * 60 * 60 * plazoEliminarEditar;
 
-            //SI LA HORA INICIAL ES MAYOR TAMBIEN QUIERE DECIR QUE EL EVENTO AUN NO COMIENZA
-            if (e.getTimeInMillis() > c.getTimeInMillis()) {
-                eliminar = true;
-            } else {
-                //SI LA HORA INICIAL ES MENOR ENTONCES EL EVENTO YA COMENZO
-                eliminar = false;
-                alerta = "Una sesión de este evento esta ocurriendo ahora mismo, no se puede eliminar";
-            }
-        }
+        // SI LA FECHA FINAL Y HORA FINAL DEL EVENTO EN ANTERIOR A LA FECHA DE AYER EL EVENTO NO SE PUEDE ELIMINAR PORQUE YA TERMINO
+        // SE AMPLIO EL PLAZO A 24 HRS PARA MODIFICAR Y ELIMINAR EVENTOS A PETICION DE PAZ.
+        eliminar = e.getTimeInMillis() >= (c.getTimeInMillis() - unDiaEnMilisegundos);
         return eliminar;
     }
 
@@ -289,7 +277,7 @@ public class DialogInfoEventosHelzio extends AppCompatActivity {
 
     @OnClick(R.id.fab_edit)
     public void EditarEnvento() {
-        if (Eliminar(evento.getFecha(), evento.getHoraInicial(), evento.getHoraFinal())) {
+        if (Eliminar(evento.getFecha(), evento.getHoraFinal())) {
             Intent intent = new Intent(this, EditarEventosB.class);
             intent.putExtra("DONDE", "PRINCIPAL");
             intent.putExtra("EVENTO", evento);
@@ -299,7 +287,7 @@ public class DialogInfoEventosHelzio extends AppCompatActivity {
             startActivityForResult(intent, EDITAR_EVENTO, options.toBundle());
         } else {
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DialogInfoEventosHelzio.this);
-            alertDialogBuilder.setMessage("\n" + (alerta.equals("") ? "Este evento ya ha finalizado, no se puede editar" : alerta.replace("eliminar", "editar")));
+            alertDialogBuilder.setMessage("\n" + (alerta.equals("") ? "Este evento finalizó hace más de 36 horas, no se puede editar" : alerta.replace("eliminar", "editar")));
             alertDialogBuilder.setPositiveButton("ACEPTAR", null);
 
             alertDialogBuilder.create().show();
@@ -640,11 +628,20 @@ public class DialogInfoEventosHelzio extends AppCompatActivity {
             case "FBC 22 S":
                 st_aulas = "Sala de juntas 2 sur";
                 break;
-            case "FBD 1":
+            case "FBD 22":
+                st_aulas = "Auditorio";
+                break;
+            case "FBD 23":
                 st_aulas = "CAG";
                 break;
-            case "FBD 2":
-                st_aulas = "Auditorio";
+            case "FBD 24":
+                st_aulas = "Computo 1er nivel";
+                break;
+            case "FBD 25":
+                st_aulas = "Computo 2do nivel";
+                break;
+            case "FBD 26":
+                st_aulas = "Computo 3er nivel";
                 break;
             case "FBAD 1":
                 st_aulas = "Cancha de fútbol";
@@ -659,7 +656,7 @@ public class DialogInfoEventosHelzio extends AppCompatActivity {
                 st_aulas = "Pista de Jogging";
                 break;
             default:
-                st_aulas = st_aulas;
+                st_aulas = "Aula " + st_aulas;
                 break;
         }
         return st_aulas;

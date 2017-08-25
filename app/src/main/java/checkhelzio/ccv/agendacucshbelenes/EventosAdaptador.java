@@ -21,13 +21,6 @@ import java.util.List;
 public class EventosAdaptador extends RecyclerView.Adapter<EventosAdaptador.EventosViewHolder> {
 
     private List<Eventos> eventos;
-
-    private final String auditorio1 = "Edificio A";
-    private final String auditorio2 = "Edificio B";
-    private final String auditorio3 = "Edificio C";
-    private final String auditorio4 = "Edificio D";
-    private final String auditorio5 = "Edificio F";
-    private final String auditorio6 = "Áreas deportivas";
     private final int ELIMINAR_EVENTO = 4;
     private Context mContext;
 
@@ -104,11 +97,20 @@ public class EventosAdaptador extends RecyclerView.Adapter<EventosAdaptador.Even
             case "FBC 22 S":
                 st_aulas = "Sala de juntas 2 sur";
                 break;
-            case "FBD 1":
+            case "FBD 22":
+                st_aulas = "Auditorio";
+                break;
+            case "FBD 23":
                 st_aulas = "CAG";
                 break;
-            case "FBD 2":
-                st_aulas = "Auditorio";
+            case "FBD 24":
+                st_aulas = "Computo 1er nivel";
+                break;
+            case "FBD 25":
+                st_aulas = "Computo 2do nivel";
+                break;
+            case "FBD 26":
+                st_aulas = "Computo 3er nivel";
                 break;
             case "FBAD 1":
                 st_aulas = "Cancha de fútbol";
@@ -187,31 +189,6 @@ public class EventosAdaptador extends RecyclerView.Adapter<EventosAdaptador.Even
         v.setDrawingCacheBackgroundColor(color);
 
         return bitmap;
-    }
-
-    private String nombreAuditorio(String numero) {
-        String st = "";
-        switch (numero) {
-            case "1":
-                st = auditorio1;
-                break;
-            case "2":
-                st = auditorio2;
-                break;
-            case "3":
-                st = auditorio3;
-                break;
-            case "4":
-                st = auditorio4;
-                break;
-            case "5":
-                st = auditorio5;
-                break;
-            case "6":
-                st = auditorio6;
-                break;
-        }
-        return st;
     }
 
     @Override

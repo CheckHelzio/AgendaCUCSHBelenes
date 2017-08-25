@@ -126,9 +126,10 @@ public class EditarEventosB extends AppCompatActivity {
     TextView tv_guardar_evento;
     @BindView(R.id.switch_clase)
     Switch switch_clase;
+    @BindView(R.id.switch_noPresentado)
+    Switch switch_noPresentado;
 
     private boolean auditoriosIniciado = false;
-    private int colorFondo;
     private Handler handler, handler2;
     private boolean pin_correcto_eliminar = false;
 
@@ -259,7 +260,7 @@ public class EditarEventosB extends AppCompatActivity {
                 new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, PrincipalB.titulos.split("¦"));
         atv_titulo_evento.setAdapter(nombresEAdapter);
 
-        atv_titulo_evento.setText(evento_a_editar.getTitulo());
+        atv_titulo_evento.setText(evento_a_editar.getTitulo().replace("No se presentó - ", ""));
         //atv_titulo_evento.setSelection(atv_titulo_evento.length());
 
         // CONFIGURAR SPINER PARA SELECCIONAR EL EDIFICIO
@@ -302,7 +303,7 @@ public class EditarEventosB extends AppCompatActivity {
                         st_aulas = "FBB 1";
                         tv_label_aula.setTextColor(Color.parseColor("#121212"));
                         selectAula.setClickable(false);
-                    }else if (i == 4) {
+                    } else if (i == 4) {
                         tv_aula.setText("FBF 1");
                         st_aulas = "FBF 1";
                         tv_label_aula.setTextColor(Color.parseColor("#121212"));
@@ -624,6 +625,7 @@ public class EditarEventosB extends AppCompatActivity {
         rv_conflictos.setAdapter(conflictosAdaptador);
 
         switch_clase.setChecked(evento_a_editar.getClase().equals("C"));
+        switch_noPresentado.setChecked(evento_a_editar.getTitulo().contains("No se presentó"));
 
     }
 
@@ -799,7 +801,7 @@ public class EditarEventosB extends AppCompatActivity {
             quitarConflictosV(n);
 
             // VERFICIAR SI ES EL DIA DE HOY
-            if (c.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH)) {
+            /*if (c.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH)) {
 
                 // VERIFICAR SI EL EVENTO YA PASO O ESTA MUY CERCA DE LA HORA ACTAUAL
                 if (f.getHoraInicial() <= horaASpinner(c2.get(Calendar.HOUR_OF_DAY), c2.get(Calendar.MINUTE))) {
@@ -810,7 +812,7 @@ public class EditarEventosB extends AppCompatActivity {
                     quitarConflictosV1(n);
                 }
             }
-
+*/
             comprobarCupo(f, 0);
         }
     }
@@ -1067,6 +1069,9 @@ public class EditarEventosB extends AppCompatActivity {
 
     private int fondoAuditorio(String numero) {
         int st = 0;
+        if (switch_noPresentado.isChecked()){
+            return getResources().getColor(R.color.color_no_presentado);
+        }
         switch (numero) {
             case "1":
                 if (switch_clase.isChecked()) {
@@ -1111,7 +1116,6 @@ public class EditarEventosB extends AppCompatActivity {
                 }
                 break;
         }
-        colorFondo = st;
         return st;
     }
 
@@ -1161,7 +1165,6 @@ public class EditarEventosB extends AppCompatActivity {
                 }
                 break;
         }
-        colorFondo = st;
         return st;
     }
 
@@ -1275,11 +1278,20 @@ public class EditarEventosB extends AppCompatActivity {
                             case "FBC 22 S":
                                 s_modificado = "Sala de juntas 2 sur";
                                 break;
-                            case "FBD 1":
+                            case "FBD 22":
+                                s_modificado = "Auditorio";
+                                break;
+                            case "FBD 23":
                                 s_modificado = "CAG";
                                 break;
-                            case "FBD 2":
-                                s_modificado = "Auditorio";
+                            case "FBD 24":
+                                s_modificado = "Computo 1er nivel";
+                                break;
+                            case "FBD 25":
+                                s_modificado = "Computo 2do nivel";
+                                break;
+                            case "FBD 26":
+                                s_modificado = "Computo 3er nivel";
                                 break;
                             case "FBAD 1":
                                 s_modificado = "Cancha de fútbol";
@@ -1419,8 +1431,8 @@ public class EditarEventosB extends AppCompatActivity {
                 st_notas2 = et_nota_csg.getText().toString();
             }
 
-            for (Eventos e : PrincipalB.lista_eventos){
-                if (e.getTag().equals(evento_a_editar.getTag())){
+            for (Eventos e : PrincipalB.lista_eventos) {
+                if (e.getTag().equals(evento_a_editar.getTag())) {
                     PrincipalB.lista_eventos.remove(e);
                     break;
                 }
@@ -1436,7 +1448,7 @@ public class EditarEventosB extends AppCompatActivity {
                         // HORA FINAL
                         "" + f.getHoraFinal(),
                         // TITULO
-                        atv_titulo_evento.getText().toString().trim(),
+                        switch_noPresentado.isChecked() ? "No se presentó - " + atv_titulo_evento.getText().toString().trim() : atv_titulo_evento.getText().toString().trim() ,
                         // AUDITORIO
                         "" + (sp_auditorios.getSelectedItemPosition() + 1),
                         // TIPO DE EVENTO
@@ -1470,8 +1482,8 @@ public class EditarEventosB extends AppCompatActivity {
                 lista_eventos.add(nuevoEvento);
             }
 
-            for (Eventos e : PrincipalB.lista_eventos){
-                if (Integer.parseInt(e.getFecha()) == int_fecha ){
+            for (Eventos e : PrincipalB.lista_eventos) {
+                if (Integer.parseInt(e.getFecha()) == int_fecha) {
                     listaDeEventosNuevos.add(e);
                     break;
                 }
@@ -1695,11 +1707,20 @@ public class EditarEventosB extends AppCompatActivity {
             case "FBC 22 S":
                 st_aulas = "Sala de juntas 2 sur";
                 break;
-            case "FBD 1":
+            case "FBD 22":
+                st_aulas = "Auditorio";
+                break;
+            case "FBD 23":
                 st_aulas = "CAG";
                 break;
-            case "FBD 2":
-                st_aulas = "Auditorio";
+            case "FBD 24":
+                st_aulas = "Computo 1er nivel";
+                break;
+            case "FBD 25":
+                st_aulas = "Computo 2do nivel";
+                break;
+            case "FBD 26":
+                st_aulas = "Computo 3er nivel";
                 break;
             case "FBAD 1":
                 st_aulas = "Cancha de fútbol";
@@ -1712,6 +1733,9 @@ public class EditarEventosB extends AppCompatActivity {
                 break;
             case "FBAD 4":
                 st_aulas = "Pista de Jogging";
+                break;
+            default:
+                st_aulas = "Aula " + st_aulas;
                 break;
         }
         return st_aulas;

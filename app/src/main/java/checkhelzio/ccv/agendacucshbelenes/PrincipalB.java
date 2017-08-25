@@ -105,7 +105,7 @@ public class PrincipalB extends AppCompatActivity {
 
     private int irHoyNumeroMesAño;
 
-    protected boolean filtro1 = true, filtro2 = true, filtro3 = true, filtro4 = true, filtro5 = true;
+    protected boolean filtro1 = true, filtro2 = true, filtro3 = true, filtro4 = true, filtro5 = true, filtro6 = true;
     public static boolean esperar = false;
     private Calendar calendarioIrHoy;
     protected Calendar calendarioActualizarDiasMes;
@@ -335,18 +335,18 @@ public class PrincipalB extends AppCompatActivity {
 
                 if (calendarioActualizarDiasMes.get(Calendar.YEAR) < irHoyAño) {
                     intent.putExtra("REGISTRAR", false);
-                } else if (calendarioActualizarDiasMes.get(Calendar.YEAR) == irHoyAño) {//BOOLEAN PARA SABER SI SE PUEDE REGISTRAR O NO
-                    //SI ESTAMOS EN UN MES ANTERIOR AL ACTUAL NO SE PUEDE REGISTRAR
+                } else if (calendarioActualizarDiasMes.get(Calendar.YEAR) == irHoyAño) { //BOOLEAN PARA SABER SI SE PUEDE REGISTRAR O NO
+                    // SI ESTAMOS EN UN MES ANTERIOR AL ACTUAL NO SE PUEDE REGISTRAR
                     if (calendarioActualizarDiasMes.get(Calendar.MONTH) < irHoyMes) {
                         intent.putExtra("REGISTRAR", false);
                     }
-                    //SI ESTAMOS EN EL MISMO MES
+                    // SI ESTAMOS EN EL MISMO MES
                     else if (calendarioActualizarDiasMes.get(Calendar.MONTH) == irHoyMes) {
                         //SI EL DIA DEL MES ES ANTERIOR AL DIA DE HOY NO PODEMOS REGISTRAR
                         if (dm < irHoyNumeroDiaMes) {
                             intent.putExtra("REGISTRAR", false);
                         }
-                        //SI EL DIA DEL MES ES HOY NO SE PUEDE AGENDAR DESPUES DE LAS 6PM
+                        //SI EL DIA DEL MES ES HOY NO SE PUEDE AGENDAR DESPUES DE LAS 8:30PM
                         else if (dm == irHoyNumeroDiaMes) {
                             Calendar calendarioIrHoy = Calendar.getInstance();
                             if (calendarioIrHoy.get(Calendar.HOUR_OF_DAY) > 20) {
@@ -424,7 +424,7 @@ public class PrincipalB extends AppCompatActivity {
                         if (dm < irHoyNumeroDiaMes) {
                             intent.putExtra("REGISTRAR", false);
                         }
-                        //SI EL DIA DEL MES ES HOY NO SE PUEDE AGENDAR DESPUES DE LAS 6PM
+                        //SI EL DIA DEL MES ES HOY NO SE PUEDE AGENDAR DESPUES DE LAS 8PM
                         else if (dm == irHoyNumeroDiaMes) {
                             Calendar calendarioIrHoy = Calendar.getInstance();
                             if (calendarioIrHoy.get(Calendar.HOUR_OF_DAY) > 20) {
@@ -503,7 +503,7 @@ public class PrincipalB extends AppCompatActivity {
                 // TAG
                 eventos_suelto.trim(),
                 // FONDO
-                fondoAuditorio(eventos_suelto.split("::")[4].trim(), eventos_suelto.split("::")[13].trim()),
+                fondoAuditorio(eventos_suelto.split("::")[4].trim(), eventos_suelto.split("::")[13].trim(), eventos_suelto.split("::")[3].trim()),
                 // CLASE
                 eventos_suelto.split("::")[13].trim(),
                 // DEPEDENCIA
@@ -519,7 +519,7 @@ public class PrincipalB extends AppCompatActivity {
         );
     }
 
-    @OnClick({R.id.switcha, R.id.switchb, R.id.switchc, R.id.switchd, R.id.switchf, R.id.switchclases, R.id.switcheventos})
+    @OnClick({R.id.switcha, R.id.switchb, R.id.switchc, R.id.switchd, R.id.switchf, R.id.switchclases, R.id.switcheventos, R.id.switchedad})
     public void checkAuditorios(View v) {
 
         //((Switch) v).setChecked(!((Switch)v).isChecked());
@@ -539,6 +539,9 @@ public class PrincipalB extends AppCompatActivity {
                 break;
             case R.id.switchf:
                 filtro5 = ((Switch)v).isChecked();
+                break;
+            case R.id.switchedad:
+                filtro6 = ((Switch)v).isChecked();
                 break;
             case R.id.switchclases:
                 filtroclases = ((Switch)v).isChecked();
@@ -735,7 +738,7 @@ public class PrincipalB extends AppCompatActivity {
                                     // TAG
                                     eventos_suelto.trim(),
                                     // FONDO
-                                    fondoAuditorio(eventos_suelto.split("::")[4].trim(), eventos_suelto.split("::")[13].trim()),
+                                    fondoAuditorio(eventos_suelto.split("::")[4].trim(), eventos_suelto.split("::")[13].trim(), eventos_suelto.split("::")[3].trim()),
                                     // CLASE
                                     eventos_suelto.split("::")[13].trim(),
                                     // DEPEDENCIA
@@ -750,9 +753,12 @@ public class PrincipalB extends AppCompatActivity {
                                     eventos_suelto.split("::")[18].trim()
                                     );
 
-                            if (!st_eventos_sin_repetir.contains(nuevo_evento.getTag()) && !nuevo_evento.getStatusEvento().equals("X")) {
+                            if (!st_eventos_sin_repetir.contains(nuevo_evento.getTag())) {
                                 lista_eventos.add(nuevo_evento);
                                 eventos[Integer.parseInt(eventos_suelto.split("::")[0].trim().replaceAll("[^0-9]+", ""))] += eventos_suelto + "¦";
+                                if (nuevo_evento.getTag().contains("FBAD")){
+                                    Log.v("area deportiva", nuevo_evento.aTag());
+                                }
                                 st_eventos_sin_repetir += nuevo_evento.getTag() + "¦";
                             } else {
                                 Log.v("REPETIDO", nuevo_evento.getTag());
@@ -989,11 +995,11 @@ public class PrincipalB extends AppCompatActivity {
                 if (eventos.length > 1 || (eventos.length == 1 && !eventos[0].equals(""))) {
                     lista_info1[x - 1 + diasemana].setVisibility(View.VISIBLE);
                     lista_info1[x - 1 + diasemana].setText(getNombreAula(eventos[0].split("::")[17].trim()));
-                    lista_info1[x - 1 + diasemana].setBackgroundResource(getFondo(eventos[0].split("::")[4].trim().replaceAll("[^0-9]+", ""), eventos[0].split("::")[13].trim()));
+                    lista_info1[x - 1 + diasemana].setBackgroundResource(getFondo(eventos[0].split("::")[4].trim().replaceAll("[^0-9]+", ""), eventos[0].split("::")[13].trim(), eventos[0].split("::")[3].trim()));
                     if (eventos.length >= 2) {
                         lista_info2[x - 1 + diasemana].setVisibility(View.VISIBLE);
                         lista_info2[x - 1 + diasemana].setText(getNombreAula(eventos[1].split("::")[17].trim()));
-                        lista_info2[x - 1 + diasemana].setBackgroundResource(getFondo(eventos[1].split("::")[4].trim().replaceAll("[^0-9]+", ""), eventos[1].split("::")[13].trim()));
+                        lista_info2[x - 1 + diasemana].setBackgroundResource(getFondo(eventos[1].split("::")[4].trim().replaceAll("[^0-9]+", ""), eventos[1].split("::")[13].trim(), eventos[1].split("::")[3].trim()));
                         if (eventos.length >= 3) {
                             lista_info3[x - 1 + diasemana].setVisibility(View.VISIBLE);
                             lista_info3[x - 1 + diasemana].setText("" + (eventos.length - 2) + " más");
@@ -1056,8 +1062,11 @@ public class PrincipalB extends AppCompatActivity {
         return i;
     }
 
-    private int getFondo(String trim, String clase) {
+    private int getFondo(String trim, String clase, String titulo) {
         int a = 0;
+        if (titulo.contains("No se presentó - ")){
+            return R.drawable.fondo_no_presento;
+        }
         switch (trim) {
             case "1":
                 if (clase.equals("C")){
@@ -1092,6 +1101,13 @@ public class PrincipalB extends AppCompatActivity {
                     a = (R.drawable.fondo5c);
                 }else {
                     a = (R.drawable.fondo5);
+                }
+                break;
+            case "6":
+                if (clase.equals("C")){
+                    a = (R.drawable.fondo6c);
+                }else {
+                    a = (R.drawable.fondo6);
                 }
                 break;
         }
@@ -1151,13 +1167,26 @@ public class PrincipalB extends AppCompatActivity {
                     }
                 }
                 break;
+            case "6":
+                f = filtro6;
+                if (f){
+                    if (clase.equals("C")){
+                        f = filtroclases;
+                    }else {
+                        f = filtroeventos;
+                    }
+                }
+                break;
         }
 
         return f;
     }
 
-    private int fondoAuditorio(String numero, String clase) {
+    private int fondoAuditorio(String numero, String clase, String titulo) {
         int st = 0;
+        if (titulo.contains("No se presentó - ")){
+            return getResources().getColor(R.color.color_no_presentado);
+        }
         switch (numero) {
             case "1":
                 if (clase.equals("C")) {
@@ -1192,6 +1221,13 @@ public class PrincipalB extends AppCompatActivity {
                     st = getResources().getColor(R.color.color5c);
                 } else {
                     st = getResources().getColor(R.color.color5);
+                }
+                break;
+            case "6":
+                if (clase.equals("C")) {
+                    st = getResources().getColor(R.color.color6c);
+                } else {
+                    st = getResources().getColor(R.color.color6);
                 }
                 break;
         }
@@ -1452,11 +1488,20 @@ public class PrincipalB extends AppCompatActivity {
             case "FBC 22 S":
                 st_aulas = "Sala de juntas 2 sur";
                 break;
-            case "FBD 1":
+            case "FBD 22":
+                st_aulas = "Auditorio";
+                break;
+            case "FBD 23":
                 st_aulas = "CAG";
                 break;
-            case "FBD 2":
-                st_aulas = "Auditorio";
+            case "FBD 24":
+                st_aulas = "Computo 1er nivel";
+                break;
+            case "FBD 25":
+                st_aulas = "Computo 2do nivel";
+                break;
+            case "FBD 26":
+                st_aulas = "Computo 3er nivel";
                 break;
             case "FBAD 1":
                 st_aulas = "Cancha de fútbol";

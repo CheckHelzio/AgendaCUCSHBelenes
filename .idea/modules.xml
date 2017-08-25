@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AgendaCUCSHBelenes.iml" filepath="$PROJECT_DIR$/AgendaCUCSHBelenes.iml" />
+      <module fileurl="file://C:\Users\check\Desktop\AgendaCUCSHBelenes\AgendaCUCSHBelenes.iml" filepath="C:\Users\check\Desktop\AgendaCUCSHBelenes\AgendaCUCSHBelenes.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\check\Desktop\AgendaCUCSHBelenes\app\app.iml" filepath="C:\Users\check\Desktop\AgendaCUCSHBelenes\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/rangedatepicker/rangedatepicker.iml" filepath="$PROJECT_DIR$/rangedatepicker/rangedatepicker.iml" />
+      <module fileurl="file://C:\Users\check\Desktop\AgendaCUCSHBelenes\rangedatepicker\rangedatepicker.iml" filepath="C:\Users\check\Desktop\AgendaCUCSHBelenes\rangedatepicker\rangedatepicker.iml" />
     </modules>
   </component>
 </project>

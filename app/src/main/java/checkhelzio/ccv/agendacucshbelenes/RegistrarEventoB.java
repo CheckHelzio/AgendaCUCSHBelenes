@@ -127,6 +127,8 @@ public class RegistrarEventoB extends AppCompatActivity {
     RecyclerView rv_conflictos;
     @BindView(R.id.rv_fechas)
     RecyclerView rv_fechas;
+    @BindView(R.id.contenedor_asistencia)
+    RelativeLayout contenedorAsistencia;
     @BindView(R.id.snackposs)
     CoordinatorLayout snackposs;
     @BindView(R.id.conteConflictos)
@@ -219,6 +221,8 @@ public class RegistrarEventoB extends AppCompatActivity {
     }
 
     private void iniciarDatos() {
+        
+        contenedorAsistencia.setVisibility(View.GONE);
 
         // TITULO DEL EVENTO
         atv_titulo_evento.addTextChangedListener(new TextWatcher() {
@@ -745,20 +749,6 @@ public class RegistrarEventoB extends AppCompatActivity {
 
             // NO PUEDE HABER CONFLICTOS QUE V PUES AQUELLOS SON CUANDO LOS EVENTOS INICIAN 8:30 O MAS TARDE
             quitarConflictosV(n);
-
-            // VERFICIAR SI ES EL DIA DE HOY
-            if (c.get(Calendar.YEAR) == c2.get(Calendar.YEAR) && c.get(Calendar.MONTH) == c2.get(Calendar.MONTH) && c.get(Calendar.DAY_OF_MONTH) == c2.get(Calendar.DAY_OF_MONTH)) {
-
-                // VERIFICAR SI EL EVENTO YA PASO O ESTA MUY CERCA DE LA HORA ACTAUAL
-                if (f.getHoraInicial() <= horaASpinner(c2.get(Calendar.HOUR_OF_DAY), c2.get(Calendar.MINUTE))) {
-                    agregarConflictoV1(new Conflictos(n, 0, "V1"));
-                } else {
-
-                    // QUITAR CONFLICTO V1 QUE ES DE LOS EVENTOS QUE SE QUIEREN REGISTRAR EN UN HORARIO QUE YA PASO.
-                    quitarConflictosV1(n);
-                }
-            }
-
             comprobarCupo(f, 0);
         }
     }
@@ -823,7 +813,7 @@ public class RegistrarEventoB extends AppCompatActivity {
         if (i1 >= 30) {
             i++;
         }
-        return i - 2;
+        return i - 24;
     }
 
     private void agregarConflictoV(Conflictos conflicto) {
@@ -1222,11 +1212,20 @@ public class RegistrarEventoB extends AppCompatActivity {
                             case "FBC 22 S":
                                 s_modificado = "Sala de juntas 2 sur";
                                 break;
-                            case "FBD 1":
+                            case "FBD 22":
+                                s_modificado = "Auditorio";
+                                break;
+                            case "FBD 23":
                                 s_modificado = "CAG";
                                 break;
-                            case "FBD 2":
-                                s_modificado = "Auditorio";
+                            case "FBD 24":
+                                s_modificado = "Computo 1er nivel";
+                                break;
+                            case "FBD 25":
+                                s_modificado = "Computo 2do nivel";
+                                break;
+                            case "FBD 26":
+                                s_modificado = "Computo 3er nivel";
                                 break;
                             case "FBAD 1":
                                 s_modificado = "Cancha de fútbol";

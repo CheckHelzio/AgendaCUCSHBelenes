@@ -61,10 +61,11 @@
     <string name="label_nota_cta">Nota para CTA</string>
 
     <string name="transition_date_dialog_helzio" translatable="false">transition_date_dialog_helzio</string>
-    <string name="cargado_datos">Cargado datos...</string>
-    <string name="st_aplicando_cambios">Aplicando cambios...</string>
+    <string name="cargado_datos">Cargado datos…</string>
+    <string name="st_aplicando_cambios">Aplicando cambios…</string>
     <string name="st1">Presiona aquí para ver la información de ese evento.</string>
     <string name="st2">Modifica uno de los dos horarios.</string>
     <string name="st3">Modifica la hora de inicio del evento para continuar.</string>
     <string name="st4">Modifica la hora de inicio del evento para continuar.</string>
+    <string name="marcar_no_se_present">\"No se presentó\"</string>
 </resources>

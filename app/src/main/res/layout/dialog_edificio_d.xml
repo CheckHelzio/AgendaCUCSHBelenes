@@ -120,6 +120,711 @@
                         android:layout_marginStart="72dp"
                         android:gravity="center_vertical"
                         android:maxLines="1"
+                        android:text="Aulas"
+                        android:textColor="#121212"
+                        android:textSize="16sp" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="15dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 1"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 2"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 3"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 4"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 5"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_alignBaseline="@+id/textView6"
+                            android:layout_alignBottom="@+id/textView6"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 6"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 7"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_alignBaseline="@+id/textView"
+                            android:layout_alignBottom="@+id/textView"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 8"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 9"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 10"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 11"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 12"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 13"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 14"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd15"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 15"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd16"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 16"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd17"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 17"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd18"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 18"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 19"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 20"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="FBD 21"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="#bebebe" />
+                
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="14dp"
+                        android:contentDescription="@string/tipo_de_actividad"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_clas" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="72dp"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
                         android:text="Auditorios"
                         android:textColor="#121212"
                         android:textSize="16sp" />
@@ -139,7 +844,7 @@
                         android:onClick="togle">
 
                         <CheckBox
-                            android:id="@+id/fbd2"
+                            android:id="@+id/fbd22"
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
                             android:layout_alignParentStart="true"
@@ -207,7 +912,7 @@
                         android:onClick="togle">
 
                         <CheckBox
-                            android:id="@+id/fbd1"
+                            android:id="@+id/fbd23"
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
                             android:layout_alignParentStart="true"
@@ -262,6 +967,69 @@
                 </RelativeLayout>
 
                 <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="56dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="Computo 1er nivel"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackground"
+                        android:clickable="true"
+                        android:onClick="togle">
+
+                        <CheckBox
+                            android:id="@+id/fbd25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="16dp"
+                            android:clickable="false" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginStart="72dp"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="Computo 2do nivel"
+                            android:textColor="#121212"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_marginBottom="8dp"
                     android:layout_width="fill_parent"
                     android:layout_height="56dp"
@@ -277,7 +1045,7 @@
                         android:onClick="togle">
 
                         <CheckBox
-                            android:id="@+id/fbd3"
+                            android:id="@+id/fbd26"
                             android:layout_width="wrap_content"
                             android:layout_height="24dp"
                             android:layout_centerVertical="true"
@@ -291,38 +1059,11 @@
                             android:layout_marginStart="72dp"
                             android:gravity="center_vertical"
                             android:maxLines="1"
-                            android:text="FBD 10"
+                            android:text="Computo 3er nivel"
                             android:textColor="#121212"
                             android:textSize="16sp" />
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="56dp"
-                        android:layout_weight="1"
-                        android:background="?selectableItemBackground"
-                        android:clickable="true"
-                        android:onClick="togle">
-
-                        <CheckBox
-                            android:id="@+id/fbd4"
-                            android:layout_width="wrap_content"
-                            android:layout_height="24dp"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp"
-                            android:clickable="false" />
-
-                        <TextView
-                            android:layout_width="fill_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="16dp"
-                            android:layout_marginStart="72dp"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
-                            android:text="FBD 11"
-                            android:textColor="#121212"
-                            android:textSize="16sp" />
-                    </RelativeLayout>
                 </LinearLayout>
 
             </LinearLayout>

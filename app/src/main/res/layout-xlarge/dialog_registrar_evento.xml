@@ -741,54 +741,113 @@
                     </RelativeLayout>
                 </LinearLayout>
 
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginStart="18dp"
-                        android:contentDescription="@string/auditorio"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_lock" />
-
-                    <TextView
-                        android:id="@+id/tv_contraseña_label"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginTop="12dp"
-                        android:background="#00000000"
-                        android:maxLines="1"
-                        android:paddingEnd="56dp"
-                        android:paddingStart="72dp"
-                        android:text="@string/label_contrasena"
-                        android:textColor="#121212"
-                        android:textSize="@dimen/diez_sp" />
-
-                    <EditText
-                        android:id="@+id/et_contraseña"
-                        android:layout_width="fill_parent"
-                        android:layout_height="match_parent"
+                    <RelativeLayout
+                        android:id="@+id/contenedor_asistencia"
+                        android:layout_marginBottom="8dp"
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
                         android:background="?android:attr/selectableItemBackground"
-                        android:gravity="center_vertical"
-                        android:hint="@string/label_contrasena2"
-                        android:imeOptions="actionDone"
-                        android:inputType="numberPassword"
-                        android:maxLines="1"
-                        android:paddingEnd="72dp"
-                        android:paddingStart="72dp"
-                        android:paddingTop="10dp"
-                        android:singleLine="true"
-                        android:textColor="#121212"
-                        android:textColorHint="#121212"
-                        android:textSize="16sp" />
+                        android:clickable="true"
+                        android:orientation="vertical">
 
-                </RelativeLayout>
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginTop="14dp"
+                            android:contentDescription="@string/tipo_de_actividad"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_cancel" />
+
+                        <TextView
+                            android:id="@+id/tv_noPresentado"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="Asistencia:"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <Switch
+                            android:id="@+id/switch_noPresentado"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:hint="@string/label_tipo_de_evento2"
+                            android:maxLines="1"
+                            android:onClick="switchClase"
+                            android:paddingEnd="16dp"
+                            android:paddingStart="72dp"
+                            android:paddingTop="10dp"
+                            android:text="@string/marcar_no_se_present"
+                            android:textColor="#121212"
+                            android:textColorHint="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="56dp"
+                        android:layout_weight="1"
+                        android:layout_marginBottom="8dp"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="18dp"
+                            android:contentDescription="@string/auditorio"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ic_lock" />
+
+                        <TextView
+                            android:id="@+id/tv_contraseña_label"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="12dp"
+                            android:background="#00000000"
+                            android:maxLines="1"
+                            android:paddingEnd="56dp"
+                            android:paddingStart="72dp"
+                            android:text="@string/label_contrasena"
+                            android:textColor="#121212"
+                            android:textSize="@dimen/diez_sp" />
+
+                        <EditText
+                            android:id="@+id/et_contraseña"
+                            android:layout_width="fill_parent"
+                            android:layout_height="match_parent"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:gravity="center_vertical"
+                            android:hint="@string/label_contrasena2"
+                            android:imeOptions="actionDone"
+                            android:inputType="numberPassword"
+                            android:maxLines="1"
+                            android:paddingEnd="72dp"
+                            android:paddingStart="72dp"
+                            android:paddingTop="10dp"
+                            android:singleLine="true"
+                            android:textColor="#121212"
+                            android:textColorHint="#121212"
+                            android:textSize="16sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
             </LinearLayout>
         </ScrollView>
 

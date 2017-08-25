@@ -105,11 +105,20 @@ public class EventosAdaptadorBusqueda extends RecyclerView.Adapter<EventosAdapta
             case "FBC 22 S":
                 st_aulas = "Sala de juntas 2 sur";
                 break;
-            case "FBD 1":
+            case "FBD 22":
+                st_aulas = "Auditorio";
+                break;
+            case "FBD 23":
                 st_aulas = "CAG";
                 break;
-            case "FBD 2":
-                st_aulas = "Auditorio";
+            case "FBD 24":
+                st_aulas = "Computo 1er nivel";
+                break;
+            case "FBD 25":
+                st_aulas = "Computo 2do nivel";
+                break;
+            case "FBD 26":
+                st_aulas = "Computo 3er nivel";
                 break;
             case "FBAD 1":
                 st_aulas = "Cancha de fútbol";
