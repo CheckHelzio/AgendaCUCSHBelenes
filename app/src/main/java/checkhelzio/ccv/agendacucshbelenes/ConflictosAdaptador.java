@@ -45,21 +45,19 @@ class ConflictosAdaptador extends RecyclerView.Adapter<ConflictosAdaptador.Confl
                 String error = "No hay cupo disponible para la fecha No. " + (conflicto.getNum_fecha() + 1) + ":";
                 ConflictosViewHolder.titulo_evento.setText(error);
                 ConflictosViewHolder.titulo_evento.setTypeface(Typeface.DEFAULT_BOLD);
-                ConflictosViewHolder.auditorio.setText("Hay un evento registrado de " + horasATetxto(Integer.parseInt(evento.getHoraInicial().replaceAll("[^0-9]+", ""))) + " - " + horasATetxto(Integer.parseInt(evento.getHoraFinal().replaceAll("[^0-9]+", ""))) + ".");
+                String c = "Hay un evento registrado de " + horasATetxto(Integer.parseInt(evento.getHoraInicial().replaceAll("[^0-9]+", ""))) + " - " + horasATetxto(Integer.parseInt(evento.getHoraFinal().replaceAll("[^0-9]+", ""))) + ".";
+                ConflictosViewHolder.auditorio.setText(c);
                 ConflictosViewHolder.horario.setText(R.string.st1);
                 ConflictosViewHolder.contenedor.setCardBackgroundColor(conflicto.getColorFondo());
 
-                ConflictosViewHolder.contenedor.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(mContext, DialogInfoEventosHelzio.class);
-                        intent.putExtra("EVENTO", evento);
-                        intent.putExtra("POSITION", ConflictosViewHolder.getAdapterPosition());
-                        final Rect startBounds = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
-                        ChangeBoundBackground2.addExtras(intent, getViewBitmap(view), startBounds);
-                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, view, "fondo");
-                        ((Activity) mContext).startActivityForResult(intent, 44, options.toBundle());
-                    }
+                ConflictosViewHolder.contenedor.setOnClickListener(view -> {
+                    Intent intent = new Intent(mContext, DialogInfoEventosHelzio.class);
+                    intent.putExtra("EVENTO", evento);
+                    intent.putExtra("POSITION", ConflictosViewHolder.getAdapterPosition());
+                    final Rect startBounds = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+                    ChangeBoundBackground2.addExtras(intent, getViewBitmap(view), startBounds);
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, view, "fondo");
+                    ((Activity) mContext).startActivityForResult(intent, 44, options.toBundle());
                 });
                 break;
             }
@@ -102,19 +100,6 @@ class ConflictosAdaptador extends RecyclerView.Adapter<ConflictosAdaptador.Confl
     @Override
     public int getItemCount() {
         return listaConflictos.size();
-    }
-
-    static class ConflictosViewHolder extends RecyclerView.ViewHolder {
-        private TextView titulo_evento, auditorio, horario;
-        private CardView contenedor;
-
-        ConflictosViewHolder(View itemView) {
-            super(itemView);
-            titulo_evento = (TextView) itemView.findViewById(R.id.tv_titulo);
-            auditorio = (TextView) itemView.findViewById(R.id.tv_auditorio);
-            horario = (TextView) itemView.findViewById(R.id.tv_horario);
-            contenedor = (CardView) itemView.findViewById(R.id.boton_eventos);
-        }
     }
 
     private String horasATetxto(int numero) {
@@ -173,5 +158,18 @@ class ConflictosAdaptador extends RecyclerView.Adapter<ConflictosAdaptador.Confl
         v.setDrawingCacheBackgroundColor(color);
 
         return bitmap;
+    }
+
+    static class ConflictosViewHolder extends RecyclerView.ViewHolder {
+        private TextView titulo_evento, auditorio, horario;
+        private CardView contenedor;
+
+        ConflictosViewHolder(View itemView) {
+            super(itemView);
+            titulo_evento = itemView.findViewById(R.id.tv_titulo);
+            auditorio = itemView.findViewById(R.id.tv_auditorio);
+            horario = itemView.findViewById(R.id.tv_horario);
+            contenedor = itemView.findViewById(R.id.boton_eventos);
+        }
     }
 }

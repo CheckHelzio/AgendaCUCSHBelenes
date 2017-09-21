@@ -15,24 +15,16 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class EventosAdaptadorBusqueda extends RecyclerView.Adapter<EventosAdaptadorBusqueda.EventosViewHolder> {
 
-    private List<Eventos> eventos;
-
-    private final String auditorio1 = "Edificio A";
-    private final String auditorio2 = "Edificio B";
-    private final String auditorio3 = "Edificio C";
-    private final String auditorio4 = "Edificio D";
-    private final String auditorio5 = "Edificio F";
-    private final String auditorio6 = "Áreas deportivas";
     private final int ELIMINAR_EVENTO = 4;
+    private List<Eventos> eventos;
     private Context mContext;
 
-    public EventosAdaptadorBusqueda(List<Eventos> eventos, Context context) {
+    EventosAdaptadorBusqueda(List<Eventos> eventos, Context context) {
         this.eventos = eventos;
         mContext = context;
     }
@@ -45,32 +37,30 @@ public class EventosAdaptadorBusqueda extends RecyclerView.Adapter<EventosAdapta
     }
 
     @Override
-    public void onBindViewHolder(final EventosViewHolder eventosViewHolder , int position) {
+    public void onBindViewHolder(final EventosViewHolder eventosViewHolder, int position) {
         final Eventos evento = eventos.get(position);
         eventosViewHolder.titulo_evento.setText(evento.getTitulo());
         eventosViewHolder.nombre_org.setText(evento.getNombreResponsable());
         eventosViewHolder.auditorio.setText(getNombreAula(evento.getAula()));
         eventosViewHolder.id.setText(evento.getDependencia());
         eventosViewHolder.fecha.setText(fecha(evento.getFecha()));
-        eventosViewHolder.horario.setText(horasATetxto(Integer.parseInt(evento.getHoraInicial().replaceAll("[^0-9]+",""))) + " - " + horasATetxto(Integer.parseInt(evento.getHoraFinal().replaceAll("[^0-9]+",""))));
+        String horas = horasATetxto(Integer.parseInt(evento.getHoraInicial().replaceAll("[^0-9]+", ""))) + " - " + horasATetxto(Integer.parseInt(evento.getHoraFinal().replaceAll("[^0-9]+", "")));
+        eventosViewHolder.horario.setText(horas);
         eventosViewHolder.contenedor.setCardBackgroundColor(evento.getFondo());
 
-        eventosViewHolder.contenedor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, DialogInfoEventosHelzio.class);
-                intent.putExtra("EVENTO", evento);
-                intent.putExtra("POSITION", eventosViewHolder.getAdapterPosition());
-                final Rect startBounds = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
-                ChangeBoundBackground2.addExtras(intent, getViewBitmap(view), startBounds);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, view, "fondo");
-                ((Activity) mContext).startActivityForResult(intent, ELIMINAR_EVENTO, options.toBundle());
-            }
+        eventosViewHolder.contenedor.setOnClickListener(view -> {
+            Intent intent = new Intent(mContext, DialogInfoEventosHelzio.class);
+            intent.putExtra("EVENTO", evento);
+            intent.putExtra("POSITION", eventosViewHolder.getAdapterPosition());
+            final Rect startBounds = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+            ChangeBoundBackground2.addExtras(intent, getViewBitmap(view), startBounds);
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, view, "fondo");
+            ((Activity) mContext).startActivityForResult(intent, ELIMINAR_EVENTO, options.toBundle());
         });
 
     }
 
-    private String getNombreAula(String st_aulas){
+    private String getNombreAula(String st_aulas) {
         switch (st_aulas) {
             case "FBA 17":
                 st_aulas = "Aula Dr. Fernando Pozos Ponce";
@@ -143,9 +133,9 @@ public class EventosAdaptadorBusqueda extends RecyclerView.Adapter<EventosAdapta
         String am_pm, st_min, st_hora;
 
         int hora = (numero / 2) + 7;
-        if (hora == 12){
+        if (hora == 12) {
             am_pm = " PM";
-        }else if (hora > 12) {
+        } else if (hora > 12) {
             hora = hora - 12;
             am_pm = " PM";
         } else {
@@ -199,98 +189,40 @@ public class EventosAdaptadorBusqueda extends RecyclerView.Adapter<EventosAdapta
         return bitmap;
     }
 
-    private String nombreAuditorio(String numero) {
-        String st = "";
-        switch (numero) {
-            case "1":
-                st = auditorio1;
-                break;
-            case "2":
-                st = auditorio2;
-                break;
-            case "3":
-                st = auditorio3;
-                break;
-            case "4":
-                st = auditorio4;
-                break;
-            case "5":
-                st = auditorio5;
-                break;
-            case "6":
-                st = auditorio6;
-                break;
-        }
-        return st;
-    }
-
     @Override
     public int getItemCount() {
         return eventos.size();
     }
 
-    public static class EventosViewHolder extends RecyclerView.ViewHolder{
-        private TextView titulo_evento, nombre_org, auditorio, horario, fecha, id;
-        private CardView contenedor;
-
-        public EventosViewHolder(View itemView) {
-            super(itemView);
-            titulo_evento = (TextView) itemView.findViewById(R.id.tv_titulo);
-            nombre_org = (TextView) itemView.findViewById(R.id.tv_organizador);
-            auditorio = (TextView) itemView.findViewById(R.id.tv_auditorio);
-            horario = (TextView) itemView.findViewById(R.id.tv_horario);
-            fecha = (TextView) itemView.findViewById(R.id.tv_fecha);
-            id = (TextView) itemView.findViewById(R.id.tv_id);
-            contenedor = (CardView) itemView.findViewById(R.id.boton_eventos);
-        }
-    }
-
-    public void removeItemAtPosition(int position) {
+    void removeItemAtPosition(int position) {
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, eventos.size());
 
     }
 
-    public void addItem(Eventos evento) {
-        eventos.add(evento);
-        notifyItemInserted(eventos.size() - 1);
-    }
-
-    public void ordenarItems() {
-        ordenar();
-        notifyDataSetChanged();
-    }
-
-    private void ordenar() {
-        Collections.sort(eventos, new Comparator<Eventos>() {
-            @Override
-            public int compare(Eventos e1, Eventos e2) {
-                Integer i1 = Integer.parseInt(e1.getFecha().replaceAll("[^0-9]+", ""));
-                Integer i2 = Integer.parseInt(e2.getFecha().replaceAll("[^0-9]+", ""));
-                if (i1.equals(i2)) {
-                    Integer i3 = Integer.parseInt(e1.getHoraInicial());
-                    Integer i4 = Integer.parseInt(e2.getHoraInicial());
-                    if (i3.equals(i4)) {
-                        Integer i5 = Integer.parseInt(e1.getHoraFinal());
-                        Integer i6 = Integer.parseInt(e2.getHoraFinal());
-                        return i5.compareTo(i6);
-                    } else {
-                        return i3.compareTo(i4);
-                    }
-                } else {
-                    return i1.compareTo(i2);
-                }
-            }
-        });
-    }
-
     private String fecha(String fecha_inicial) {
         Calendar fecha = Calendar.getInstance();
         fecha.set(2016, 0, 1);
-        fecha.add(Calendar.DAY_OF_YEAR, Integer.valueOf(fecha_inicial.replaceAll("[^0-9]+","")) - 1);
-        SimpleDateFormat format = new SimpleDateFormat("cccc',' d 'de' MMMM 'del' yyyy");
+        fecha.add(Calendar.DAY_OF_YEAR, Integer.valueOf(fecha_inicial.replaceAll("[^0-9]+", "")) - 1);
+        SimpleDateFormat format = new SimpleDateFormat("cccc',' d 'de' MMMM 'del' yyyy", Locale.getDefault());
         fecha_inicial = (format.format(fecha.getTime()));
         return fecha_inicial;
+    }
+
+    static class EventosViewHolder extends RecyclerView.ViewHolder {
+        private TextView titulo_evento, nombre_org, auditorio, horario, fecha, id;
+        private CardView contenedor;
+
+        EventosViewHolder(View itemView) {
+            super(itemView);
+            titulo_evento = itemView.findViewById(R.id.tv_titulo);
+            nombre_org = itemView.findViewById(R.id.tv_organizador);
+            auditorio = itemView.findViewById(R.id.tv_auditorio);
+            horario = itemView.findViewById(R.id.tv_horario);
+            fecha = itemView.findViewById(R.id.tv_fecha);
+            id = itemView.findViewById(R.id.tv_id);
+            contenedor = itemView.findViewById(R.id.boton_eventos);
+        }
     }
 
 }

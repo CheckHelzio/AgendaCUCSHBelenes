@@ -13,226 +13,244 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="188dp"
         android:clickable="true"
+        android:focusable="true"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_marginTop="8dp"
             android:id="@+id/switch_ed_a"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginTop="8dp"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="18dp"
+                android:contentDescription="@string/edificio_a"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_edif"
                 android:tint="@color/color1" />
 
             <Switch
                 android:id="@+id/switcha"
-                android:textColor="@color/colorPrimario"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginStart="14dp"
                 android:background="#00000000"
                 android:checked="true"
                 android:gravity="center_vertical"
+                android:onClick="checkAuditorios"
                 android:paddingEnd="16dp"
                 android:paddingStart="8dp"
-                android:text="Edificio A"
+                android:text="@string/edificio_a"
+                android:textColor="@color/colorPrimario"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="8dp"
             android:id="@+id/switch_ed_b"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginTop="8dp"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="18dp"
+                android:contentDescription="@string/edificio_b"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_edif"
                 android:tint="@color/color2" />
 
             <Switch
                 android:id="@+id/switchb"
-                android:textColor="@color/colorPrimario"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginStart="14dp"
                 android:background="#00000000"
                 android:checked="true"
                 android:gravity="center_vertical"
+                android:onClick="checkAuditorios"
                 android:paddingEnd="16dp"
                 android:paddingStart="8dp"
-                android:text="Edificio B"
+                android:text="@string/edificio_b"
+                android:textColor="@color/colorPrimario"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="8dp"
             android:id="@+id/switch_ed_c"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginTop="8dp"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="18dp"
+                android:contentDescription="@string/edificio_c"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_edif"
                 android:tint="@color/color3" />
 
             <Switch
                 android:id="@+id/switchc"
-                android:textColor="@color/colorPrimario"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginStart="14dp"
                 android:background="#00000000"
                 android:checked="true"
                 android:gravity="center_vertical"
+                android:onClick="checkAuditorios"
                 android:paddingEnd="16dp"
                 android:paddingStart="8dp"
-                android:text="Edificio C"
+                android:text="@string/edificio_c"
+                android:textColor="@color/colorPrimario"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="8dp"
             android:id="@+id/switch_ed_d"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginTop="8dp"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="18dp"
+                android:contentDescription="@string/edificio_d"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_edif"
                 android:tint="@color/color4" />
 
             <Switch
                 android:id="@+id/switchd"
-                android:textColor="@color/colorPrimario"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginStart="14dp"
                 android:background="#00000000"
                 android:checked="true"
                 android:gravity="center_vertical"
+                android:onClick="checkAuditorios"
                 android:paddingEnd="16dp"
                 android:paddingStart="8dp"
-                android:text="Edificio D"
+                android:text="@string/edificio_d"
+                android:textColor="@color/colorPrimario"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="8dp"
             android:id="@+id/switch_ed_f"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginTop="8dp"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="18dp"
+                android:contentDescription="@string/edificio_f"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_edif"
                 android:tint="@color/color5" />
 
             <Switch
                 android:id="@+id/switchf"
-                android:textColor="@color/colorPrimario"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginStart="14dp"
                 android:background="#00000000"
                 android:checked="true"
                 android:gravity="center_vertical"
+                android:onClick="checkAuditorios"
                 android:paddingEnd="16dp"
                 android:paddingStart="8dp"
-                android:text="Edificio F"
+                android:text="@string/edificio_f"
+                android:textColor="@color/colorPrimario"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="8dp"
             android:id="@+id/switch_ed_ad"
             android:layout_width="match_parent"
             android:layout_height="48dp"
+            android:layout_marginTop="8dp"
             android:background="?android:selectableItemBackground"
             android:clickable="true"
+            android:focusable="true"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="18dp"
+                android:contentDescription="@string/reas_deportivas"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_cancha"
                 android:tint="@color/color6" />
 
             <Switch
                 android:id="@+id/switchedad"
-                android:textColor="@color/colorPrimario"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginStart="14dp"
                 android:background="#00000000"
                 android:checked="true"
                 android:gravity="center_vertical"
+                android:onClick="checkAuditorios"
                 android:paddingEnd="16dp"
                 android:paddingStart="8dp"
-                android:text="Áreas deportivas"
+                android:text="@string/reas_deportivas"
+                android:textColor="@color/colorPrimario"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <View
-            android:layout_marginTop="8dp"
-            android:background="#51000000"
             android:layout_width="match_parent"
-            android:layout_height="1dp" />
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="#51000000" />
 
         <LinearLayout
-            android:layout_marginTop="8dp"
             android:id="@+id/switch_clases"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="?android:selectableItemBackground"
-            android:clickable="true"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="18dp"
+                android:contentDescription="@string/ver_clases"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_clas"
                 android:tint="#000000" />
@@ -246,29 +264,30 @@
                 android:background="#00000000"
                 android:buttonTint="@color/color5"
                 android:checked="true"
-                android:clickable="false"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
+                android:onClick="checkAuditorios"
                 android:paddingEnd="16dp"
                 android:paddingStart="8dp"
-                android:text="Ver clases"
+                android:text="@string/ver_clases"
                 android:textColor="@color/colorPrimario"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginTop="8dp"
             android:id="@+id/switch_eventos"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="?android:selectableItemBackground"
-            android:clickable="true"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_gravity="center_vertical"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="18dp"
+                android:contentDescription="@string/ver_eventos"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_auditorio"
                 android:tint="#000000" />
@@ -282,11 +301,13 @@
                 android:background="#00000000"
                 android:buttonTint="@color/color5"
                 android:checked="true"
-                android:clickable="false"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center_vertical"
+                android:onClick="checkAuditorios"
                 android:paddingEnd="16dp"
                 android:paddingStart="8dp"
-                android:text="Ver eventos"
+                android:text="@string/ver_eventos"
                 android:textColor="@color/colorPrimario"
                 android:textStyle="bold" />
         </LinearLayout>

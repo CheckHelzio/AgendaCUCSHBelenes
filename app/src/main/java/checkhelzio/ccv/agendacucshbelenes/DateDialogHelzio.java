@@ -12,25 +12,24 @@ import android.widget.DatePicker;
 
 import java.util.Calendar;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class DateDialogHelzio extends Activity {
 
-    @BindView(R.id.conteDialog)
     DatePicker datePicker;
-    @BindView(R.id.conte)
     ViewGroup conte;
-    @BindView(R.id.bt_dialog_aceptar)
-    Button aceptar;
+    Button aceptar, cancelar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_datepicker);
         postponeEnterTransition();
-        ButterKnife.bind(this);
+
+        conte = findViewById(R.id.conte);
+        aceptar = findViewById(R.id.bt_dialog_aceptar);
+        cancelar = findViewById(R.id.bt_dialog_cancenlar);
+        aceptar.setOnClickListener(this::irDia);
+        cancelar.setOnClickListener(this::cerrar);
+        datePicker = findViewById(R.id.conteDialog);
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(2016, 0, 1);
@@ -52,8 +51,6 @@ public class DateDialogHelzio extends Activity {
         cerrar(null);
     }
 
-
-    @OnClick(R.id.bt_dialog_aceptar)
     public void irDia(View view) {
 
         int mes;
@@ -72,7 +69,6 @@ public class DateDialogHelzio extends Activity {
         cerrar(null);
     }
 
-    @OnClick(R.id.bt_dialog_cancenlar)
     public void cerrar(View view) {
         finishAfterTransition();
     }

@@ -10,31 +10,27 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import java.util.ArrayList;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class DialogEspaciosDeportivos extends Activity {
 
-    @BindView(R.id.fbad1)
-    CheckBox fbad1;
-    @BindView(R.id.fbad2)
-    CheckBox fbad2;
-    @BindView(R.id.fbad3)
-    CheckBox fbad3;
-    @BindView(R.id.fbad4)
-    CheckBox fbad4;
-
-    String st_aulas = "";
     final ArrayList<CheckBox> lista_checkbox = new ArrayList<>();
+    String st_aulas = "";
+    private CheckBox fbad1;
+    private CheckBox fbad2;
+    private CheckBox fbad3;
+    private CheckBox fbad4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postponeEnterTransition();
         setContentView(R.layout.dialog_edificio_depo);
-        ButterKnife.bind(this);
+
+        findViewById(R.id.tv_guardar_evento).setOnClickListener(this::aceptar);
+
+        fbad1 = findViewById(R.id.fbad1);
+        fbad2 = findViewById(R.id.fbad2);
+        fbad3 = findViewById(R.id.fbad3);
+        fbad4 = findViewById(R.id.fbad4);
 
         st_aulas = getIntent().getStringExtra("AULAS");
 
@@ -57,7 +53,6 @@ public class DialogEspaciosDeportivos extends Activity {
         cerrar(null);
     }
 
-    @OnClick(R.id.tv_guardar_evento)
     public void aceptar(View view) {
         st_aulas = "";
         if (fbad1.isChecked()) {

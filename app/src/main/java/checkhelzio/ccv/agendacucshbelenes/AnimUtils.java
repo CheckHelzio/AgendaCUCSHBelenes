@@ -20,7 +20,6 @@ import android.animation.Animator;
 import android.animation.TimeInterpolator;
 import android.content.Context;
 import android.util.ArrayMap;
-import android.util.Property;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 
@@ -31,13 +30,14 @@ import java.util.ArrayList;
  */
 public class AnimUtils {
 
-    private AnimUtils() { }
-
     private static Interpolator fastOutSlowIn;
     private static Interpolator fastOutLinearIn;
     private static Interpolator linearOutSlowIn;
 
-    public static Interpolator getFastOutSlowInInterpolator(Context context) {
+    private AnimUtils() {
+    }
+
+    static Interpolator getFastOutSlowInInterpolator(Context context) {
         if (fastOutSlowIn == null) {
             fastOutSlowIn = AnimationUtils.loadInterpolator(context,
                     android.R.interpolator.fast_out_slow_in);
@@ -45,7 +45,7 @@ public class AnimUtils {
         return fastOutSlowIn;
     }
 
-    public static Interpolator getFastOutLinearInInterpolator(Context context) {
+    static Interpolator getFastOutLinearInInterpolator(Context context) {
         if (fastOutLinearIn == null) {
             fastOutLinearIn = AnimationUtils.loadInterpolator(context,
                     android.R.interpolator.fast_out_linear_in);
@@ -62,70 +62,6 @@ public class AnimUtils {
     }
 
     /**
-     * Linear interpolate between a and b with parameter t.
-     */
-    public static float lerp(float a, float b, float t) {
-        return a + (b - a) * t;
-    }
-
-
-    /**
-     * An implementation of {@link Property} to be used specifically with fields of
-     * type
-     * <code>float</code>. This type-specific subclass enables performance benefit by allowing
-     * calls to a {@link #set(Object, Float) set()} function that takes the primitive
-     * <code>float</code> type and avoids autoboxing and other overhead associated with the
-     * <code>Float</code> class.
-     *
-     * @param <T> The class on which the Property is declared.
-     **/
-    public static abstract class FloatProperty<T> extends Property<T, Float> {
-        public FloatProperty(String name) {
-            super(Float.class, name);
-        }
-
-        /**
-         * A type-specific override of the {@link #set(Object, Float)} that is faster when dealing
-         * with fields of type <code>float</code>.
-         */
-        public abstract void setValue(T object, float value);
-
-        @Override
-        final public void set(T object, Float value) {
-            setValue(object, value);
-        }
-    }
-
-    /**
-     * An implementation of {@link Property} to be used specifically with fields of
-     * type
-     * <code>int</code>. This type-specific subclass enables performance benefit by allowing
-     * calls to a {@link #set(Object, Integer) set()} function that takes the primitive
-     * <code>int</code> type and avoids autoboxing and other overhead associated with the
-     * <code>Integer</code> class.
-     *
-     * @param <T> The class on which the Property is declared.
-     */
-    public static abstract class IntProperty<T> extends Property<T, Integer> {
-
-        public IntProperty(String name) {
-            super(Integer.class, name);
-        }
-
-        /**
-         * A type-specific override of the {@link #set(Object, Integer)} that is faster when dealing
-         * with fields of type <code>int</code>.
-         */
-        public abstract void setValue(T object, int value);
-
-        @Override
-        final public void set(T object, Integer value) {
-            setValue(object, value.intValue());
-        }
-
-    }
-
-    /**
      * https://halfthought.wordpress.com/2014/11/07/reveal-transition/
      * <p/>
      * Interrupting Activity transitions can yield an OperationNotSupportedException when the
@@ -134,9 +70,9 @@ public class AnimUtils {
     public static class NoPauseAnimator extends Animator {
         private final Animator mAnimator;
         private final ArrayMap<AnimatorListener, AnimatorListener> mListeners =
-                new ArrayMap<AnimatorListener, AnimatorListener>();
+                new ArrayMap<>();
 
-        public NoPauseAnimator(Animator animator) {
+        NoPauseAnimator(Animator animator) {
             mAnimator = animator;
         }
 
@@ -176,7 +112,7 @@ public class AnimUtils {
 
         @Override
         public ArrayList<AnimatorListener> getListeners() {
-            return new ArrayList<AnimatorListener>(mListeners.keySet());
+            return new ArrayList<>(mListeners.keySet());
         }
 
         @Override
@@ -261,7 +197,7 @@ public class AnimUtils {
         private final Animator mAnimator;
         private final Animator.AnimatorListener mListener;
 
-        public AnimatorListenerWrapper(Animator animator, Animator.AnimatorListener listener) {
+        AnimatorListenerWrapper(Animator animator, Animator.AnimatorListener listener) {
             mAnimator = animator;
             mListener = listener;
         }

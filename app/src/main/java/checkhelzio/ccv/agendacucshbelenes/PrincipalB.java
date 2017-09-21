@@ -55,39 +55,22 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Locale;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class PrincipalB extends AppCompatActivity {
-    @BindView(R.id.tv_header)
-    TextView tv_header;
-    @BindView(R.id.tv_conexion)
-    TextView tv_conexion;
-    @BindView(R.id.lun)
-    TextView tv_lun;
-    @BindView(R.id.mar)
-    TextView tv_mar;
-    @BindView(R.id.mie)
-    TextView tv_mie;
-    @BindView(R.id.jue)
-    TextView tv_jue;
-    @BindView(R.id.vie)
-    TextView tv_vie;
-    @BindView(R.id.sab)
-    TextView tv_sab;
-    @BindView(R.id.dom)
-    TextView tv_dom;
-    @BindView(R.id.conte_mes)
-    RelativeLayout conte_mes;
-    @BindView(R.id.grid)
-    GridLayout grid_layout;
-    @BindView(R.id.fab)
-    FloatingActionButton fab;
-    @BindView(R.id.proteccion)
-    View proteccion;
-
+    static final int HELZIO_DATE_DIALOG = 13;
+    public static boolean esperar = false;
     protected static ArrayList<Eventos> lista_eventos = new ArrayList<>();
+    protected static String titulos = "";
+    protected static String tiposDeEvento = "";
+    protected static String nombresDependencias = "";
+    protected static String nombresResponsable = "";
+    protected static String nombresSolicitante = "";
+    protected static String stNuevoId = "";
+    private final String auditorio1 = "Edificio A";
+    private final String auditorio2 = "Edificio B";
+    private final String auditorio3 = "Edificio C";
+    private final String auditorio4 = "Edificio D";
+    private final String auditorio5 = "Edificio F";
+    private final String auditorio6 = "Áreas deportivas";
     protected TextView[] lista_numeros_del_mes = new TextView[42];
     protected TextView[] lista_nombre_dias_semana = new TextView[7];
     protected TextView[] lista_info1 = new TextView[42];
@@ -98,39 +81,31 @@ public class PrincipalB extends AppCompatActivity {
     protected int irHoyDiaSemana;
     protected int irHoyNumeroDiaMes;
     protected int irHoyAño;
-
-    static final int HELZIO_DATE_DIALOG = 13;
-
-    private String[] eventos = new String[3660];
-
-    private int irHoyNumeroMesAño;
-
     protected boolean filtro1 = true, filtro2 = true, filtro3 = true, filtro4 = true, filtro5 = true, filtro6 = true;
-    public static boolean esperar = false;
-    private Calendar calendarioIrHoy;
     protected Calendar calendarioActualizarDiasMes;
+    TextView tv_header;
+    TextView tv_conexion;
+    TextView tv_lun;
+    TextView tv_mar;
+    TextView tv_mie;
+    TextView tv_jue;
+    TextView tv_vie;
+    TextView tv_sab;
+    TextView tv_dom;
+    RelativeLayout conte_mes;
+    GridLayout grid_layout;
+    FloatingActionButton fab;
+    View proteccion;
+    private String[] eventos = new String[3660];
+    private Calendar calendarioIrHoy;
     private Handler handler;
     private int id_prox = 0, dia_inicial_del_mes;
     private SharedPreferences prefs;
     private String st_update = "";
     private String st_eventos_guardados = "";
-
-    protected static String titulos = "";
-    protected static String tiposDeEvento = "";
-    protected static String nombresDependencias = "";
-    protected static String nombresResponsable = "";
-    protected static String nombresSolicitante = "";
-    protected static String stNuevoId = "";
     private Integer diasemana;
     private TextView tv_hoy;
     private boolean bclick = false;
-
-    private final String auditorio1 = "Edificio A";
-    private final String auditorio2 = "Edificio B";
-    private final String auditorio3 = "Edificio C";
-    private final String auditorio4 = "Edificio D";
-    private final String auditorio5 = "Edificio F";
-    private final String auditorio6 = "Áreas deportivas";
     private boolean filtroclases = true;
     private boolean filtroeventos= true;
 
@@ -139,12 +114,12 @@ public class PrincipalB extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        ButterKnife.bind(this);
 
         if (isScreenLarge()) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            fab.setVisibility(View.GONE);
         }
     }
 
@@ -173,6 +148,7 @@ public class PrincipalB extends AppCompatActivity {
 
         calendarioActualizarDiasMes = Calendar.getInstance();
         calendarioActualizarDiasMes.set(Calendar.DAY_OF_MONTH, 1);
+
         prefs = getSharedPreferences("AGENDA DE EVENTOS CUCSH BELENES", Context.MODE_PRIVATE);
         st_eventos_guardados = prefs.getString("EVENTOS GUARDADOS BELENES", "");
         st_update = prefs.getString("UPDATE", "");
@@ -217,6 +193,7 @@ public class PrincipalB extends AppCompatActivity {
 
     private void irHoy() {
         Log.v("BELENES33", "IR HOY");
+        int irHoyNumeroMesAño;
         if (irHoyAño == 2016) {
             irHoyNumeroMesAño = calendarioIrHoy.get(Calendar.MONTH);
         } else {
@@ -519,7 +496,6 @@ public class PrincipalB extends AppCompatActivity {
         );
     }
 
-    @OnClick({R.id.switcha, R.id.switchb, R.id.switchc, R.id.switchd, R.id.switchf, R.id.switchclases, R.id.switcheventos, R.id.switchedad})
     public void checkAuditorios(View v) {
 
         //((Switch) v).setChecked(!((Switch)v).isChecked());
@@ -554,85 +530,6 @@ public class PrincipalB extends AppCompatActivity {
         new eventoEnCalendario().execute();
     }
 
-    private class DescargarUD extends AsyncTask<Object, Void, String> {
-
-        @Override
-        protected String doInBackground(Object... params) {
-            try {
-                return loadFromNetwork(params[0].toString());
-            } catch (IOException e) {
-                return "Error de conexión";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            if (!s.equals("Error de conexión")) {
-
-                Log.v("ELIMINAR", "ACTUALIZADO");
-                // ESCRIBIMOS EN EL FOOTER LA HORA DE ACTUALIZACION Y LA GUARDAMOS EN LA BASE DE DATOS PARA DAR REFERENCIA AL USUARIO DE LA ULTIMA VEZ QUE FUE ACTUALIZADA SI SE UTILIZA SIN INTERNET
-                calendarioIrHoy = Calendar.getInstance();
-                SimpleDateFormat format = new SimpleDateFormat("'Actualizado el 'd 'de' MMMM 'del' yyyy 'a las' h:mm a", Locale.forLanguageTag("es-MX"));
-                tv_conexion.setText(format.format(calendarioIrHoy.getTime()));
-                prefs.edit().putString("ACTUALIZACION", format.format(calendarioIrHoy.getTime())).apply();
-
-                if (s.contains("</form>")){
-                    // MUCHAS VECES LA BASE DE DATOS ES DESCARGADA CON CODIGO HTML QUE NO NECESITOS, POR ESO AQUI LO REEMPLAZAMOS
-                    s = s.split("</form>")[1].trim();
-                }
-
-                if (!s.trim().equals(st_update.trim())) {
-                    st_update = s.trim();
-                    prefs.edit().putString("UPDATE", st_update).apply();
-                    tv_conexion.setText(R.string.st_aplicando_cambios);
-                    Log.v("ELIMINAR", "NUEVOS CAMBIOS DETECTADOS");
-                    // SI LA BASE DE DATOS QUE DESCARGARMOS NO ES IGUAL A LA QUE YA TENEMOS LA SOBREESCRIBIMOS Y DESPUES LLEMANOS NUEVAMENTE LA LISTA DE EVENTOS
-                    new DescargarBD().execute("http://148.202.6.72/aplicacion/datos_belenes.txt", PrincipalB.this);
-
-                }
-            } else {
-                Log.v("ELIMINAR", "DESCARGAR BASE DE DATOS... ERROR DE CONEXION");
-            }
-
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    checkNetworkConnection();
-                }
-            }, 1000);
-        }
-    }
-
-    private class DescargarBD extends AsyncTask<Object, Void, String> {
-
-        @Override
-        protected String doInBackground(Object... objects) {
-            Log.v("ELIMINAR", "DESCARGAR BASE DE DATOS... BACKGROUND");
-            try {
-                return loadFromNetwork(objects[0].toString());
-            } catch (IOException e) {
-                return "Error de conexión";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            if (!s.equals("Error de conexión")) {
-                if (s.contains("</form>")){
-                    // MUCHAS VECES LA BASE DE DATOS ES DESCARGADA CON CODIGO HTML QUE NO NECESITOS, POR ESO AQUI LO REEMPLAZAMOS
-                    s = s.split("</form>")[1].trim();
-                }
-
-                st_eventos_guardados = s;
-                prefs.edit().putString("EVENTOS GUARDADOS BELENES", st_eventos_guardados).apply();
-                new LlenarListaEventos().execute();
-            } else {
-                Log.v("ELIMINAR", "DESCARGAR BASE DE DATOS... ERROR DE CONEXION");
-                new DescargarBD().execute("http://148.202.6.72/aplicacion/datos_belenes.txt", PrincipalB.this);
-            }
-        }
-    }
-
     private String loadFromNetwork(String urlString) throws IOException {
         InputStream stream;
         String str = "";
@@ -662,147 +559,6 @@ public class PrincipalB extends AppCompatActivity {
             a += linea;
         }
         return a;
-    }
-
-    private class LlenarListaEventos extends AsyncTask<String, String, Void> {
-        String st_eventos_sin_repetir = "";
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            eventos = new String[3660];
-            Arrays.fill(eventos, "");
-            lista_eventos.clear();
-        }
-
-        @Override
-        protected Void doInBackground(String... aa12) {
-            Log.v("BELENES33", "LLENAR LISTA");
-
-            if (!esperar) {
-
-                Log.v("BELENES33", "LLENAR LISTA... NO ESPERAR");
-                // EN OCACIONES LA BASE DE DATOS DESCARGA CODIGO HTML QUE NO NECESITAMOS, LO QUITAMOS AQUI
-                if (st_eventos_guardados.contains("</form>")) {
-                    st_eventos_guardados = st_eventos_guardados.split("</form>")[1].trim();
-                }
-
-                if (st_eventos_guardados.trim().length() > 0) {
-                    for (String eventos_suelto : st_eventos_guardados.trim().split("¦")) {
-
-                        if (!eventos_suelto.trim().equals("")) {
-
-                            if (!titulos.contains(eventos_suelto.trim().split("::")[3].trim())) {
-                                titulos += eventos_suelto.trim().split("::")[3].trim() + "¦";
-                            }
-                            if (!tiposDeEvento.contains(eventos_suelto.trim().split("::")[5].trim())) {
-                                tiposDeEvento += eventos_suelto.trim().split("::")[5].trim() + "¦";
-                            }
-                            if (!nombresSolicitante.contains(eventos_suelto.trim().split("::")[6].trim())) {
-                                nombresSolicitante += eventos_suelto.trim().split("::")[6].trim() + "¦";
-                            }
-                            if (!nombresDependencias.contains(eventos_suelto.trim().split("::")[14].trim())) {
-                                nombresDependencias += eventos_suelto.trim().split("::")[14].trim() + "¦";
-                            }
-                            if (!nombresResponsable.contains(eventos_suelto.trim().split("::")[15].trim())) {
-                                nombresResponsable += eventos_suelto.trim().split("::")[15].trim() + "¦";
-                            }
-
-                            Eventos nuevo_evento = new Eventos(
-                                    // FECHA
-                                    eventos_suelto.split("::")[0].trim().replaceAll("[^0-9]+", ""),
-                                    // HORA INCIAL
-                                    eventos_suelto.split("::")[1].trim().replaceAll("[^0-9]+", ""),
-                                    // HORA FINAL
-                                    eventos_suelto.split("::")[2].trim().replaceAll("[^0-9]+", ""),
-                                    // TITULO
-                                    eventos_suelto.split("::")[3].trim(),
-                                    // AUDITORIO
-                                    eventos_suelto.split("::")[4].trim().replaceAll("[^0-9]+", ""),
-                                    // TIPO DE EVENTO
-                                    eventos_suelto.split("::")[5].trim(),
-                                    // NOMBRE DEL SOLICITANTE
-                                    eventos_suelto.split("::")[6].trim(),
-                                    // EXTRENSION DEL SOLICITANTE
-                                    eventos_suelto.split("::")[7].trim(),
-                                    // STATUS DEL EVENTO
-                                    eventos_suelto.split("::")[8].trim(),
-                                    // QUIEN REGISTRO
-                                    eventos_suelto.split("::")[9].trim(),
-                                    // CUANDO REGISTRO
-                                    eventos_suelto.split("::")[10].trim(),
-                                    // NOTAS
-                                    eventos_suelto.split("::")[11].trim(),
-                                    // ID
-                                    eventos_suelto.split("::")[12].trim().replaceAll("[^0-9]+", ""),
-                                    // TAG
-                                    eventos_suelto.trim(),
-                                    // FONDO
-                                    fondoAuditorio(eventos_suelto.split("::")[4].trim(), eventos_suelto.split("::")[13].trim(), eventos_suelto.split("::")[3].trim()),
-                                    // CLASE
-                                    eventos_suelto.split("::")[13].trim(),
-                                    // DEPEDENCIA
-                                    eventos_suelto.split("::")[14].trim(),
-                                    // NOMBRE DEL RESPONSABLE
-                                    eventos_suelto.split("::")[15].trim(),
-                                    // CELULAR DEL RESPONSABLE
-                                    eventos_suelto.split("::")[16].trim(),
-                                    // AULA
-                                    eventos_suelto.split("::")[17].trim(),
-                                    // NOTAS 2
-                                    eventos_suelto.split("::")[18].trim()
-                                    );
-
-                            if (!st_eventos_sin_repetir.contains(nuevo_evento.getTag())) {
-                                lista_eventos.add(nuevo_evento);
-                                eventos[Integer.parseInt(eventos_suelto.split("::")[0].trim().replaceAll("[^0-9]+", ""))] += eventos_suelto + "¦";
-                                if (nuevo_evento.getTag().contains("FBAD")){
-                                    Log.v("area deportiva", nuevo_evento.aTag());
-                                }
-                                st_eventos_sin_repetir += nuevo_evento.getTag() + "¦";
-                            } else {
-                                Log.v("REPETIDO", nuevo_evento.getTag());
-                            }
-
-
-                            // COMPROBAMOS EL ID DE CADA EVENTO PARA DETERMINAR SI ES MAYOR AL ANTERIOR Y AL FINAL OBTENER EL ID MAS ALTO
-                            if (Integer.parseInt(eventos_suelto.split("::")[12].trim()) > id_prox) {
-                                id_prox = Integer.parseInt(eventos_suelto.split("::")[12].trim());
-                            }
-                        }
-                    }
-
-                    stNuevoId = "" + (id_prox + 1);
-                    if (stNuevoId.length() == 1) {
-                        stNuevoId = "000" + stNuevoId;
-                    } else if (stNuevoId.length() == 2) {
-                        stNuevoId = "00" + stNuevoId;
-                    } else if (stNuevoId.length() == 3) {
-                        stNuevoId = "0" + stNuevoId;
-                    }
-                }
-            } else {
-                Log.v("ELIMINAR", "LLENAR LISTA... ESPERAR");
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        new LlenarListaEventos().execute();
-                    }
-                }, 900);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            // ESCRIBIMOS EN EL FOOTER LA HORA DE ACTUALIZACION Y LA GUARDAMOS EN LA BASE DE DATOS PARA DAR REFERENCIA AL USUARIO DE LA ULTIMA VEZ QUE FUE ACTUALIZADA SI SE UTILIZA SIN INTERNET
-            calendarioIrHoy = Calendar.getInstance();
-            SimpleDateFormat format = new SimpleDateFormat("'Actualizado el 'd 'de' MMMM 'del' yyyy 'a las' h:mm a", Locale.forLanguageTag("es-MX"));
-            tv_conexion.setText(format.format(calendarioIrHoy.getTime()));
-            prefs.edit().putString("ACTUALIZACION", format.format(calendarioIrHoy.getTime())).apply();
-            new eventoEnCalendario().execute();
-        }
     }
 
     private void setListenners() {
@@ -961,71 +717,6 @@ public class PrincipalB extends AppCompatActivity {
             lista_cajas_mes[x].setVisibility(View.GONE);
         }
 
-    }
-
-    private class eventoEnCalendario extends AsyncTask<Void, Object, Void> {
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            for (int x = 1; x <= calendarioActualizarDiasMes.getActualMaximum(Calendar.DAY_OF_MONTH); x++) {
-                String n = "";
-                try {
-                    for (String ev : eventos[dia_inicial_del_mes - 1 + x].split("¦")) {
-                        if (!ev.equals("") && filtro(ev.split("::")[4].trim().replaceAll("[^0-9]+", ""), ev.split("::")[13].trim())) {
-                            n += ev + "¦";
-                        }
-                    }
-                    String ev[] = n.split("¦");
-                    publishProgress(ev, x);
-                } catch (Exception ignored) {
-                    String ev[] = n.split("¦");
-                    publishProgress(ev, x);
-                }
-
-            }
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Object... values) {
-            String eventos[] = (String[]) values[0];
-            int x = (int) values[1];
-            lista_cajas_mes[x - 1 + diasemana].setTag((dia_inicial_del_mes - 1 + x));
-            try {
-                if (eventos.length > 1 || (eventos.length == 1 && !eventos[0].equals(""))) {
-                    lista_info1[x - 1 + diasemana].setVisibility(View.VISIBLE);
-                    lista_info1[x - 1 + diasemana].setText(getNombreAula(eventos[0].split("::")[17].trim()));
-                    lista_info1[x - 1 + diasemana].setBackgroundResource(getFondo(eventos[0].split("::")[4].trim().replaceAll("[^0-9]+", ""), eventos[0].split("::")[13].trim(), eventos[0].split("::")[3].trim()));
-                    if (eventos.length >= 2) {
-                        lista_info2[x - 1 + diasemana].setVisibility(View.VISIBLE);
-                        lista_info2[x - 1 + diasemana].setText(getNombreAula(eventos[1].split("::")[17].trim()));
-                        lista_info2[x - 1 + diasemana].setBackgroundResource(getFondo(eventos[1].split("::")[4].trim().replaceAll("[^0-9]+", ""), eventos[1].split("::")[13].trim(), eventos[1].split("::")[3].trim()));
-                        if (eventos.length >= 3) {
-                            lista_info3[x - 1 + diasemana].setVisibility(View.VISIBLE);
-                            lista_info3[x - 1 + diasemana].setText("" + (eventos.length - 2) + " más");
-                        } else {
-                            lista_info3[x - 1 + diasemana].setVisibility(View.INVISIBLE);
-                        }
-                    } else {
-                        lista_info2[x - 1 + diasemana].setVisibility(View.INVISIBLE);
-                        lista_info3[x - 1 + diasemana].setVisibility(View.INVISIBLE);
-                    }
-                } else {
-                    lista_info1[x - 1 + diasemana].setVisibility(View.INVISIBLE);
-                    lista_info2[x - 1 + diasemana].setVisibility(View.INVISIBLE);
-                    lista_info3[x - 1 + diasemana].setVisibility(View.INVISIBLE);
-                }
-
-            } catch (Exception ignored) {
-            }
-
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            proteccion.setVisibility(View.GONE);
-        }
     }
 
     private Integer obtenerDiaSemana(int i) {
@@ -1278,7 +969,6 @@ public class PrincipalB extends AppCompatActivity {
         return bitmap;
     }
 
-    @OnClick(R.id.fab)
     public void fabClick() {
         Intent intent = new Intent(this, RegistrarEventoB.class);
         intent.putExtra("DONDE", "PRINCIPAL");
@@ -1331,35 +1021,30 @@ public class PrincipalB extends AppCompatActivity {
                     }
                 });
 
-                buscar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!autoCompleteTextView.getText().toString().equals("")) {
-                            InputMethodManager inputManager = (InputMethodManager)
-                                    getSystemService(Context.INPUT_METHOD_SERVICE);
-                            inputManager.toggleSoftInput(0, 0);
-                            conte_buscar.setVisibility(View.INVISIBLE);
-                            buscar(autoCompleteTextView.getText().toString());
-                            autoCompleteTextView.setText("");
-                        }
+                buscar.setOnClickListener(v -> {
+                    if (!autoCompleteTextView.getText().toString().equals("")) {
+                        InputMethodManager inputManager = (InputMethodManager)
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.toggleSoftInput(0, 0);
+                        conte_buscar.setVisibility(View.INVISIBLE);
+                        buscar(autoCompleteTextView.getText().toString());
+                        autoCompleteTextView.setText("");
                     }
                 });
 
-                autoCompleteTextView.setOnKeyListener(new View.OnKeyListener() {
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        // If the event is a key-down event on the "enter" button
-                        if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                                (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                            InputMethodManager inputManager = (InputMethodManager)
-                                    getSystemService(Context.INPUT_METHOD_SERVICE);
-                            inputManager.toggleSoftInput(0, 0);
-                            conte_buscar.setVisibility(View.INVISIBLE);
-                            buscar(autoCompleteTextView.getText().toString());
-                            autoCompleteTextView.setText("");
-                            return true;
-                        }
-                        return false;
+                autoCompleteTextView.setOnKeyListener((v, keyCode, event) -> {
+                    // If the event is a key-down event on the "enter" button
+                    if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                            (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                        InputMethodManager inputManager = (InputMethodManager)
+                                getSystemService(Context.INPUT_METHOD_SERVICE);
+                        inputManager.toggleSoftInput(0, 0);
+                        conte_buscar.setVisibility(View.INVISIBLE);
+                        buscar(autoCompleteTextView.getText().toString());
+                        autoCompleteTextView.setText("");
+                        return true;
                     }
+                    return false;
                 });
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1520,6 +1205,291 @@ public class PrincipalB extends AppCompatActivity {
                 break;
         }
         return st_aulas;
+    }
+
+    private class DescargarUD extends AsyncTask<Object, Void, String> {
+
+        @Override
+        protected String doInBackground(Object... params) {
+            try {
+                return loadFromNetwork(params[0].toString());
+            } catch (IOException e) {
+                return "Error de conexión";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (!s.equals("Error de conexión")) {
+
+                Log.v("ELIMINAR", "ACTUALIZADO");
+                // ESCRIBIMOS EN EL FOOTER LA HORA DE ACTUALIZACION Y LA GUARDAMOS EN LA BASE DE DATOS PARA DAR REFERENCIA AL USUARIO DE LA ULTIMA VEZ QUE FUE ACTUALIZADA SI SE UTILIZA SIN INTERNET
+                calendarioIrHoy = Calendar.getInstance();
+                SimpleDateFormat format = new SimpleDateFormat("'Actualizado el 'd 'de' MMMM 'del' yyyy 'a las' h:mm a", Locale.forLanguageTag("es-MX"));
+                tv_conexion.setText(format.format(calendarioIrHoy.getTime()));
+                prefs.edit().putString("ACTUALIZACION", format.format(calendarioIrHoy.getTime())).apply();
+
+                if (s.contains("</form>")) {
+                    // MUCHAS VECES LA BASE DE DATOS ES DESCARGADA CON CODIGO HTML QUE NO NECESITOS, POR ESO AQUI LO REEMPLAZAMOS
+                    s = s.split("</form>")[1].trim();
+                }
+
+                if (!s.trim().equals(st_update.trim())) {
+                    st_update = s.trim();
+                    prefs.edit().putString("UPDATE", st_update).apply();
+                    tv_conexion.setText(R.string.st_aplicando_cambios);
+                    Log.v("ELIMINAR", "NUEVOS CAMBIOS DETECTADOS");
+                    // SI LA BASE DE DATOS QUE DESCARGARMOS NO ES IGUAL A LA QUE YA TENEMOS LA SOBREESCRIBIMOS Y DESPUES LLEMANOS NUEVAMENTE LA LISTA DE EVENTOS
+                    new DescargarBD().execute("http://148.202.6.72/aplicacion/datos_belenes.txt", PrincipalB.this);
+
+                }
+            } else {
+                Log.v("ELIMINAR", "DESCARGAR BASE DE DATOS... ERROR DE CONEXION");
+            }
+
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    checkNetworkConnection();
+                }
+            }, 1000);
+        }
+    }
+
+    private class DescargarBD extends AsyncTask<Object, Void, String> {
+
+        @Override
+        protected String doInBackground(Object... objects) {
+            Log.v("ELIMINAR", "DESCARGAR BASE DE DATOS... BACKGROUND");
+            try {
+                return loadFromNetwork(objects[0].toString());
+            } catch (IOException e) {
+                return "Error de conexión";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (!s.equals("Error de conexión")) {
+                if (s.contains("</form>")) {
+                    // MUCHAS VECES LA BASE DE DATOS ES DESCARGADA CON CODIGO HTML QUE NO NECESITOS, POR ESO AQUI LO REEMPLAZAMOS
+                    s = s.split("</form>")[1].trim();
+                }
+
+                st_eventos_guardados = s;
+                prefs.edit().putString("EVENTOS GUARDADOS BELENES", st_eventos_guardados).apply();
+                new LlenarListaEventos().execute();
+            } else {
+                Log.v("ELIMINAR", "DESCARGAR BASE DE DATOS... ERROR DE CONEXION");
+                new DescargarBD().execute("http://148.202.6.72/aplicacion/datos_belenes.txt", PrincipalB.this);
+            }
+        }
+    }
+
+    private class LlenarListaEventos extends AsyncTask<String, String, Void> {
+        String st_eventos_sin_repetir = "";
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            eventos = new String[3660];
+            Arrays.fill(eventos, "");
+            lista_eventos.clear();
+        }
+
+        @Override
+        protected Void doInBackground(String... aa12) {
+            Log.v("BELENES33", "LLENAR LISTA");
+
+            if (!esperar) {
+
+                Log.v("BELENES33", "LLENAR LISTA... NO ESPERAR");
+                // EN OCACIONES LA BASE DE DATOS DESCARGA CODIGO HTML QUE NO NECESITAMOS, LO QUITAMOS AQUI
+                if (st_eventos_guardados.contains("</form>")) {
+                    st_eventos_guardados = st_eventos_guardados.split("</form>")[1].trim();
+                }
+
+                if (st_eventos_guardados.trim().length() > 0) {
+                    for (String eventos_suelto : st_eventos_guardados.trim().split("¦")) {
+
+                        if (!eventos_suelto.trim().equals("")) {
+
+                            if (!titulos.contains(eventos_suelto.trim().split("::")[3].trim())) {
+                                titulos += eventos_suelto.trim().split("::")[3].trim() + "¦";
+                            }
+                            if (!tiposDeEvento.contains(eventos_suelto.trim().split("::")[5].trim())) {
+                                tiposDeEvento += eventos_suelto.trim().split("::")[5].trim() + "¦";
+                            }
+                            if (!nombresSolicitante.contains(eventos_suelto.trim().split("::")[6].trim())) {
+                                nombresSolicitante += eventos_suelto.trim().split("::")[6].trim() + "¦";
+                            }
+                            if (!nombresDependencias.contains(eventos_suelto.trim().split("::")[14].trim())) {
+                                nombresDependencias += eventos_suelto.trim().split("::")[14].trim() + "¦";
+                            }
+                            if (!nombresResponsable.contains(eventos_suelto.trim().split("::")[15].trim())) {
+                                nombresResponsable += eventos_suelto.trim().split("::")[15].trim() + "¦";
+                            }
+
+                            Eventos nuevo_evento = new Eventos(
+                                    // FECHA
+                                    eventos_suelto.split("::")[0].trim().replaceAll("[^0-9]+", ""),
+                                    // HORA INCIAL
+                                    eventos_suelto.split("::")[1].trim().replaceAll("[^0-9]+", ""),
+                                    // HORA FINAL
+                                    eventos_suelto.split("::")[2].trim().replaceAll("[^0-9]+", ""),
+                                    // TITULO
+                                    eventos_suelto.split("::")[3].trim(),
+                                    // AUDITORIO
+                                    eventos_suelto.split("::")[4].trim().replaceAll("[^0-9]+", ""),
+                                    // TIPO DE EVENTO
+                                    eventos_suelto.split("::")[5].trim(),
+                                    // NOMBRE DEL SOLICITANTE
+                                    eventos_suelto.split("::")[6].trim(),
+                                    // EXTRENSION DEL SOLICITANTE
+                                    eventos_suelto.split("::")[7].trim(),
+                                    // STATUS DEL EVENTO
+                                    eventos_suelto.split("::")[8].trim(),
+                                    // QUIEN REGISTRO
+                                    eventos_suelto.split("::")[9].trim(),
+                                    // CUANDO REGISTRO
+                                    eventos_suelto.split("::")[10].trim(),
+                                    // NOTAS
+                                    eventos_suelto.split("::")[11].trim(),
+                                    // ID
+                                    eventos_suelto.split("::")[12].trim().replaceAll("[^0-9]+", ""),
+                                    // TAG
+                                    eventos_suelto.trim(),
+                                    // FONDO
+                                    fondoAuditorio(eventos_suelto.split("::")[4].trim(), eventos_suelto.split("::")[13].trim(), eventos_suelto.split("::")[3].trim()),
+                                    // CLASE
+                                    eventos_suelto.split("::")[13].trim(),
+                                    // DEPEDENCIA
+                                    eventos_suelto.split("::")[14].trim(),
+                                    // NOMBRE DEL RESPONSABLE
+                                    eventos_suelto.split("::")[15].trim(),
+                                    // CELULAR DEL RESPONSABLE
+                                    eventos_suelto.split("::")[16].trim(),
+                                    // AULA
+                                    eventos_suelto.split("::")[17].trim(),
+                                    // NOTAS 2
+                                    eventos_suelto.split("::")[18].trim()
+                            );
+
+                            if (!st_eventos_sin_repetir.contains(nuevo_evento.getTag())) {
+                                lista_eventos.add(nuevo_evento);
+                                eventos[Integer.parseInt(eventos_suelto.split("::")[0].trim().replaceAll("[^0-9]+", ""))] += eventos_suelto + "¦";
+                                if (nuevo_evento.getTag().contains("FBAD")) {
+                                    Log.v("area deportiva", nuevo_evento.aTag());
+                                }
+                                st_eventos_sin_repetir += nuevo_evento.getTag() + "¦";
+                            } else {
+                                Log.v("REPETIDO", nuevo_evento.getTag());
+                            }
+
+
+                            // COMPROBAMOS EL ID DE CADA EVENTO PARA DETERMINAR SI ES MAYOR AL ANTERIOR Y AL FINAL OBTENER EL ID MAS ALTO
+                            if (Integer.parseInt(eventos_suelto.split("::")[12].trim()) > id_prox) {
+                                id_prox = Integer.parseInt(eventos_suelto.split("::")[12].trim());
+                            }
+                        }
+                    }
+
+                    stNuevoId = "" + (id_prox + 1);
+                    if (stNuevoId.length() == 1) {
+                        stNuevoId = "000" + stNuevoId;
+                    } else if (stNuevoId.length() == 2) {
+                        stNuevoId = "00" + stNuevoId;
+                    } else if (stNuevoId.length() == 3) {
+                        stNuevoId = "0" + stNuevoId;
+                    }
+                }
+            } else {
+                Log.v("ELIMINAR", "LLENAR LISTA... ESPERAR");
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        new LlenarListaEventos().execute();
+                    }
+                }, 900);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            // ESCRIBIMOS EN EL FOOTER LA HORA DE ACTUALIZACION Y LA GUARDAMOS EN LA BASE DE DATOS PARA DAR REFERENCIA AL USUARIO DE LA ULTIMA VEZ QUE FUE ACTUALIZADA SI SE UTILIZA SIN INTERNET
+            calendarioIrHoy = Calendar.getInstance();
+            SimpleDateFormat format = new SimpleDateFormat("'Actualizado el 'd 'de' MMMM 'del' yyyy 'a las' h:mm a", Locale.forLanguageTag("es-MX"));
+            tv_conexion.setText(format.format(calendarioIrHoy.getTime()));
+            prefs.edit().putString("ACTUALIZACION", format.format(calendarioIrHoy.getTime())).apply();
+            new eventoEnCalendario().execute();
+        }
+    }
+
+    private class eventoEnCalendario extends AsyncTask<Void, Object, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            for (int x = 1; x <= calendarioActualizarDiasMes.getActualMaximum(Calendar.DAY_OF_MONTH); x++) {
+                String n = "";
+                try {
+                    for (String ev : eventos[dia_inicial_del_mes - 1 + x].split("¦")) {
+                        if (!ev.equals("") && filtro(ev.split("::")[4].trim().replaceAll("[^0-9]+", ""), ev.split("::")[13].trim())) {
+                            n += ev + "¦";
+                        }
+                    }
+                    String ev[] = n.split("¦");
+                    publishProgress(ev, x);
+                } catch (Exception ignored) {
+                    String ev[] = n.split("¦");
+                    publishProgress(ev, x);
+                }
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Object... values) {
+            String eventos[] = (String[]) values[0];
+            int x = (int) values[1];
+            lista_cajas_mes[x - 1 + diasemana].setTag((dia_inicial_del_mes - 1 + x));
+            try {
+                if (eventos.length > 1 || (eventos.length == 1 && !eventos[0].equals(""))) {
+                    lista_info1[x - 1 + diasemana].setVisibility(View.VISIBLE);
+                    lista_info1[x - 1 + diasemana].setText(getNombreAula(eventos[0].split("::")[17].trim()));
+                    lista_info1[x - 1 + diasemana].setBackgroundResource(getFondo(eventos[0].split("::")[4].trim().replaceAll("[^0-9]+", ""), eventos[0].split("::")[13].trim(), eventos[0].split("::")[3].trim()));
+                    if (eventos.length >= 2) {
+                        lista_info2[x - 1 + diasemana].setVisibility(View.VISIBLE);
+                        lista_info2[x - 1 + diasemana].setText(getNombreAula(eventos[1].split("::")[17].trim()));
+                        lista_info2[x - 1 + diasemana].setBackgroundResource(getFondo(eventos[1].split("::")[4].trim().replaceAll("[^0-9]+", ""), eventos[1].split("::")[13].trim(), eventos[1].split("::")[3].trim()));
+                        if (eventos.length >= 3) {
+                            lista_info3[x - 1 + diasemana].setVisibility(View.VISIBLE);
+                            lista_info3[x - 1 + diasemana].setText("" + (eventos.length - 2) + " más");
+                        } else {
+                            lista_info3[x - 1 + diasemana].setVisibility(View.INVISIBLE);
+                        }
+                    } else {
+                        lista_info2[x - 1 + diasemana].setVisibility(View.INVISIBLE);
+                        lista_info3[x - 1 + diasemana].setVisibility(View.INVISIBLE);
+                    }
+                } else {
+                    lista_info1[x - 1 + diasemana].setVisibility(View.INVISIBLE);
+                    lista_info2[x - 1 + diasemana].setVisibility(View.INVISIBLE);
+                    lista_info3[x - 1 + diasemana].setVisibility(View.INVISIBLE);
+                }
+
+            } catch (Exception ignored) {
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            proteccion.setVisibility(View.GONE);
+        }
     }
 
 }

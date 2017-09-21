@@ -13,52 +13,51 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class FechasAdaptador extends RecyclerView.Adapter<FechasAdaptador.FechasViewHolder> {
 
     private List<Fecha> listaFechas;
 
-    private Context mContext;
-    protected ArrayAdapter<String> adapterHoras;
-    private String[] horas = new String[]{
-            "07:00 hrs.", //0
-            "07:30 hrs.", //1
-            "08:00 hrs.", //2
-            "08:30 hrs.", //3
-            "09:00 hrs.", //4
-            "09:30 hrs.", //5
-            "10:00 hrs.", //6
-            "10:30 hrs.", //7
-            "11:00 hrs.", //8
-            "11:30 hrs.", //9
-            "12:00 hrs.", //10
-            "12:30 hrs.", //11
-            "13:00 hrs.", //12
-            "13:30 hrs.", //13
-            "14:00 hrs.", //14
-            "14:30 hrs.", //15
-            "15:00 hrs.", //16
-            "15:30 hrs.", //17
-            "16:00 hrs.", //18
-            "16:30 hrs.", //19
-            "17:00 hrs.", //20
-            "17:30 hrs.", //21
-            "18:00 hrs.", //22
-            "18:30 hrs.", //23
-            "19:00 hrs.", //24
-            "19:30 hrs.", //25
-            "20:00 hrs.", //26
-            "20:30 hrs.", //27
-            "21:00 hrs.", //28
-            "22:30 hrs.", //29
-            "23:00 hrs.", //30
-    };
+    private ArrayAdapter<String> adapterHoras;
 
-    public FechasAdaptador(List<Fecha> fechas, Context context) {
+    FechasAdaptador(List<Fecha> fechas, Context context) {
         this.listaFechas = fechas;
+        String[] horas = new String[]{
+                "07:00 hrs.", //0
+                "07:30 hrs.", //1
+                "08:00 hrs.", //2
+                "08:30 hrs.", //3
+                "09:00 hrs.", //4
+                "09:30 hrs.", //5
+                "10:00 hrs.", //6
+                "10:30 hrs.", //7
+                "11:00 hrs.", //8
+                "11:30 hrs.", //9
+                "12:00 hrs.", //10
+                "12:30 hrs.", //11
+                "13:00 hrs.", //12
+                "13:30 hrs.", //13
+                "14:00 hrs.", //14
+                "14:30 hrs.", //15
+                "15:00 hrs.", //16
+                "15:30 hrs.", //17
+                "16:00 hrs.", //18
+                "16:30 hrs.", //19
+                "17:00 hrs.", //20
+                "17:30 hrs.", //21
+                "18:00 hrs.", //22
+                "18:30 hrs.", //23
+                "19:00 hrs.", //24
+                "19:30 hrs.", //25
+                "20:00 hrs.", //26
+                "20:30 hrs.", //27
+                "21:00 hrs.", //28
+                "22:30 hrs.", //29
+                "23:00 hrs.", //30
+        };
         adapterHoras = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, horas);
-        mContext = context;
     }
 
     @Override
@@ -131,22 +130,7 @@ public class FechasAdaptador extends RecyclerView.Adapter<FechasAdaptador.Fechas
         return listaFechas.size();
     }
 
-    public static class FechasViewHolder extends RecyclerView.ViewHolder{
-        private TextView tv_label_fecha, tv_fecha, tv_label_inicial, tv_label_final;
-        private Spinner sp_inicial, sp_final;
-
-        public FechasViewHolder(View itemView) {
-            super(itemView);
-            tv_label_fecha = (TextView) itemView.findViewById(R.id.label_fecha);
-            tv_label_inicial = (TextView) itemView.findViewById(R.id.tv_hora_inicial_label);
-            tv_label_final = (TextView) itemView.findViewById(R.id.tv_hora_final_label);
-            tv_fecha = (TextView) itemView.findViewById(R.id.tv_fecha);
-            sp_inicial = (Spinner) itemView.findViewById(R.id.sp_hora_inicial);
-            sp_final = (Spinner) itemView.findViewById(R.id.sp_hora_final);
-        }
-    }
-
-    public void removeItemAtPosition(int position) {
+    void removeItemAtPosition(int position) {
 
         // REMOVER PRIMERO LOS CONFLICTOS QUE TENGA LA FECHA QUE SE VA A ELIMINAR
         RegistrarEventoB.listaConflictos.clear();
@@ -159,8 +143,23 @@ public class FechasAdaptador extends RecyclerView.Adapter<FechasAdaptador.Fechas
         Calendar fecha = Calendar.getInstance();
         fecha.set(2016, 0, 1);
         fecha.add(Calendar.DAY_OF_YEAR, (st_fecha) - 1);
-        SimpleDateFormat format = new SimpleDateFormat("c ',' d 'de' MMMM 'del' yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("c ',' d 'de' MMMM 'del' yyyy", Locale.getDefault());
         return format.format(fecha.getTime());
+    }
+
+    static class FechasViewHolder extends RecyclerView.ViewHolder {
+        private TextView tv_label_fecha, tv_fecha, tv_label_inicial, tv_label_final;
+        private Spinner sp_inicial, sp_final;
+
+        FechasViewHolder(View itemView) {
+            super(itemView);
+            tv_label_fecha = itemView.findViewById(R.id.label_fecha);
+            tv_label_inicial = itemView.findViewById(R.id.tv_hora_inicial_label);
+            tv_label_final = itemView.findViewById(R.id.tv_hora_final_label);
+            tv_fecha = itemView.findViewById(R.id.tv_fecha);
+            sp_inicial = itemView.findViewById(R.id.sp_hora_inicial);
+            sp_final = itemView.findViewById(R.id.sp_hora_final);
+        }
     }
 
 }

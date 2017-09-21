@@ -21,9 +21,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Outline;
 import android.graphics.Rect;
@@ -36,7 +34,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.transition.Transition;
 import android.transition.TransitionValues;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
@@ -57,7 +54,6 @@ public class FabTransition extends Transition {
 
     private static final String EXTRA_FAB_COLOR = "EXTRA_FAB_COLOR";
     private static final String EXTRA_FAB_ICON_RES_ID = "EXTRA_FAB_ICON_RES_ID";
-    protected static long DEFAULT_DURATION = 390L;
     private static final String PROP_BOUNDS = "fabTransform:bounds";
     private static final String[] TRANSITION_PROPERTIES = {
             PROP_BOUNDS
@@ -70,52 +66,29 @@ public class FabTransition extends Transition {
         color = fabColor;
         icon = fabIconResId;
         setPathMotion(new GravityArcMotion());
+        long DEFAULT_DURATION = 390L;
         setDuration(DEFAULT_DURATION);
     }
 
-    public FabTransition(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        TypedArray a = null;
-        try {
-            a = context.obtainStyledAttributes(attrs, R.styleable.FabTransition);
-            if (!a.hasValue(R.styleable.FabTransition_fabColor)
-                    || !a.hasValue(R.styleable.FabTransition_fabIcon)) {
-                throw new IllegalArgumentException("Must provide both color & icon.");
-            }
-            color = a.getColor(R.styleable.FabTransition_fabColor, Color.TRANSPARENT);
-            icon = a.getResourceId(R.styleable.FabTransition_fabIcon, 0);
-            setPathMotion(new GravityArcMotion());
-            if (getDuration() < 0) {
-                setDuration(DEFAULT_DURATION);
-            }
-        } finally {
-            if (a != null) {
-                a.recycle();
-            }
-        }
-    }
 
     /**
      * Configure {@code intent} with the extras needed to initialize this transition.
      */
-    public static void addExtras(@NonNull Intent intent, @ColorInt int fabColor,
-                                 @DrawableRes int fabIconResId) {
+    static void addExtras(@NonNull Intent intent, @ColorInt int fabColor,
+                          @DrawableRes int fabIconResId) {
         intent.putExtra(EXTRA_FAB_COLOR, fabColor);
         intent.putExtra(EXTRA_FAB_ICON_RES_ID, fabIconResId);
     }
 
-    public static void setCustomDuration(long duration){
-        DEFAULT_DURATION = duration;
-    }
 
     /**
      * Create a {@link FabTransition} from the supplied {@code activity} extras and set as its
      * shared element enter/return transition.
      */
-    public static boolean setup(@NonNull Activity activity, @Nullable View target) {
+    static void setup(@NonNull Activity activity, @Nullable View target) {
         final Intent intent = activity.getIntent();
         if (!intent.hasExtra(EXTRA_FAB_COLOR) || !intent.hasExtra(EXTRA_FAB_ICON_RES_ID)) {
-            return false;
+            return;
         }
 
         final int color = intent.getIntExtra(EXTRA_FAB_COLOR, Color.TRANSPARENT);
@@ -125,7 +98,6 @@ public class FabTransition extends Transition {
             sharedEnter.addTarget(target);
         }
         activity.getWindow().setSharedElementEnterTransition(sharedEnter);
-        return true;
     }
 
     @Override
@@ -155,7 +127,7 @@ public class FabTransition extends Transition {
     public Animator createAnimator(final ViewGroup sceneRoot,
                                    final TransitionValues startValues,
                                    final TransitionValues endValues) {
-        if (startValues == null || endValues == null)  return null;
+        if (startValues == null || endValues == null) return null;
 
         final Rect startBounds = (Rect) startValues.values.get(PROP_BOUNDS);
         final Rect endBounds = (Rect) endValues.values.get(PROP_BOUNDS);

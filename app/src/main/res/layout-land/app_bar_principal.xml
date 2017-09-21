@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="CUCSH BELENES"
+                android:text="@string/label_cucsh"
                 android:textStyle="bold" />
 
 
@@ -64,7 +64,7 @@
             android:layout_alignTop="@+id/search_view"
             android:padding="14dp"
             android:src="@drawable/ic_find"
-            android:tint="#fff"/>
+            android:tint="#fff" />
 
         <ImageView
             android:id="@+id/menu_cerrar_buscar"
@@ -78,6 +78,7 @@
             android:tint="#fff" />
 
     </RelativeLayout>
+
 
     <include layout="@layout/contenido_principal" />
 

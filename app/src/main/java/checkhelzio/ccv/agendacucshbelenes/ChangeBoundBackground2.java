@@ -47,7 +47,6 @@ public class ChangeBoundBackground2 extends ChangeBounds {
     private final Bitmap endBitmap;
     private final Rect startBounds;
     private final Rect endBounds;
-    private final long duration = 400L;
 
     private ChangeBoundBackground2(Bitmap mStartBitmap, Rect mStartBounds, Bitmap mEndBitmap, Rect mEndBounds) {
         setPathMotion(new GravityArcMotion());
@@ -60,18 +59,18 @@ public class ChangeBoundBackground2 extends ChangeBounds {
     /**
      * Configure {@code intent} with the extras needed to initialize this transition.
      */
-    public static void addExtras(@NonNull Intent intent, Bitmap startBitmap, Rect startBounds) {
+    static void addExtras(@NonNull Intent intent, Bitmap startBitmap, Rect startBounds) {
         intent.putExtra(EXTRA_SHARED_ELEMENT_START_BITMAP, startBitmap);
         intent.putExtra(EXTRA_SHARED_ELEMENT_START_BOUNDS, startBounds);
     }
 
-    public static void setup(@NonNull Activity activity, @Nullable View target, boolean b, Rect endBounds, Bitmap viewBitmap) {
+    static void setup(@NonNull Activity activity, @Nullable View target, Rect endBounds, Bitmap viewBitmap) {
         final Intent intent = activity.getIntent();
         if (intent == null || !intent.hasExtra(EXTRA_SHARED_ELEMENT_START_BITMAP)) return;
 
         final Bitmap startBitmap = activity.getIntent().getParcelableExtra(EXTRA_SHARED_ELEMENT_START_BITMAP);
         final Rect startBounds = activity.getIntent().getParcelableExtra(EXTRA_SHARED_ELEMENT_START_BOUNDS);
-        fromFab = b;
+        fromFab = true;
         final ChangeBoundBackground2 sharedEnter = new ChangeBoundBackground2(startBitmap, startBounds, viewBitmap, endBounds);
         final ChangeBoundBackground2 sharedReturn = new ChangeBoundBackground2(startBitmap, startBounds, viewBitmap, endBounds);
         if (target != null) {
@@ -112,8 +111,9 @@ public class ChangeBoundBackground2 extends ChangeBounds {
         }
 
         final Animator colorFade = ObjectAnimator.ofInt(d, "alpha", fromFab ? 0 : 255);
-        colorFade.setStartDelay(fromFab ? 0 : duration/2);
-        colorFade.setDuration(fromFab ? duration/3 : duration/2);
+        long duration = 400L;
+        colorFade.setStartDelay(fromFab ? 0 : duration / 2);
+        colorFade.setDuration(fromFab ? duration / 3 : duration / 2);
         changeBounds.setDuration(duration);
 
         final AnimatorSet transition = new AnimatorSet();
@@ -125,8 +125,8 @@ public class ChangeBoundBackground2 extends ChangeBounds {
             transition.playTogether(colorFade2);
         } else {
             Animator colorFade2 = ObjectAnimator.ofInt(f, "alpha", 0);
-            colorFade2.setDuration((duration/3) * 2);
-            colorFade2.setStartDelay(duration/3);
+            colorFade2.setDuration((duration / 3) * 2);
+            colorFade2.setStartDelay(duration / 3);
             transition.playTogether(colorFade2);
         }
         transition.setInterpolator(interpolator);

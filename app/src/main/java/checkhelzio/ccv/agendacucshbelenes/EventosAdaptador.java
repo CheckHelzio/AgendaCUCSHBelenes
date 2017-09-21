@@ -15,16 +15,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class EventosAdaptador extends RecyclerView.Adapter<EventosAdaptador.EventosViewHolder> {
 
-    private List<Eventos> eventos;
     private final int ELIMINAR_EVENTO = 4;
+    private List<Eventos> eventos;
     private Context mContext;
 
-    public EventosAdaptador(List<Eventos> eventos, Context context) {
+    EventosAdaptador(List<Eventos> eventos, Context context) {
         this.eventos = eventos;
         mContext = context;
     }
@@ -37,32 +36,30 @@ public class EventosAdaptador extends RecyclerView.Adapter<EventosAdaptador.Even
     }
 
     @Override
-    public void onBindViewHolder(final EventosViewHolder eventosViewHolder , int position) {
+    public void onBindViewHolder(final EventosViewHolder eventosViewHolder, int position) {
         final Eventos evento = eventos.get(position);
         Log.v("EventosAdaptador", evento.getTag());
         eventosViewHolder.titulo_evento.setText(getNombreAula(evento.getAula()));
         eventosViewHolder.nombre_org.setText(evento.getNombreResponsable());
-        eventosViewHolder.auditorio.setText(horasATetxto(Integer.parseInt(evento.getHoraInicial().replaceAll("[^0-9]+",""))) + " - " + horasATetxto(Integer.parseInt(evento.getHoraFinal().replaceAll("[^0-9]+",""))));
+        String horas = horasATetxto(Integer.parseInt(evento.getHoraInicial().replaceAll("[^0-9]+", ""))) + " - " + horasATetxto(Integer.parseInt(evento.getHoraFinal().replaceAll("[^0-9]+", "")));
+        eventosViewHolder.auditorio.setText(horas);
         eventosViewHolder.horario.setText(evento.getTitulo());
         eventosViewHolder.contenedor.setCardBackgroundColor(evento.getFondo());
 
-        eventosViewHolder.contenedor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.v("EventosAdaptador", evento.getTag());
-                Intent intent = new Intent(mContext, DialogInfoEventosHelzio.class);
-                intent.putExtra("EVENTO", evento);
-                intent.putExtra("POSITION", eventosViewHolder.getAdapterPosition());
-                final Rect startBounds = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
-                ChangeBoundBackground2.addExtras(intent, getViewBitmap(view), startBounds);
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, view, "fondo");
-                ((Activity) mContext).startActivityForResult(intent, ELIMINAR_EVENTO, options.toBundle());
-            }
+        eventosViewHolder.contenedor.setOnClickListener(view -> {
+            Log.v("EventosAdaptador", evento.getTag());
+            Intent intent = new Intent(mContext, DialogInfoEventosHelzio.class);
+            intent.putExtra("EVENTO", evento);
+            intent.putExtra("POSITION", eventosViewHolder.getAdapterPosition());
+            final Rect startBounds = new Rect(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+            ChangeBoundBackground2.addExtras(intent, getViewBitmap(view), startBounds);
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext, view, "fondo");
+            ((Activity) mContext).startActivityForResult(intent, ELIMINAR_EVENTO, options.toBundle());
         });
 
     }
 
-    private String getNombreAula(String st_aulas){
+    private String getNombreAula(String st_aulas) {
         switch (st_aulas) {
             case "FBA 17":
                 st_aulas = "Aula Dr. Fernando Pozos Ponce";
@@ -135,9 +132,9 @@ public class EventosAdaptador extends RecyclerView.Adapter<EventosAdaptador.Even
         String am_pm, st_min, st_hora;
 
         int hora = (numero / 2) + 7;
-        if (hora == 12){
+        if (hora == 12) {
             am_pm = " PM";
-        }else if (hora > 12) {
+        } else if (hora > 12) {
             hora = hora - 12;
             am_pm = " PM";
         } else {
@@ -196,57 +193,54 @@ public class EventosAdaptador extends RecyclerView.Adapter<EventosAdaptador.Even
         return eventos.size();
     }
 
-    public static class EventosViewHolder extends RecyclerView.ViewHolder{
-        private TextView titulo_evento, nombre_org, auditorio, horario;
-        private CardView contenedor;
-
-        public EventosViewHolder(View itemView) {
-            super(itemView);
-            titulo_evento = (TextView) itemView.findViewById(R.id.tv_titulo);
-            nombre_org = (TextView) itemView.findViewById(R.id.tv_organizador);
-            auditorio = (TextView) itemView.findViewById(R.id.tv_auditorio);
-            horario = (TextView) itemView.findViewById(R.id.tv_horario);
-            contenedor = (CardView) itemView.findViewById(R.id.boton_eventos);
-        }
-    }
-
-    public void removeItemAtPosition(int position) {
+    void removeItemAtPosition(int position) {
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, eventos.size());
 
     }
 
-    public void addItem(Eventos evento) {
+    void addItem(Eventos evento) {
         eventos.add(evento);
         notifyItemInserted(eventos.size() - 1);
     }
 
-    public void ordenarItems() {
+    void ordenarItems() {
         ordenar();
         notifyDataSetChanged();
     }
 
     private void ordenar() {
-        Collections.sort(eventos, new Comparator<Eventos>() {
-            @Override
-            public int compare(Eventos e1, Eventos e2) {
-                Integer i1 = Integer.parseInt(e1.getFecha().replaceAll("[^0-9]+", ""));
-                Integer i2 = Integer.parseInt(e2.getFecha().replaceAll("[^0-9]+", ""));
-                if (i1.equals(i2)) {
-                    Integer i3 = Integer.parseInt(e1.getHoraInicial());
-                    Integer i4 = Integer.parseInt(e2.getHoraInicial());
-                    if (i3.equals(i4)) {
-                        Integer i5 = Integer.parseInt(e1.getHoraFinal());
-                        Integer i6 = Integer.parseInt(e2.getHoraFinal());
-                        return i5.compareTo(i6);
-                    } else {
-                        return i3.compareTo(i4);
-                    }
+        Collections.sort(eventos, (e1, e2) -> {
+            Integer i1 = Integer.parseInt(e1.getFecha().replaceAll("[^0-9]+", ""));
+            Integer i2 = Integer.parseInt(e2.getFecha().replaceAll("[^0-9]+", ""));
+            if (i1.equals(i2)) {
+                Integer i3 = Integer.parseInt(e1.getHoraInicial());
+                Integer i4 = Integer.parseInt(e2.getHoraInicial());
+                if (i3.equals(i4)) {
+                    Integer i5 = Integer.parseInt(e1.getHoraFinal());
+                    Integer i6 = Integer.parseInt(e2.getHoraFinal());
+                    return i5.compareTo(i6);
                 } else {
-                    return i1.compareTo(i2);
+                    return i3.compareTo(i4);
                 }
+            } else {
+                return i1.compareTo(i2);
             }
         });
+    }
+
+    static class EventosViewHolder extends RecyclerView.ViewHolder {
+        private TextView titulo_evento, nombre_org, auditorio, horario;
+        private CardView contenedor;
+
+        EventosViewHolder(View itemView) {
+            super(itemView);
+            titulo_evento = itemView.findViewById(R.id.tv_titulo);
+            nombre_org = itemView.findViewById(R.id.tv_organizador);
+            auditorio = itemView.findViewById(R.id.tv_auditorio);
+            horario = itemView.findViewById(R.id.tv_horario);
+            contenedor = itemView.findViewById(R.id.boton_eventos);
+        }
     }
 
 }

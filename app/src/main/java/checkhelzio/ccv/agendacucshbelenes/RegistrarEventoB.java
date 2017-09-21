@@ -6,23 +6,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.transition.Slide;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -31,152 +29,94 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.Objects;
 
-import javax.net.ssl.HttpsURLConnection;
+import checkhelzio.ccv.agendacucshbelenes.util.Data;
+import checkhelzio.ccv.agendacucshbelenes.util.GuardarEvento;
+import checkhelzio.ccv.agendacucshbelenes.util.RegistrarUpdate;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class RegistrarEventoB extends AppCompatActivity {
+public class RegistrarEventoB extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Object> {
 
     private final static int INICIAL = 333;
     private final static int AGREGAR = 334;
     private final static int AULAS = 335;
     protected static ArrayList<Conflictos> listaConflictos = new ArrayList<>();
-    private final String auditorio1 = "Edificio A";
-    private final String auditorio2 = "Edificio B";
-    private final String auditorio3 = "Edificio C";
-    private final String auditorio4 = "Edificio D";
-    private final String auditorio5 = "Edificio F1";
-    private final String auditorio6 = "Áreas deportivas";
     protected ArrayList<Fecha> listaFechas = new ArrayList<>();
-    @BindView(R.id.fondo)
-    LinearLayout fondo;
-    @BindView(R.id.ly)
-    RelativeLayout sfondo;
-    @BindView(R.id.color_reveal)
-    View color_reveal;
-    @BindView(R.id.atv_tituto_evento)
-    AutoCompleteTextView atv_titulo_evento;
-    @BindView(R.id.atv_nombre_dependencia)
-    AutoCompleteTextView atv_nombre_dependencia;
-    @BindView(R.id.atv_tipo_evento)
-    AutoCompleteTextView atv_tipo_evento;
-    @BindView(R.id.atv_nombre_sol)
-    AutoCompleteTextView atv_nombre_sol;
-    @BindView(R.id.atv_nombre_resp)
-    AutoCompleteTextView atv_nombre_resp;
-    @BindView(R.id.toolbar_dialog)
-    RelativeLayout full_header;
-    @BindView(R.id.sp_auditorios)
-    Spinner sp_auditorios;
-    @BindView(R.id.tv_repeticion)
-    TextView tv_repeticion;
-    @BindView(R.id.tv_titulo_label)
-    TextView tv_titulo_label;
-    @BindView(R.id.tv_tipo_evento_label)
-    TextView tv_tipo_evento_label;
-    @BindView(R.id.tv_nom_resp_label)
-    TextView tv_nom_resp_label;
-    @BindView(R.id.tv_nom_sol_label)
-    TextView tv_nom_sol_label;
-    @BindView(R.id.tv_contraseña_label)
-    TextView tv_contraseña_label;
-    @BindView(R.id.selectAula)
-    RelativeLayout selectAula;
-    @BindView(R.id.tv_aula)
-    TextView tv_aula;
-    @BindView(R.id.tv_ext_sol_label)
-    TextView tv_ext_sol_label;
-    @BindView(R.id.tv_nombre_dependencia)
-    TextView tv_nombre_dependencia;
-    @BindView(R.id.tv_label_aula)
-    TextView tv_label_aula;
-    @BindView(R.id.tv_no_cel_label)
-    TextView tv_no_cel_label;
-    @BindView(R.id.et_ext_sol)
-    EditText et_ext_sol;
-    @BindView(R.id.et_contraseña)
-    EditText et_contraseña;
-    @BindView(R.id.et_nota)
-    EditText et_nota;
-    @BindView(R.id.et_nota_csg)
-    EditText et_nota_csg;
-    @BindView(R.id.et_cel_resp)
-    EditText et_cel_resp;
-    @BindView(R.id.rv_conflictos)
-    RecyclerView rv_conflictos;
-    @BindView(R.id.rv_fechas)
-    RecyclerView rv_fechas;
-    @BindView(R.id.contenedor_asistencia)
-    RelativeLayout contenedorAsistencia;
-    @BindView(R.id.snackposs)
-    CoordinatorLayout snackposs;
-    @BindView(R.id.conteConflictos)
-    RelativeLayout conteConflictos;
-    @BindView(R.id.tv_guardar_evento)
-    TextView tv_guardar_evento;
-    @BindView(R.id.switch_clase)
-    Switch switch_clase;
-    private int colorFondo;
-    private Handler handler, handler2;
+    private View color_reveal;
+    private AutoCompleteTextView atv_titulo_evento;
+    private AutoCompleteTextView atv_nombre_dependencia;
+    private AutoCompleteTextView atv_tipo_evento;
+    private AutoCompleteTextView atv_nombre_sol;
+    private AutoCompleteTextView atv_nombre_resp;
+    private RelativeLayout full_header;
+    private Spinner sp_auditorios;
+    private TextView tv_tipo_evento_label;
+    private TextView tv_nom_resp_label;
+    private TextView tv_nom_sol_label;
+    private TextView tv_contraseña_label;
+    private RelativeLayout selectAula;
+    private TextView tv_aula;
+    private TextView tv_ext_sol_label;
+    private TextView tv_nombre_dependencia;
+    private TextView tv_label_aula;
+    private TextView tv_no_cel_label;
+    private EditText et_ext_sol;
+    private EditText et_contraseña;
+    private EditText et_nota;
+    private EditText et_nota_csg;
+    private EditText et_cel_resp;
+    private RecyclerView rv_conflictos;
+    private RecyclerView rv_fechas;
+    private RelativeLayout contenedorAsistencia;
+    private CoordinatorLayout snackposs;
+    private RelativeLayout conteConflictos;
+    private Switch switch_clase;
+    private Handler handler;
     private boolean pin_correcto_eliminar = false;
-    private boolean wifiConnected = false;
-    private boolean mobileConnected = false;
     private boolean comprobando = false;
     private Intent i;
     private String AD;
     private String st_quien;
-    private String st_eventos_guardados;
-    private String data;
-    private String st_update;
     private int int_fecha;
-    private Boolean registroCorrecto = false;
-    private int unavez = 0;
     private String st_aulas = "";
     private ArrayList<Eventos> listaDeEventosNuevos;
     private Runnable mRunnable;
+    private Eventos evento;
+    private SharedPreferences prefs;
+    private ArrayList<Eventos> listaEventos;
+
+    public RegistrarEventoB() {
+    }
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         //PONEMOS LAYOT QUE VAMOS A USAR EN ESTA ACTIVITY
         setContentView(R.layout.dialog_registrar_evento);
+        RelativeLayout sfondo = findViewById(R.id.ly);
+        switch_clase = findViewById(R.id.switch_clase);
+        full_header = findViewById(R.id.toolbar_dialog);
+
+        try {
+            evento = getIntent().getParcelableExtra("EVENTO");
+        } catch (Exception ignored) {
+        }
 
         //OCULTAR EL TECLADO PARA QUE NO SE ABRA AL INICIAR LA ACTIVITY
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        //INICIAR EL PLUGIN QUE PERMITE HACER LAS DECLARACIONES MAS RAPIDO
-        ButterKnife.bind(this);
-
-        listaConflictos.clear();
-        listaFechas.clear();
 
         if (getIntent().getStringExtra("DONDE").equals("PRINCIPAL")) {
             //ANIMACION DE FAB A DIALOG
             FabTransition.setup(this, sfondo);
             getWindow().getSharedElementEnterTransition();
-            //listaConflictos.clear();
-            //listaFechas.clear();
         } else {
             i = getIntent();
             //POSPONEMOS LA ANIMACION DE TRANSICION PARA AGREGAR UNA PERSONALIZADA
@@ -189,12 +129,14 @@ public class RegistrarEventoB extends AppCompatActivity {
             slide.excludeTarget(android.R.id.navigationBarBackground, true);
             getWindow().setEnterTransition(slide);
             full_header.setBackgroundColor(fondoAuditorio("1"));
-            //listaConflictos.clear();
-            //listaFechas.clear();
 
             startPostponedEnterTransition();
         }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
         //INICIAMOS TODOS LOS VIEWS QUE VAMOS A UTILIZAR
         iniciarObjetos();
         iniciarDatos();
@@ -202,29 +144,51 @@ public class RegistrarEventoB extends AppCompatActivity {
 
     private void iniciarObjetos() {
 
+        color_reveal = findViewById(R.id.color_reveal);
+        atv_titulo_evento = findViewById(R.id.atv_tituto_evento);
+        atv_nombre_dependencia = findViewById(R.id.atv_nombre_dependencia);
+        atv_tipo_evento = findViewById(R.id.atv_tipo_evento);
+        atv_nombre_sol = findViewById(R.id.atv_nombre_sol);
+        atv_nombre_resp = findViewById(R.id.atv_nombre_resp);
+        sp_auditorios = findViewById(R.id.sp_auditorios);
+        TextView tv_repeticion = findViewById(R.id.tv_repeticion);
+        tv_tipo_evento_label = findViewById(R.id.tv_tipo_evento_label);
+        tv_nom_resp_label = findViewById(R.id.tv_nom_resp_label);
+        tv_nom_sol_label = findViewById(R.id.tv_nom_sol_label);
+        tv_contraseña_label = findViewById(R.id.tv_contraseña_label);
+        selectAula = findViewById(R.id.selectAula);
+        tv_aula = findViewById(R.id.tv_aula);
+        tv_ext_sol_label = findViewById(R.id.tv_ext_sol_label);
+        tv_nombre_dependencia = findViewById(R.id.tv_nombre_dependencia);
+        tv_label_aula = findViewById(R.id.tv_label_aula);
+        tv_no_cel_label = findViewById(R.id.tv_no_cel_label);
+        et_ext_sol = findViewById(R.id.et_ext_sol);
+        et_contraseña = findViewById(R.id.et_contraseña);
+        et_nota = findViewById(R.id.et_nota);
+        et_nota_csg = findViewById(R.id.et_nota_csg);
+        et_cel_resp = findViewById(R.id.et_cel_resp);
+        rv_conflictos = findViewById(R.id.rv_conflictos);
+        rv_fechas = findViewById(R.id.rv_fechas);
+        contenedorAsistencia = findViewById(R.id.contenedor_asistencia);
+        snackposs = findViewById(R.id.snackposs);
+        conteConflictos = findViewById(R.id.conteConflictos);
+        TextView tv_guardar_evento = findViewById(R.id.tv_guardar_evento);
+
+        tv_guardar_evento.setOnClickListener(view -> registrarEvento());
+        tv_repeticion.setOnClickListener(v -> abrirDialogAgregarFechas());
+
         // CREAMOS UN HANDLER PARA TAREAS CON TIEMPO DE RETRASO
         handler = new Handler();
-        handler2 = new Handler();
-        mRunnable = new Runnable() {
-            public void run() {
-                comprobarHoras();
-            }
-        };
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        listaConflictos.clear();
-        listaFechas.clear();
-        comprobando = false;
+        mRunnable = this::comprobarHoras;
     }
 
     private void iniciarDatos() {
-        
+        prefs = getSharedPreferences(getString(R.string.prefs_name), Context.MODE_PRIVATE);
         contenedorAsistencia.setVisibility(View.GONE);
 
-        // TITULO DEL EVENTO
+        listaEventos = Data.getListaEventos(RegistrarEventoB.this);
+
+        // CONFIGURAR TEXT WATCHERS
         atv_titulo_evento.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -245,61 +209,6 @@ public class RegistrarEventoB extends AppCompatActivity {
                 }
             }
         });
-
-        // DESPUES DE PONER EL TITULO INICIAMOS EL AUTOCOMPLETAR PARA EL NOMBRE DEL EVENTO PARA QUE NOS SALGA LA LISTA DE EVENTOS
-        ArrayAdapter<String> nombresEAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, PrincipalB.titulos.split("¦"));
-        atv_titulo_evento.setAdapter(nombresEAdapter);
-
-        // CONFIGURAR SPINER PARA SELECCIONAR EL EDIFICIO
-        String[] items = new String[]{auditorio1, auditorio2, auditorio3, auditorio4, auditorio5, auditorio6};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        sp_auditorios.setAdapter(adapter);
-        sp_auditorios.setSelection(0);
-        sp_auditorios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                if (!comprobando) {
-                    comprobando = true;
-                    comprobarHoras();
-                }
-
-                if (i == 1) {
-                    tv_aula.setText("FBB 1");
-                    st_aulas = "FBB 1";
-                    tv_label_aula.setTextColor(Color.parseColor("#121212"));
-                    selectAula.setClickable(false);
-                }else if (i == 4) {
-                    tv_aula.setText("FBF 1");
-                    st_aulas = "FBF 1";
-                    tv_label_aula.setTextColor(Color.parseColor("#121212"));
-                    selectAula.setClickable(false);
-                } else {
-                    tv_label_aula.setTextColor(Color.RED);
-                    tv_aula.setText("Selecciona el aula del evento");
-                    st_aulas = "";
-                    selectAula.setClickable(true);
-                }
-
-                //CONFIGURAR EL COLOR DEL HEADER SEGUN EL AUDITORIO SELECCIOANDO
-                colorReveal(fondoAuditorio((i + 1) + ""));
-                AD = "" + (i + 1);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        // TIPO DE EVENTO
-        tv_tipo_evento_label.setTextColor(Color.RED);
-
-        // INICIAMOS EL AUTOCOMPLETAR DE TIPOS DE EVENTO Y COLOCAMOS EL TIPO DE EVENTO CORRESPONDIENTE
-        ArrayAdapter<String> tiposEventoAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, PrincipalB.tiposDeEvento.split("¦"));
-        atv_tipo_evento.setAdapter(tiposEventoAdapter);
         atv_tipo_evento.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -326,20 +235,6 @@ public class RegistrarEventoB extends AppCompatActivity {
                 }
             }
         });
-
-        // COLOCAMOS COMO FECHA INICIAL LA FECHA DEL DIA DEL EVENTO
-        int_fecha = getIntent().getIntExtra("DIA_AÑO", -1);
-
-        // CONFIGURAR LA PRIMER FECHA EN LA LISTA DE FECHAS
-        if (int_fecha != -1) {
-            listaFechas.add(new Fecha(int_fecha, 0, 2));
-        }
-
-        // DEPENDENCIAS
-        ArrayAdapter<String> dependenciasAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, PrincipalB.nombresDependencias.split("¦"));
-        atv_nombre_dependencia.setAdapter(dependenciasAdapter);
-        tv_nombre_dependencia.setTextColor(Color.RED);
         atv_nombre_dependencia.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -366,12 +261,6 @@ public class RegistrarEventoB extends AppCompatActivity {
                 }
             }
         });
-
-        // CONFIGURAR AUTOCOMPLETAR PARA EL NOMBRE DEL SOLICITANTE
-        ArrayAdapter<String> nombresSolicitanteAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, PrincipalB.nombresSolicitante.split("¦"));
-        atv_nombre_sol.setAdapter(nombresSolicitanteAdapter);
-        tv_nom_sol_label.setTextColor(Color.RED);
         atv_nombre_sol.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -398,35 +287,6 @@ public class RegistrarEventoB extends AppCompatActivity {
                 }
             }
         });
-
-        // EXTENSION DEL SOLICITANTE
-        tv_ext_sol_label.setTextColor(Color.RED);
-        et_ext_sol.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (et_ext_sol.getText().toString().trim().length() == 0) {
-                    tv_ext_sol_label.setTextColor(Color.RED);
-                } else {
-                    tv_ext_sol_label.setTextColor(Color.parseColor("#121212"));
-                }
-            }
-        });
-
-        // NOMBRE DEL RESPONSABLE
-        ArrayAdapter<String> nombresRespAdapter =
-                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, PrincipalB.nombresResponsable.split("¦"));
-        atv_nombre_resp.setAdapter(nombresRespAdapter);
-        tv_nom_resp_label.setTextColor(Color.RED);
         atv_nombre_resp.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -453,9 +313,26 @@ public class RegistrarEventoB extends AppCompatActivity {
                 }
             }
         });
+        et_ext_sol.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        // NUMERO CELULAR DEL RESPONSABLE
-        tv_no_cel_label.setTextColor(Color.RED);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (et_ext_sol.getText().toString().trim().length() == 0) {
+                    tv_ext_sol_label.setTextColor(Color.RED);
+                } else {
+                    tv_ext_sol_label.setTextColor(Color.parseColor("#121212"));
+                }
+            }
+        });
         et_cel_resp.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -476,8 +353,6 @@ public class RegistrarEventoB extends AppCompatActivity {
                 }
             }
         });
-
-        // NOTA CTA
         et_nota.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -498,8 +373,6 @@ public class RegistrarEventoB extends AppCompatActivity {
                 }
             }
         });
-
-        // NOTA CSG
         et_nota_csg.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -520,9 +393,6 @@ public class RegistrarEventoB extends AppCompatActivity {
                 }
             }
         });
-
-        // CONFIGURAMOS EL EDIT TEXT DE LA CONTRASEÑA
-        tv_contraseña_label.setTextColor(Color.RED);
         et_contraseña.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -561,6 +431,108 @@ public class RegistrarEventoB extends AppCompatActivity {
             }
         });
 
+        String titulos = prefs.getString(getString(R.string.prefs_titulos), "");
+        String tipos_de_evento = prefs.getString(getString(R.string.prefs_tipos_evento), "");
+        String nombresDependencias = prefs.getString(getString(R.string.prefs_nombres_dependencias), "");
+        String nombresSolicitantes = prefs.getString(getString(R.string.prefs_nombres_solicitante), "");
+        String nombresResponsables = prefs.getString(getString(R.string.prefs_nombres_responsables), "");
+
+        // DESPUES DE PONER EL TITULO INICIAMOS EL AUTOCOMPLETAR PARA EL NOMBRE DEL EVENTO PARA QUE NOS SALGA LA LISTA DE EVENTOS
+        ArrayAdapter<String> nombresEAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, titulos.split("¦"));
+        atv_titulo_evento.setAdapter(nombresEAdapter);
+
+        // CONFIGURAR SPINER PARA SELECCIONAR EL EDIFICIO
+        String auditorio1 = "Edificio A";
+        String auditorio2 = "Edificio B";
+        String auditorio3 = "Edificio C";
+        String auditorio4 = "Edificio D";
+        String auditorio5 = "Edificio F1";
+        String auditorio6 = "Áreas deportivas";
+        String[] items = new String[]{auditorio1, auditorio2, auditorio3, auditorio4, auditorio5, auditorio6};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        sp_auditorios.setAdapter(adapter);
+        sp_auditorios.setSelection(0);
+        sp_auditorios.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if (!comprobando) {
+                    comprobando = true;
+                    comprobarHoras();
+                }
+
+                if (i == 1) {
+                    tv_aula.setText(R.string.fbb1);
+                    st_aulas = "FBB 1";
+                    tv_label_aula.setTextColor(Color.parseColor("#121212"));
+                    selectAula.setClickable(false);
+                } else if (i == 4) {
+                    tv_aula.setText(R.string.fbf1);
+                    st_aulas = "FBF 1";
+                    tv_label_aula.setTextColor(Color.parseColor("#121212"));
+                    selectAula.setClickable(false);
+                } else {
+                    tv_label_aula.setTextColor(Color.RED);
+                    tv_aula.setText(getString(R.string.selecciona_aula));
+                    st_aulas = "";
+                    selectAula.setClickable(true);
+                }
+
+                //CONFIGURAR EL COLOR DEL HEADER SEGUN EL AUDITORIO SELECCIOANDO
+                colorReveal(fondoAuditorio((i + 1) + ""));
+                AD = "" + (i + 1);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        // TIPO DE EVENTO
+        tv_tipo_evento_label.setTextColor(Color.RED);
+
+        // INICIAMOS EL AUTOCOMPLETAR DE TIPOS DE EVENTO Y COLOCAMOS EL TIPO DE EVENTO CORRESPONDIENTE
+        ArrayAdapter<String> tiposEventoAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tipos_de_evento.split("¦"));
+        atv_tipo_evento.setAdapter(tiposEventoAdapter);
+
+        // COLOCAMOS COMO FECHA INICIAL LA FECHA DEL DIA DEL EVENTO
+        int_fecha = getIntent().getIntExtra("DIA_AÑO", -1);
+
+        // CONFIGURAR LA PRIMER FECHA EN LA LISTA DE FECHAS
+        if (int_fecha != -1) {
+            listaFechas.add(new Fecha(int_fecha, 0, 2));
+        }
+
+        // DEPENDENCIAS
+        ArrayAdapter<String> dependenciasAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nombresDependencias.split("¦"));
+        atv_nombre_dependencia.setAdapter(dependenciasAdapter);
+        tv_nombre_dependencia.setTextColor(Color.RED);
+
+        // CONFIGURAR AUTOCOMPLETAR PARA EL NOMBRE DEL SOLICITANTE
+        ArrayAdapter<String> nombresSolicitanteAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nombresSolicitantes.split("¦"));
+        atv_nombre_sol.setAdapter(nombresSolicitanteAdapter);
+        tv_nom_sol_label.setTextColor(Color.RED);
+
+        // EXTENSION DEL SOLICITANTE
+        tv_ext_sol_label.setTextColor(Color.RED);
+
+        // NOMBRE DEL RESPONSABLE
+        ArrayAdapter<String> nombresRespAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nombresResponsables.split("¦"));
+        atv_nombre_resp.setAdapter(nombresRespAdapter);
+        tv_nom_resp_label.setTextColor(Color.RED);
+
+        // NUMERO CELULAR DEL RESPONSABLE
+        tv_no_cel_label.setTextColor(Color.RED);
+
+        // CONFIGURAMOS EL EDIT TEXT DE LA CONTRASEÑA
+        tv_contraseña_label.setTextColor(Color.RED);
+
         // CONFIGURAR EL RECYCLER EL SWIPE TO DISMISS DE LAS FECHAS
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         rv_fechas.setLayoutManager(mLayoutManager);
@@ -576,11 +548,9 @@ public class RegistrarEventoB extends AppCompatActivity {
         rv_conflictos.setLayoutManager(mLayoutManager2);
         ConflictosAdaptador conflictosAdaptador = new ConflictosAdaptador(listaConflictos, RegistrarEventoB.this);
         rv_conflictos.setAdapter(conflictosAdaptador);
-
     }
 
     private void comprobarHoras() {
-
         int x = 0;
         // SI HAY MAS DE UNA FECHA DE REGISTRO
         if (listaFechas.size() > 1) {
@@ -739,9 +709,6 @@ public class RegistrarEventoB extends AppCompatActivity {
         c.set(2016, 0, 1);
         c.set(Calendar.DAY_OF_YEAR, f.getDia());
 
-        // HORA Y FECHA ACTUAL
-        Calendar c2 = Calendar.getInstance();
-
         // COMPROBAR PRIMERO SI SE ESTA INTENTANDO REGISTRAR UN EVENTO A LAS 9:00 PM O MAS TARDE
         if (f.getHoraInicial() > 27) {
             agregarConflictoV(new Conflictos(n, 0, "V"));
@@ -749,46 +716,44 @@ public class RegistrarEventoB extends AppCompatActivity {
 
             // NO PUEDE HABER CONFLICTOS QUE V PUES AQUELLOS SON CUANDO LOS EVENTOS INICIAN 8:30 O MAS TARDE
             quitarConflictosV(n);
-            comprobarCupo(f, 0);
+            comprobarCupo(f);
         }
     }
 
-    private void comprobarCupo(Fecha f, int n) {
+    private void comprobarCupo(Fecha f) {
 
-        for (Eventos e : PrincipalB.lista_eventos) {
+        for (Eventos e : listaEventos) {
 
             if (Integer.parseInt(e.getFecha()) == f.getDia() && e.getAuditorio().equals(AD)) {
 
                 if (e.getAula().equals(st_aulas)) {
-                    comprobarCupos2(f, n, e);
+                    comprobarCupos2(f, e);
                 } else {
                     if (st_aulas.equals("FBC 21") && (e.getAula().equals("FBC 21 N") || e.getAula().equals("FBC 21 S"))) {
-                        comprobarCupos2(f, n, e);
+                        comprobarCupos2(f, e);
                     } else if ((st_aulas.equals("FBC 21 N") || st_aulas.equals("FBC 21 S")) && e.getAula().equals("FBC 21")) {
-                        comprobarCupos2(f, n, e);
+                        comprobarCupos2(f, e);
                     } else if (st_aulas.equals("FBC 22") && (e.getAula().equals("FBC 22 N") || e.getAula().equals("FBC 22 S"))) {
-                        comprobarCupos2(f, n, e);
+                        comprobarCupos2(f, e);
                     } else if ((st_aulas.equals("FBC 22 N") || st_aulas.equals("FBC 22 S")) && e.getAula().equals("FBC 22")) {
-                        comprobarCupos2(f, n, e);
+                        comprobarCupos2(f, e);
                     } else {
-                        quitarConflictosE(n, e);
+                        quitarConflictosE(e);
                     }
                 }
 
             } else {
-                quitarConflictosE(n, e);
+                quitarConflictosE(e);
             }
 
         }
     }
 
-    private boolean comprobarCupos2(Fecha f, int n, Eventos e) {
-        boolean break_loop = false;
+    private void comprobarCupos2(Fecha f, Eventos e) {
         // EL EVENTO NO COMIENZA POR LO MENOS CON UNA HORA DE DIFERENCIA CON EL PROXIMO
         // LA HORA INICIAL DEL EVENTO ESTA JUSTO EN MEDIO DEL HORARIO DE OTRO
         if (f.getHoraInicial() > (Integer.valueOf(e.getHoraInicial()) - 2) && f.getHoraInicial() < Integer.valueOf(e.getHoraFinal())) {
-            agregarConflictoE(new Conflictos(n, e, fondoErrores(e.getAuditorio(), e.getClase()), "E"));
-            break_loop = true;
+            agregarConflictoE(new Conflictos(0, e, fondoErrores(e.getAuditorio(), e.getClase()), "E"));
         }
 
         // LA HORA INICIAL DEL EVENTO ES POR LO MENOS UNA HORA ANTES QUE EL PROX EVENTO
@@ -796,24 +761,13 @@ public class RegistrarEventoB extends AppCompatActivity {
 
             // EL EVENTO FINALIZA DENTRO DEL HORARIO DEL PROXIMO O EL HORARIO ES TAN EXTENSO QUE CABE UN EVENTO DENTRO
             if (f.getHoraFinal() > Integer.valueOf(e.getHoraInicial())) {
-                agregarConflictoE(new Conflictos(n, e));
-                break_loop = true;
+                agregarConflictoE(new Conflictos(0, e));
             } else {
-                quitarConflictosE(n, e);
+                quitarConflictosE(e);
             }
         } else {
-            quitarConflictosE(n, e);
+            quitarConflictosE(e);
         }
-        return break_loop;
-    }
-
-    private int horaASpinner(int i, int i1) {
-        i = i - 7;
-        i = i * 2;
-        if (i1 >= 30) {
-            i++;
-        }
-        return i - 24;
     }
 
     private void agregarConflictoV(Conflictos conflicto) {
@@ -845,36 +799,11 @@ public class RegistrarEventoB extends AppCompatActivity {
         }
     }
 
-    private void agregarConflictoV1(Conflictos conflicto) {
-        boolean agregar = true;
-        for (Conflictos c : listaConflictos) {
-            if (conflicto.getNum_fecha() == c.getNum_fecha() && conflicto.getTipo().equals("V1")) {
-                agregar = false;
-                break;
-            }
-        }
-
-        if (agregar) {
-            listaConflictos.add(conflicto);
-            rv_conflictos.getAdapter().notifyDataSetChanged();
-        }
-    }
-
-    private void quitarConflictosV1(int xx) {
-        int x = 0;
-        for (Conflictos c : listaConflictos) {
-            if (c.getNum_fecha() == xx && c.getTipo().equals("V1")) {
-                listaConflictos.remove(x);
-                rv_conflictos.getAdapter().notifyDataSetChanged();
-            }
-        }
-    }
-
-    private void quitarConflictosE(int xx, Eventos ee) {
+    private void quitarConflictosE(Eventos ee) {
         try {
             int x = 0;
             for (Conflictos c : listaConflictos) {
-                if (c.getNum_fecha() == xx && c.getQueEvento() == ee) {
+                if (c.getNum_fecha() == 0 && c.getQueEvento() == ee) {
                     listaConflictos.remove(x);
                     rv_conflictos.getAdapter().notifyDataSetChanged();
                 }
@@ -994,7 +923,6 @@ public class RegistrarEventoB extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.iv_cerrar_dialog)
     public void cerrar(View view) {
         listaConflictos.clear();
         listaFechas.clear();
@@ -1048,7 +976,6 @@ public class RegistrarEventoB extends AppCompatActivity {
                 }
                 break;
         }
-        colorFondo = st;
         return st;
     }
 
@@ -1098,12 +1025,10 @@ public class RegistrarEventoB extends AppCompatActivity {
                 }
                 break;
         }
-        colorFondo = st;
         return st;
     }
 
-    @OnClick(R.id.tv_repeticion)
-    public void AbrirDialogAgregarFechas() {
+    public void abrirDialogAgregarFechas() {
         if (listaConflictos.size() > 0) {
             Snackbar.make(snackposs, "Antes de agregar más fechas para el evento soluciona los problemas de cupo.", Snackbar.LENGTH_LONG).show();
         } else {
@@ -1114,7 +1039,6 @@ public class RegistrarEventoB extends AppCompatActivity {
         }
     }
 
-    @OnClick(R.id.tv_guardar_evento)
     public void registrarEvento() {
         if (listaConflictos.size() > 0) {
             Snackbar.make(snackposs, "Antes de registrar el evento soluciona los problemas de cupo.", Snackbar.LENGTH_LONG).show();
@@ -1139,26 +1063,29 @@ public class RegistrarEventoB extends AppCompatActivity {
         } else if (!pin_correcto_eliminar) {
             Snackbar.make(snackposs, "Ingresa una contraseña valida para registrar el evento.", Snackbar.LENGTH_LONG).show();
         } else {
-            // revisa si hay conexcion a internet
-            checkNetworkConnection();
-        }
-    }
-
-    private void checkNetworkConnection() {
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeInfo = connMgr.getActiveNetworkInfo();
-        if (activeInfo != null && activeInfo.isConnected()) {
-            wifiConnected = activeInfo.getType() == ConnectivityManager.TYPE_WIFI;
-            mobileConnected = activeInfo.getType() == ConnectivityManager.TYPE_MOBILE;
-            if (wifiConnected) {
-                tv_guardar_evento.setEnabled(false);
-                new GuardarEvento().execute();
-            } else if (mobileConnected) {
-                tv_guardar_evento.setEnabled(false);
-                new GuardarEvento().execute();
-            }
-        } else {
-            Snackbar.make(snackposs, "Hay un problema con la conexión a la base de datos. Verifica tu conexión a internet.", Snackbar.LENGTH_LONG).show();
+            // Todos los datos son correctos... registrar el evento
+            Bundle bundle = new Bundle();
+            bundle.putString("TITULO", atv_titulo_evento.getText().toString().trim());
+            bundle.putString("AUDITORIO", "" + (sp_auditorios.getSelectedItemPosition() + 1));
+            bundle.putString("TIPO DE EVENTO", atv_tipo_evento.getText().toString().trim());
+            bundle.putString("NOMBRE DEL SOLICITANTE", atv_nombre_sol.getText().toString().trim());
+            bundle.putString("EXTRENSION DEL SOLICITANTE", TextUtils.isEmpty(et_ext_sol.getText().toString()) ? "Sin número" : et_ext_sol.getText().toString());
+            bundle.putString("ESTATUS DEL EVENTO", evento == null ? "R" : "E");
+            bundle.putString("QUIEN REGISTRO", st_quien);
+            bundle.putString("NOTA", TextUtils.isEmpty(et_nota.getText().toString()) ? "Sin notas" : et_nota.getText().toString());
+            bundle.putString("NOTA 2", TextUtils.isEmpty(et_nota_csg.getText().toString()) ? "Sin notas" : et_nota_csg.getText().toString());
+            bundle.putString("FONDO", "" + (sp_auditorios.getSelectedItemPosition() + 1));
+            bundle.putString("CLASE", switch_clase.isChecked() ? "C" : "E");
+            bundle.putString("DEPENDENCIA", atv_nombre_dependencia.getText().toString().trim());
+            bundle.putString("NOMBRE DEL RESPONSABLE", atv_nombre_resp.getText().toString().trim());
+            bundle.putString("CELULAR DEL RESPONSABLE", et_cel_resp.getText().toString().trim());
+            bundle.putString("AULA", st_aulas);
+            bundle.putParcelableArrayList("LISTA FECHAS", listaFechas);
+            int folio = prefs.getInt(getString(R.string.prefs_id_prox), 0);
+            bundle.putInt("FOLIO", evento == null ? folio : Integer.parseInt(evento.getId()));
+            bundle.putInt("FECHA DEL DIA", int_fecha);
+            getSupportLoaderManager().initLoader(0, bundle, this);
+            Snackbar.make(snackposs, "Registrando evento, por favor espere...", Snackbar.LENGTH_INDEFINITE).show();
         }
     }
 
@@ -1247,11 +1174,11 @@ public class RegistrarEventoB extends AppCompatActivity {
                         tv_aula.setText(s_modificado);
 
                     } else {
-                        tv_aula.setText("Selecciona el aula del evento");
+                        tv_aula.setText(getString(R.string.selecciona_aula));
                         tv_label_aula.setTextColor(Color.RED);
                     }
                 } else {
-                    tv_aula.setText("Selecciona el aula del evento");
+                    tv_aula.setText(getString(R.string.selecciona_aula));
                     tv_label_aula.setTextColor(Color.RED);
                 }
 
@@ -1277,28 +1204,25 @@ public class RegistrarEventoB extends AppCompatActivity {
                     }
 
                     // LA ORDENAMOS EN ORDEN ASCENDENTE PARA NO TENER DIAS SALTEADOS
-                    Collections.sort(listaFechas, new Comparator<Fecha>() {
-                        @Override
-                        public int compare(Fecha f1, Fecha f2) {
-                            Integer i1 = f1.getDia();
-                            Integer i2 = f2.getDia();
+                    Collections.sort(listaFechas, (f1, f2) -> {
+                        Integer i1 = f1.getDia();
+                        Integer i2 = f2.getDia();
 
-                            if (i1 == i2) {
+                        if (Objects.equals(i1, i2)) {
 
-                                Integer i3 = f1.getHoraInicial();
-                                Integer i4 = f2.getHoraInicial();
-                                if (i3 == i4) {
-                                    Integer i5 = f1.getHoraFinal();
-                                    Integer i6 = f2.getHoraFinal();
-                                    return i5.compareTo(i6);
-                                } else {
-                                    return i3.compareTo(i4);
-                                }
+                            Integer i3 = f1.getHoraInicial();
+                            Integer i4 = f2.getHoraInicial();
+                            if (Objects.equals(i3, i4)) {
+                                Integer i5 = f1.getHoraFinal();
+                                Integer i6 = f2.getHoraFinal();
+                                return i5.compareTo(i6);
                             } else {
-                                return i1.compareTo(i2);
+                                return i3.compareTo(i4);
                             }
-
+                        } else {
+                            return i1.compareTo(i2);
                         }
+
                     });
 
                     rv_fechas.getAdapter().notifyDataSetChanged();
@@ -1346,252 +1270,45 @@ public class RegistrarEventoB extends AppCompatActivity {
         colorReveal(fondoAuditorio("" + (1 + sp_auditorios.getSelectedItemPosition())));
     }
 
-    class GuardarEvento extends AsyncTask<String, String, Void> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            Calendar calendarioRegistro = Calendar.getInstance();
-            SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy'~'h:mm a");
-
-            String st_nota = "Sin notas";
-            if (!et_nota.getText().toString().trim().equals("")) {
-                st_nota = et_nota.getText().toString();
-            }
-
-            String st_notas2 = "Sin notas";
-            if (!et_nota_csg.getText().toString().trim().equals("")) {
-                st_notas2 = et_nota_csg.getText().toString();
-            }
-
-            listaDeEventosNuevos = new ArrayList<>();
-            for (Fecha f : listaFechas) {
-                Eventos nuevoEvento = new Eventos(
-                        // FECHA
-                        "" + f.getDia(),
-                        // HORA INCIAL
-                        "" + f.getHoraInicial(),
-                        // HORA FINAL
-                        "" + f.getHoraFinal(),
-                        // TITULO
-                        atv_titulo_evento.getText().toString().trim(),
-                        // AUDITORIO
-                        "" + (sp_auditorios.getSelectedItemPosition() + 1),
-                        // TIPO DE EVENTO
-                        atv_tipo_evento.getText().toString().trim(),
-                        // NOMBRE DEL ORGANIZADOR
-                        atv_nombre_sol.getText().toString().trim(),
-                        // NUMERO TELEFONICO DEL ORGANIZADOR
-                        et_ext_sol.getText().toString(),
-                        // STATUS DEL EVENTO
-                        "R",
-                        // QUIEN REGISTRO
-                        st_quien,
-                        // CUANDO REGISTRO
-                        format.format(calendarioRegistro.getTime()),
-                        // NOTAS
-                        st_nota,
-                        // ID
-                        PrincipalB.stNuevoId,
-                        // TAG
-                        "",
-                        // FONDO
-                        fondoAuditorio("" + (sp_auditorios.getSelectedItemPosition() + 1)),
-                        switch_clase.isChecked() ? "C" : "E",
-                        atv_nombre_dependencia.getText().toString().trim(),
-                        atv_nombre_resp.getText().toString().trim(),
-                        et_cel_resp.getText().toString().trim(),
-                        st_aulas,
-                        st_notas2
-                );
-                if (f.getDia() == int_fecha) {
-                    listaDeEventosNuevos.add(nuevoEvento);
-                }
-                PrincipalB.lista_eventos.add(nuevoEvento);
-            }
-
-            Collections.sort(PrincipalB.lista_eventos, new Comparator<Eventos>() {
-                @Override
-                public int compare(Eventos e1, Eventos e2) {
-                    Integer i1 = Integer.parseInt(e1.getFecha().replaceAll("[^0-9]+", ""));
-                    Integer i2 = Integer.parseInt(e2.getFecha().replaceAll("[^0-9]+", ""));
-                    Log.v("COMPARADOR", "COMPARAR: " + i1 + " CON: " + i2);
-                    if (i1.equals(i2)) {
-                        Integer i3 = Integer.parseInt(e1.getHoraInicial());
-                        Integer i4 = Integer.parseInt(e2.getHoraInicial());
-
-                        Log.v("COMPARADOR", "COMPARAR: " + i3 + " CON: " + i4);
-                        if (i3.equals(i4)) {
-                            Integer i5 = Integer.parseInt(e1.getHoraFinal());
-                            Integer i6 = Integer.parseInt(e2.getHoraFinal());
-
-                            Log.v("COMPARADOR", "COMPARAR: " + i5 + " CON: " + i6);
-                            Log.v("COMPARADOR", "return: " + i5.compareTo(i6));
-                            return i5.compareTo(i6);
-                        } else {
-                            Log.v("COMPARADOR", "return: " + i3.compareTo(i4));
-                            return i3.compareTo(i4);
-                        }
-                    } else {
-
-                        Log.v("COMPARADOR", "return: " + i1.compareTo(i2));
-                        return i1.compareTo(i2);
-                    }
-                }
-            });
-
-            st_eventos_guardados = "";
-            for (Eventos item : PrincipalB.lista_eventos) {
-                st_eventos_guardados += item.aTag() + "¦";
-            }
-            data = "";
-            registroCorrecto = false;
+    @Override
+    public Loader<Object> onCreateLoader(int id, Bundle args) {
+        switch (id) {
+            case 0:
+                return new GuardarEvento(this, args, evento);
+            case 1:
+                return new RegistrarUpdate(this);
         }
+        return null;
+    }
 
-        @Override
-        protected Void doInBackground(String... aa12) {
-            if (st_eventos_guardados.length() > 333) {
-                try {
-                    URL url = new URL("http://148.202.6.72/aplicacion/datos_belenes.php");
-                    HttpURLConnection aaaaa = (HttpURLConnection) url.openConnection();
-                    aaaaa.setReadTimeout(0);
-                    aaaaa.setConnectTimeout(0);
-                    aaaaa.setRequestMethod("POST");
-                    aaaaa.setDoInput(true);
-                    aaaaa.setDoOutput(true);
-
-                    Uri.Builder builder = new Uri.Builder()
-                            .appendQueryParameter("comentarios", st_eventos_guardados);
-                    String query = builder.build().getEncodedQuery();
-
-                    OutputStream os = aaaaa.getOutputStream();
-                    BufferedWriter writer = new BufferedWriter(
-                            new OutputStreamWriter(os, "UTF-8"));
-                    writer.write(query);
-                    writer.flush();
-                    writer.close();
-                    os.close();
-
-                    aaaaa.connect();
-
-                    int aaaaaaa = aaaaa.getResponseCode();
-                    if (aaaaaaa == HttpsURLConnection.HTTP_OK) {
-                        registroCorrecto = true;
-                        String aaaaaaaa;
-                        BufferedReader br = new BufferedReader(new InputStreamReader(aaaaa.getInputStream(), "UTF-8"));
-                        while ((aaaaaaaa = br.readLine()) != null) {
-                            data += aaaaaaaa;
-                        }
-                    } else {
-                        data = "error code: " + aaaaaaa;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+    @Override
+    public void onLoadFinished(Loader<Object> loader, Object data) {
+        switch (loader.getId()) {
+            case 0:
+                if (data == null) {
+                    Snackbar.make(snackposs, "Hay un problema con la conexión a la base de datos. Verifica tu conexión a internet e intentalo nuevamente", Snackbar.LENGTH_LONG).show();
+                } else {
+                    listaDeEventosNuevos = (ArrayList<Eventos>) data;
+                    getSupportLoaderManager().initLoader(1, null, this);
                 }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (data.contains("error code: ") || !registroCorrecto) {
-                handler2.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        checkNetworkConnection();
-                    }
-                }, 1000);
-            } else {
-                rv_conflictos.setVisibility(View.GONE);
-                //Toast.makeText(RegistrarEventoB.this, "El evento con el ID " + PrincipalB.stNuevoId + " ha sido registrado", Toast.LENGTH_LONG).show();
-                SharedPreferences prefs = getSharedPreferences("EVENTOS CUCSH", Context.MODE_PRIVATE);
-                prefs.edit().putString("EVENTOS GUARDADOS", st_eventos_guardados).apply();
-
-                if (i != null) {
-                    PrincipalB.esperar = true;
+                break;
+            case 1:
+                if (data != null) {
+                    rv_conflictos.setVisibility(View.GONE);
+                    i = getIntent();
                     i.putParcelableArrayListExtra("LISTA", listaDeEventosNuevos);
                     setResult(RESULT_OK, i);
+                    cerrar(null);
+                } else {
+                    Snackbar.make(snackposs, "Hay un problema con la conexión a la base de datos. Verifica tu conexión a internet e intentalo nuevamente.", Snackbar.LENGTH_LONG).show();
                 }
-
-                new GuardarUpdate().execute();
-
-            }
+                break;
         }
     }
 
-    class GuardarUpdate extends AsyncTask<String, String, Void> {
+    @Override
+    public void onLoaderReset(Loader<Object> loader) {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            data = "";
-            Calendar c = Calendar.getInstance();
-            SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yy HH:mm:ss");
-            st_update = format.format(c.getTime());
-        }
-
-        @Override
-        protected Void doInBackground(String... aa12) {
-            if (st_update.length() == 19) {
-                try {
-                    URL url = new URL("http://148.202.6.72/aplicacion/update_belenes.php");
-                    HttpURLConnection aaaaa = (HttpURLConnection) url.openConnection();
-                    aaaaa.setReadTimeout(0);
-                    aaaaa.setConnectTimeout(0);
-                    aaaaa.setRequestMethod("POST");
-                    aaaaa.setDoInput(true);
-                    aaaaa.setDoOutput(true);
-
-                    Uri.Builder builder = new Uri.Builder()
-                            .appendQueryParameter("comentarios", st_update);
-                    String query = builder.build().getEncodedQuery();
-
-                    OutputStream os = aaaaa.getOutputStream();
-                    BufferedWriter writer = new BufferedWriter(
-                            new OutputStreamWriter(os, "UTF-8"));
-                    writer.write(query);
-                    writer.flush();
-                    writer.close();
-                    os.close();
-
-                    aaaaa.connect();
-
-                    int aaaaaaa = aaaaa.getResponseCode();
-                    if (aaaaaaa == HttpsURLConnection.HTTP_OK) {
-                        registroCorrecto = true;
-                        String aaaaaaaa;
-                        BufferedReader br = new BufferedReader(new InputStreamReader(aaaaa.getInputStream(), "UTF-8"));
-                        while ((aaaaaaaa = br.readLine()) != null) {
-                            data += aaaaaaaa;
-                        }
-                    } else {
-                        data = "error code: " + aaaaaaa;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            if (data.contains("error code: ")) {
-                handler2.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        new GuardarUpdate().execute();
-                    }
-                }, 1000);
-            } else {
-
-                cerrar(null);
-            }
-        }
     }
-
 }
 

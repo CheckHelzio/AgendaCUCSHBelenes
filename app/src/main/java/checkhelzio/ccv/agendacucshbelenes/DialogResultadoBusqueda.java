@@ -1,10 +1,13 @@
 package checkhelzio.ccv.agendacucshbelenes;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Slide;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -12,32 +15,28 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class DialogResultadoBusqueda extends Activity {
 
-    @BindView(R.id.fondo)
     RelativeLayout fondo;
-    @BindView(R.id.recycle)
     RecyclerView rvEventos;
-    @BindView(R.id.tv_mensaje_no_evento)
     TextView tv_mensaje_no_eventos;
-    @BindView(R.id.tv_mensaje_con_evento)
     TextView tv_mensaje_con_eventos;
-    @BindView(R.id.tv_num_dia)
-    TextView tv_num_dia;
     private List<Eventos> listaEventos;
-    private  EventosAdaptadorBusqueda adaptador;
+    private EventosAdaptadorBusqueda adaptador;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_lista_eventos_busqueda);
         postponeEnterTransition();
-        ButterKnife.bind(this);
 
-        //rvEventos.setHasFixedSize(true);
+        handler = new Handler();
+        fondo = findViewById(R.id.fondo);
+        rvEventos = findViewById(R.id.recycle);
+        tv_mensaje_no_eventos = findViewById(R.id.tv_mensaje_no_evento);
+        tv_mensaje_con_eventos = findViewById(R.id.tv_mensaje_con_evento);
+
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvEventos.setLayoutManager(mLayoutManager);
 
@@ -56,17 +55,17 @@ public class DialogResultadoBusqueda extends Activity {
         try {
             listaEventos = getIntent().getParcelableArrayListExtra("LISTA_EVENTOS");
 
-            if (listaEventos.size() > 0){
+            if (listaEventos.size() > 0) {
                 tv_mensaje_no_eventos.setVisibility(View.GONE);
                 tv_mensaje_con_eventos.setVisibility(View.GONE);
-            }else {
+            } else {
                 tv_mensaje_con_eventos.setVisibility(View.GONE);
-                tv_mensaje_no_eventos.setText("No hay eventos que coincidan con la busqueda realizada.");
+                tv_mensaje_no_eventos.setText(R.string.no_hay_coincidencias);
                 tv_mensaje_no_eventos.setVisibility(View.VISIBLE);
             }
             iniciarAdaptador();
 
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
 
@@ -85,6 +84,28 @@ public class DialogResultadoBusqueda extends Activity {
 
     public void dismiss(View view) {
         finishAfterTransition();
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        handler.postDelayed(() -> {
+            if (resultCode == RESULT_OK) {
+
+                Log.v("ELIMINAR", "REGRESANDOA  LISTA... RESULTADO OK");
+                listaEventos.remove(data.getIntExtra("POSITION", 0));
+                rvEventos.removeViewAt(data.getIntExtra("POSITION", 0));
+                adaptador.removeItemAtPosition(data.getIntExtra("POSITION", 0));
+            } else if (resultCode == RESULT_FIRST_USER) {
+                listaEventos = data.getParcelableArrayListExtra("LISTA");
+                adaptador = new EventosAdaptadorBusqueda(listaEventos, DialogResultadoBusqueda.this);
+                rvEventos.setAdapter(adaptador);
+                rvEventos.invalidate();
+            }
+
+            Log.v("ELIMINAR", "ESPERANDO = FALSE");
+            PrincipalB.esperar = false;
+        }, 150);
     }
 
 }

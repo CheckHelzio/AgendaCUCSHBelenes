@@ -11,60 +11,40 @@ import android.widget.CheckBox;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-import static android.os.Build.VERSION_CODES.M;
 
 public class DialogAulasA extends Activity {
 
-    @BindView(R.id.fba1)
-    CheckBox fba1;
-    @BindView(R.id.fba2)
-    CheckBox fba2;
-    @BindView(R.id.fba3)
-    CheckBox fba3;
-    @BindView(R.id.fba4)
-    CheckBox fba4;
-    @BindView(R.id.fba5)
-    CheckBox fba5;
-    @BindView(R.id.fba6)
-    CheckBox fba6;
-    @BindView(R.id.fba7)
-    CheckBox fba7;
-    @BindView(R.id.fba8)
-    CheckBox fba8;
-    @BindView(R.id.fba9)
-    CheckBox fba9;
-    @BindView(R.id.fba10)
-    CheckBox fba10;
-    @BindView(R.id.fba11)
-    CheckBox fba11;
-    @BindView(R.id.fba12)
-    CheckBox fba12;
-    @BindView(R.id.fba13)
-    CheckBox fba13;
-    @BindView(R.id.fba14)
-    CheckBox fba14;
-    @BindView(R.id.fba15)
-    CheckBox fba15;
-    @BindView(R.id.fba16)
-    CheckBox fba16;
-    @BindView(R.id.fba17)
-    CheckBox fba17;
 
-    String st_aulas = "";
+
     final ArrayList<CheckBox> lista_checkbox = new ArrayList<>();
+    String st_aulas = "";
+    private CheckBox fba1;
+    private CheckBox fba2;
+    private CheckBox fba3;
+    private CheckBox fba4;
+    private CheckBox fba5;
+    private CheckBox fba6;
+    private CheckBox fba7;
+    private CheckBox fba8;
+    private CheckBox fba9;
+    private CheckBox fba10;
+    private CheckBox fba11;
+    private CheckBox fba12;
+    private CheckBox fba13;
+    private CheckBox fba14;
+    private CheckBox fba15;
+    private CheckBox fba16;
+    private CheckBox fba17;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postponeEnterTransition();
         setContentView(R.layout.dialog_edificio_a);
-        ButterKnife.bind(this);
 
         st_aulas = getIntent().getStringExtra("AULAS");
+
+        findViewById(R.id.tv_guardar_evento).setOnClickListener(this::aceptar);
 
         Slide slide = new Slide(Gravity.BOTTOM);
         slide.setInterpolator(AnimUtils.getLinearOutSlowInInterpolator(DialogAulasA.this));
@@ -73,6 +53,25 @@ public class DialogAulasA extends Activity {
         getWindow().setEnterTransition(slide);
 
         startPostponedEnterTransition();
+
+        fba1 = findViewById(R.id.fba1);
+        fba2 = findViewById(R.id.fba2);
+        fba3 = findViewById(R.id.fba3);
+        fba4 = findViewById(R.id.fba4);
+        fba5 = findViewById(R.id.fba5);
+        fba6 = findViewById(R.id.fba6);
+        fba7 = findViewById(R.id.fba7);
+        fba8 = findViewById(R.id.fba8);
+        fba9 = findViewById(R.id.fba9);
+        fba10 = findViewById(R.id.fba10);
+        fba11 = findViewById(R.id.fba11);
+        fba12 = findViewById(R.id.fba12);
+        fba13 = findViewById(R.id.fba13);
+        fba14 = findViewById(R.id.fba14);
+        fba15 = findViewById(R.id.fba15);
+        fba16 = findViewById(R.id.fba16);
+        fba17 = findViewById(R.id.fba17);
+
         lista_checkbox.add(fba1);
         lista_checkbox.add(fba2);
         lista_checkbox.add(fba3);
@@ -98,7 +97,6 @@ public class DialogAulasA extends Activity {
         cerrar(null);
     }
 
-    @OnClick(R.id.tv_guardar_evento)
     public void aceptar(View view) {
         st_aulas = "";
         if (fba1.isChecked()) {
@@ -140,6 +138,7 @@ public class DialogAulasA extends Activity {
         Intent i = getIntent();
         i.putExtra("AULAS", st_aulas);
         setResult(RESULT_OK, i);
+
         cerrar(null);
     }
 

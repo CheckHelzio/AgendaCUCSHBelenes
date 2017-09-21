@@ -18,56 +18,52 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 public class DialogListaEventosHelzio extends Activity {
 
-    @BindView(R.id.fondo)
+    private static int REGISTRAR = 1313;
     RelativeLayout fondo;
-    @BindView(R.id.recycle)
     RecyclerView rvEventos;
-    @BindView(R.id.tv_mensaje_no_evento)
     TextView tv_mensaje_no_eventos;
-    @BindView(R.id.tv_mensaje_con_evento)
     TextView tv_mensaje_con_eventos;
-    @BindView(R.id.tv_num_dia)
     TextView tv_num_dia;
-    @BindView(R.id.tv_nom_dia)
     TextView tv_nom_dia;
     private List<Eventos> listaEventos;
-    private  EventosAdaptador adaptador;
+    private EventosAdaptador adaptador;
     private Boolean animando = false;
     private Handler handler;
-    private static int REGISTRAR = 1313;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_lista_eventos);
-        ButterKnife.bind(this);
         postponeEnterTransition();
+
+        tv_mensaje_no_eventos = findViewById(R.id.tv_mensaje_no_evento);
+        tv_mensaje_con_eventos = findViewById(R.id.tv_mensaje_con_evento);
+        tv_num_dia = findViewById(R.id.tv_num_dia);
+        tv_nom_dia = findViewById(R.id.tv_nom_dia);
+        rvEventos = findViewById(R.id.recycle);
+        fondo = findViewById(R.id.fondo);
+
+        tv_mensaje_con_eventos.setOnClickListener(view -> RegistrarEvento());
+        tv_mensaje_no_eventos.setOnClickListener(view -> RegistrarEvento());
 
         handler = new Handler();
         tv_num_dia.setText(getIntent().getStringExtra("DIA_MES"));
-        String nom = getIntent().getStringExtra("NOMBRE_DIA").substring(0,3) + ".";
+        String nom = getIntent().getStringExtra("NOMBRE_DIA").substring(0, 3) + ".";
         tv_nom_dia.setText(nom);
 
-        //rvEventos.setHasFixedSize(true);
+
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         rvEventos.setLayoutManager(mLayoutManager);
 
         inicializarDatos();
 
-        fondo.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                final Rect endBounds = new Rect(fondo.getLeft(), fondo.getTop(), fondo.getRight(), fondo.getBottom());
-                ChangeBoundBackground.setup(DialogListaEventosHelzio.this, fondo, true, endBounds, getViewBitmap(fondo));
-                getWindow().getSharedElementEnterTransition();
-                startPostponedEnterTransition();
-            }
+        fondo.postDelayed(() -> {
+            final Rect endBounds = new Rect(fondo.getLeft(), fondo.getTop(), fondo.getRight(), fondo.getBottom());
+            ChangeBoundBackground.setup(DialogListaEventosHelzio.this, fondo, endBounds, getViewBitmap(fondo));
+            getWindow().getSharedElementEnterTransition();
+            startPostponedEnterTransition();
         }, 30);
     }
 
@@ -75,36 +71,36 @@ public class DialogListaEventosHelzio extends Activity {
         try {
             listaEventos = getIntent().getParcelableArrayListExtra("LISTA_EVENTOS");
 
-            if (listaEventos.size() > 0){
+            if (listaEventos.size() > 0) {
                 tv_mensaje_no_eventos.setVisibility(View.GONE);
-                if (getIntent().getBooleanExtra("REGISTRAR", false)){
+                if (getIntent().getBooleanExtra("REGISTRAR", false)) {
                     tv_mensaje_con_eventos.setText(R.string.toca_resgitrar_evento);
                     tv_mensaje_con_eventos.setTextColor(Color.BLACK);
                     tv_num_dia.setTextColor(Color.BLACK);
                     tv_nom_dia.setTextColor(Color.BLACK);
 
-                }else {
+                } else {
                     tv_mensaje_con_eventos.setVisibility(View.GONE);
                 }
-            }else {
+            } else {
                 tv_mensaje_con_eventos.setVisibility(View.GONE);
                 tv_mensaje_no_eventos.setVisibility(View.VISIBLE);
-                if (getIntent().getBooleanExtra("REGISTRAR", false)){
+                if (getIntent().getBooleanExtra("REGISTRAR", false)) {
                     tv_mensaje_no_eventos.setText(R.string.no_eventos_registra);
                     tv_mensaje_no_eventos.setTextColor(Color.BLACK);
                     tv_num_dia.setTextColor(Color.BLACK);
                     tv_nom_dia.setTextColor(Color.BLACK);
-                }else {
-                    tv_mensaje_no_eventos.setText("No hay eventos registrados este día.");
+                } else {
+                    tv_mensaje_no_eventos.setText(R.string.no_hay_eventos);
                 }
             }
             iniciarAdaptador();
 
-        }catch (Exception ignored){
+        } catch (Exception ignored) {
 
         }
 
-        if (getIntent().getBooleanExtra("ES_HOY", false)){
+        if (getIntent().getBooleanExtra("ES_HOY", false)) {
             tv_num_dia.setTextColor(getResources().getColor(R.color.colorAcento));
             tv_nom_dia.setTextColor(getResources().getColor(R.color.colorAcento));
             tv_mensaje_con_eventos.setTextColor(getResources().getColor(R.color.colorAcento));
@@ -112,9 +108,8 @@ public class DialogListaEventosHelzio extends Activity {
         }
     }
 
-    @OnClick({R.id.tv_mensaje_con_evento, R.id.tv_mensaje_no_evento})
-    public void RegistrarEvento(){
-        if (getIntent().getBooleanExtra("REGISTRAR", false)){
+    public void RegistrarEvento() {
+        if (getIntent().getBooleanExtra("REGISTRAR", false)) {
             Intent intent = new Intent(this, RegistrarEventoB.class);
             intent.putExtra("DIA_AÑO", getIntent().getIntExtra("DIA_AÑO", 0));
             intent.putExtra("DONDE", "LISTA");
@@ -124,6 +119,7 @@ public class DialogListaEventosHelzio extends Activity {
     }
 
     private void iniciarAdaptador() {
+        Log.v("LISTA EVENTOS", "Numero de eventos: " + listaEventos.size());
         adaptador = new EventosAdaptador(listaEventos, DialogListaEventosHelzio.this);
         rvEventos.setAdapter(adaptador);
     }
@@ -134,11 +130,11 @@ public class DialogListaEventosHelzio extends Activity {
     }
 
     public void dismiss(View view) {
-        if (animando){
+        if (animando) {
             Log.v("ANIMACION", "SIN ANIMACION");
             finish();
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-        }else {
+        } else {
             finishAfterTransition();
             Log.v("ANIMACION", "CON ANIMACION");
         }
@@ -178,40 +174,37 @@ public class DialogListaEventosHelzio extends Activity {
     @Override
     protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (requestCode == REGISTRAR){
-                    if (resultCode == RESULT_OK) {
-                        animando = true;
-                        ArrayList<Eventos> listaDeEventos = data.getParcelableArrayListExtra("LISTA");
-                        for (Eventos e : listaDeEventos){
-                            adaptador.addItem(e);
-                        }
-
-                        adaptador.ordenarItems();
-                    }
-                    PrincipalB.esperar = false;
-                }else {
+        handler.postDelayed(() -> {
+            if (requestCode == REGISTRAR) {
+                if (resultCode == RESULT_OK) {
                     animando = true;
-                    if (resultCode == RESULT_OK){
-
-                        Log.v("ELIMINAR", "REGRESANDOA  LISTA... RESULTADO OK");
-                        listaEventos.remove(data.getIntExtra("POSITION", 0));
-                        rvEventos.removeViewAt(data.getIntExtra("POSITION", 0));
-                        adaptador.removeItemAtPosition(data.getIntExtra("POSITION", 0));
-                    }else if (resultCode == RESULT_FIRST_USER){
-                        listaEventos = data.getParcelableArrayListExtra("LISTA");
-                        adaptador = new EventosAdaptador(listaEventos, DialogListaEventosHelzio.this);
-                        rvEventos.setAdapter(adaptador);
-                        rvEventos.invalidate();
+                    ArrayList<Eventos> listaDeEventos = data.getParcelableArrayListExtra("LISTA");
+                    for (Eventos e : listaDeEventos) {
+                        adaptador.addItem(e);
                     }
 
-                    Log.v("ELIMINAR", "ESPERANDO = FALSE");
-                    PrincipalB.esperar = false;
-
+                    adaptador.ordenarItems();
                 }
+                PrincipalB.esperar = false;
+            } else {
+                animando = true;
+                if (resultCode == RESULT_OK) {
+
+                    Log.v("ELIMINAR", "REGRESANDOA  LISTA... RESULTADO OK");
+                    listaEventos.remove(data.getIntExtra("POSITION", 0));
+                    rvEventos.removeViewAt(data.getIntExtra("POSITION", 0));
+                    adaptador.removeItemAtPosition(data.getIntExtra("POSITION", 0));
+                } else if (resultCode == RESULT_FIRST_USER) {
+                    listaEventos = data.getParcelableArrayListExtra("LISTA");
+                    adaptador = new EventosAdaptador(listaEventos, DialogListaEventosHelzio.this);
+                    rvEventos.setAdapter(adaptador);
+                    rvEventos.invalidate();
+                }
+
+                Log.v("ELIMINAR", "ESPERANDO = FALSE");
+                PrincipalB.esperar = false;
+
             }
-        },150);
+        }, 150);
     }
 }

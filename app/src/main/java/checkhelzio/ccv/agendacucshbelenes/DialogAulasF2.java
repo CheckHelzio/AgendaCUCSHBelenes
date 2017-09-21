@@ -9,28 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-import static checkhelzio.ccv.agendacucshbelenes.R.id.fbf1;
-import static checkhelzio.ccv.agendacucshbelenes.R.id.fbf2;
-
 public class DialogAulasF2 extends Activity {
 
-    @BindView(R.id.fbf2_1)
-    CheckBox fbf2_1;
-    @BindView(R.id.fbf2_2)
-    CheckBox fbf2_2;
-
     String st_aulas = "";
+    private CheckBox fbf2_1;
+    private CheckBox fbf2_2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postponeEnterTransition();
         setContentView(R.layout.dialog_edificio_f2);
-        ButterKnife.bind(this);
+
+        findViewById(R.id.tv_guardar_evento).setOnClickListener(this::aceptar);
+
+        fbf2_1 = findViewById(R.id.fbf2_1);
+        fbf2_2 = findViewById(R.id.fbf2_2);
 
         st_aulas = getIntent().getStringExtra("AULAS");
 
@@ -49,7 +43,6 @@ public class DialogAulasF2 extends Activity {
         cerrar(null);
     }
 
-    @OnClick(R.id.tv_guardar_evento)
     public void aceptar(View view) {
         st_aulas = "";
         if (fbf2_1.isChecked()) {

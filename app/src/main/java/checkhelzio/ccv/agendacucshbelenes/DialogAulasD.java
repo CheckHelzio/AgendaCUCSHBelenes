@@ -11,73 +11,69 @@ import android.widget.CheckBox;
 
 import java.util.ArrayList;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 public class DialogAulasD extends Activity {
 
-    @BindView(R.id.fbd1)
-    CheckBox fbd1;
-    @BindView(R.id.fbd2)
-    CheckBox fbd2;
-    @BindView(R.id.fbd3)
-    CheckBox fbd3;
-    @BindView(R.id.fbd4)
-    CheckBox fbd4;
-    @BindView(R.id.fbd5)
-    CheckBox fbd5;
-    @BindView(R.id.fbd6)
-    CheckBox fbd6;
-    @BindView(R.id.fbd7)
-    CheckBox fbd7;
-    @BindView(R.id.fbd8)
-    CheckBox fbd8;
-    @BindView(R.id.fbd9)
-    CheckBox fbd9;
-    @BindView(R.id.fbd10)
-    CheckBox fbd10;
-    @BindView(R.id.fbd11)
-    CheckBox fbd11;
-    @BindView(R.id.fbd12)
-    CheckBox fbd12;
-    @BindView(R.id.fbd13)
-    CheckBox fbd13;
-    @BindView(R.id.fbd14)
-    CheckBox fbd14;
-    @BindView(R.id.fbd15)
-    CheckBox fbd15;
-    @BindView(R.id.fbd16)
-    CheckBox fbd16;
-    @BindView(R.id.fbd17)
-    CheckBox fbd17;
-    @BindView(R.id.fbd18)
-    CheckBox fbd18;
-    @BindView(R.id.fbd19)
-    CheckBox fbd19;
-    @BindView(R.id.fbd20)
-    CheckBox fbd20;
-    @BindView(R.id.fbd21)
-    CheckBox fbd21;
-    @BindView(R.id.fbd22)
-    CheckBox fbd22;
-    @BindView(R.id.fbd23)
-    CheckBox fbd23;
-    @BindView(R.id.fbd24)
-    CheckBox fbd24;
-    @BindView(R.id.fbd25)
-    CheckBox fbd25;
-    @BindView(R.id.fbd26)
-    CheckBox fbd26;
-
-    String st_aulas = "";
     final ArrayList<CheckBox> lista_checkbox = new ArrayList<>();
+    String st_aulas = "";
+    private CheckBox fbd1;
+    private CheckBox fbd2;
+    private CheckBox fbd3;
+    private CheckBox fbd4;
+    private CheckBox fbd5;
+    private CheckBox fbd6;
+    private CheckBox fbd7;
+    private CheckBox fbd8;
+    private CheckBox fbd9;
+    private CheckBox fbd10;
+    private CheckBox fbd11;
+    private CheckBox fbd12;
+    private CheckBox fbd13;
+    private CheckBox fbd14;
+    private CheckBox fbd15;
+    private CheckBox fbd16;
+    private CheckBox fbd17;
+    private CheckBox fbd18;
+    private CheckBox fbd19;
+    private CheckBox fbd20;
+    private CheckBox fbd21;
+    private CheckBox fbd22;
+    private CheckBox fbd23;
+    private CheckBox fbd24;
+    private CheckBox fbd25;
+    private CheckBox fbd26;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         postponeEnterTransition();
         setContentView(R.layout.dialog_edificio_d);
-        ButterKnife.bind(this);
+
+        fbd1 = findViewById(R.id.fbd1);
+        fbd2 = findViewById(R.id.fbd2);
+        fbd3 = findViewById(R.id.fbd3);
+        fbd4 = findViewById(R.id.fbd4);
+        fbd5 = findViewById(R.id.fbd5);
+        fbd6 = findViewById(R.id.fbd6);
+        fbd7 = findViewById(R.id.fbd7);
+        fbd8 = findViewById(R.id.fbd8);
+        fbd9 = findViewById(R.id.fbd9);
+        fbd10 = findViewById(R.id.fbd10);
+        fbd11 = findViewById(R.id.fbd11);
+        fbd12 = findViewById(R.id.fbd12);
+        fbd13 = findViewById(R.id.fbd13);
+        fbd14 = findViewById(R.id.fbd14);
+        fbd15 = findViewById(R.id.fbd15);
+        fbd16 = findViewById(R.id.fbd16);
+        fbd17 = findViewById(R.id.fbd17);
+        fbd18 = findViewById(R.id.fbd18);
+        fbd19 = findViewById(R.id.fbd19);
+        fbd20 = findViewById(R.id.fbd20);
+        fbd21 = findViewById(R.id.fbd21);
+        fbd22 = findViewById(R.id.fbd22);
+        fbd23 = findViewById(R.id.fbd23);
+        fbd24 = findViewById(R.id.fbd24);
+        fbd25 = findViewById(R.id.fbd25);
+        fbd26 = findViewById(R.id.fbd26);
 
         st_aulas = getIntent().getStringExtra("AULAS");
 
@@ -86,6 +82,8 @@ public class DialogAulasD extends Activity {
         slide.excludeTarget(android.R.id.statusBarBackground, true);
         slide.excludeTarget(android.R.id.navigationBarBackground, true);
         getWindow().setEnterTransition(slide);
+
+        findViewById(R.id.tv_guardar_evento).setOnClickListener(this::aceptar);
 
         startPostponedEnterTransition();
         lista_checkbox.add(fbd1);
@@ -122,7 +120,6 @@ public class DialogAulasD extends Activity {
         cerrar(null);
     }
 
-    @OnClick(R.id.tv_guardar_evento)
     public void aceptar(View view) {
         st_aulas = "";
         if (fbd1.isChecked()) {
@@ -194,7 +191,7 @@ public class DialogAulasD extends Activity {
     }
 
     public void togle(View view) {
-        for (CheckBox c : lista_checkbox){
+        for (CheckBox c : lista_checkbox) {
             c.setChecked(false);
         }
         ((CheckBox) ((ViewGroup) view).getChildAt(0)).setChecked(true);
